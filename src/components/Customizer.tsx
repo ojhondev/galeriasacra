@@ -30,6 +30,7 @@ type CustomizerProps = {
   permitirTrocarImagem?: boolean;
   ocultarImagem?: boolean;
   onMolduraChange?: (cor: string | null) => void;
+  comprarFixoNoMobile?: boolean;
 };
 
 export function Customizer({
@@ -38,6 +39,7 @@ export function Customizer({
   permitirTrocarImagem = false,
   ocultarImagem = false,
   onMolduraChange,
+  comprarFixoNoMobile = false,
 }: CustomizerProps) {
   const router = useRouter();
   const { adicionar } = useCart();
@@ -252,13 +254,21 @@ export function Customizer({
           </button>
         </div>
 
-        <button
-          type="button"
-          onClick={handleComprarAgora}
-          className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu mb-[17px]"
+        <div
+          className={
+            comprarFixoNoMobile
+              ? "fixed bottom-0 inset-x-0 z-40 bg-white border-t border-black px-4 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] lg:static lg:bg-transparent lg:border-0 lg:p-0 lg:mb-[17px]"
+              : "mb-[17px]"
+          }
         >
-          COMPRAR AGORA
-        </button>
+          <button
+            type="button"
+            onClick={handleComprarAgora}
+            className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu"
+          >
+            COMPRAR AGORA
+          </button>
+        </div>
 
         <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mb-[17px]">
           <button

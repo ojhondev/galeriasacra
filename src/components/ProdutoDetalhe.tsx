@@ -27,7 +27,7 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, prod
         <span>{produto.categoria}</span> / <span className="text-black">{produto.nome}</span>
       </div>
 
-      <div className="lg:grid lg:grid-cols-2 gap-[42px] px-4 md:px-8 py-[24px]">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[42px] px-4 md:px-8 py-[24px] pb-[100px] lg:pb-[24px]">
         <div className="order-2 lg:order-1">
           <p className="text-[13px] tracking-artu text-black/60 mb-2">
             {produto.categoria.toUpperCase()}
@@ -39,6 +39,7 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, prod
             produtos={produtos}
             ocultarImagem
             onMolduraChange={setMolduraColor}
+            comprarFixoNoMobile
           />
 
           <Accordion titulo="SOBRE">

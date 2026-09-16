@@ -29,7 +29,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
               width={765}
               height={406}
               priority
-              className="h-[36px] w-auto"
+              className="h-[52px] w-auto"
             />
           </Link>
 
