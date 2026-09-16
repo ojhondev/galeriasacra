@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { ArtPlate } from "@/components/ArtPlate";
 import { useCart } from "@/lib/cart";
@@ -19,9 +19,25 @@ import { produtos, type Produto } from "@/lib/products";
 type CustomizerProps = {
   produtoInicial?: Produto;
   permitirTrocarImagem?: boolean;
+  ocultarImagem?: boolean;
+  onMolduraChange?: (cor: string | null) => void;
 };
 
-export function Customizer({ produtoInicial, permitirTrocarImagem = false }: CustomizerProps) {
+function Linha({ label, children }: { label: string; children: ReactNode }) {
+  return (
+    <div className="grid grid-cols-[100px_1fr] md:grid-cols-[140px_1fr] gap-x-6 py-[17px] border-t border-black">
+      <p className="text-[18px] tracking-artu">{label}</p>
+      <div>{children}</div>
+    </div>
+  );
+}
+
+export function Customizer({
+  produtoInicial,
+  permitirTrocarImagem = false,
+  ocultarImagem = false,
+  onMolduraChange,
+}: CustomizerProps) {
   const router = useRouter();
   const { adicionar } = useCart();
 
@@ -44,6 +60,10 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
   );
 
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
+
+  useEffect(() => {
+    onMolduraChange?.(molduraAtual?.cor ?? null);
+  }, [molduraAtual, onMolduraChange]);
 
   function handleUpload(e: ChangeEvent<HTMLInputElement>) {
     const arquivo = e.target.files?.[0];
@@ -71,41 +91,42 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
   }
 
   return (
-    <div className="grid md:grid-cols-2 gap-8 md:gap-[32px]">
-      <div>
-        {imagemPropria ? (
-          <div
-            style={
-              molduraAtual?.cor
-                ? { background: molduraAtual.cor, padding: "3.2%" }
-                : undefined
-            }
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={imagemPropria}
-              alt={nomeArquivo ?? "Imagem enviada pelo cliente"}
-              className="w-full h-auto block"
-            />
-          </div>
-        ) : (
-          <ArtPlate
-            hue={produtoSelecionado?.hue ?? 200}
-            orientacao={produtoSelecionado?.orientacao ?? "retrato"}
-            molduraColor={molduraAtual?.cor ?? null}
-          />
-        )}
-      </div>
-
-      <div className="flex flex-col gap-8">
+    <div className={ocultarImagem ? "" : "grid md:grid-cols-2 gap-8 md:gap-[32px]"}>
+      {!ocultarImagem && (
         <div>
-          <p className="text-[24px] leading-tight">{nomeItem}</p>
-          <p className="text-[20px] mt-2">{formatarPreco(preco)}</p>
+          {imagemPropria ? (
+            <div
+              style={
+                molduraAtual?.cor
+                  ? { background: molduraAtual.cor, padding: "3.2%" }
+                  : undefined
+              }
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={imagemPropria}
+                alt={nomeArquivo ?? "Imagem enviada pelo cliente"}
+                className="w-full h-auto block"
+              />
+            </div>
+          ) : (
+            <ArtPlate
+              hue={produtoSelecionado?.hue ?? 200}
+              orientacao={produtoSelecionado?.orientacao ?? "retrato"}
+              molduraColor={molduraAtual?.cor ?? null}
+            />
+          )}
+        </div>
+      )}
+
+      <div>
+        <div className="flex items-baseline justify-between border-b border-black pb-[17px]">
+          <p className="text-[24px] md:text-[32px] leading-tight">{nomeItem}</p>
+          <p className="text-[20px] md:text-[24px]">{formatarPreco(preco)}</p>
         </div>
 
         {permitirTrocarImagem && (
-          <div>
-            <p className="text-[18px] tracking-artu mb-[11px]">IMAGEM</p>
+          <Linha label="IMAGEM">
             <div className="grid grid-cols-4 gap-2 mb-[17px]">
               {produtos.map((p) => (
                 <button
@@ -134,11 +155,10 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
               <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
             </label>
             {nomeArquivo && <p className="text-[18px] mt-2 text-black/60">{nomeArquivo}</p>}
-          </div>
+          </Linha>
         )}
 
-        <div>
-          <p className="text-[18px] tracking-artu mb-[11px]">TAMANHO</p>
+        <Linha label="TAMANHO">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {TAMANHOS.map((t) => (
               <button
@@ -153,10 +173,9 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
               </button>
             ))}
           </div>
-        </div>
+        </Linha>
 
-        <div>
-          <p className="text-[18px] tracking-artu mb-[11px]">MOLDURA</p>
+        <Linha label="MOLDURA">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {MOLDURAS.map((m) => (
               <button
@@ -171,10 +190,9 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
               </button>
             ))}
           </div>
-        </div>
+        </Linha>
 
-        <div>
-          <p className="text-[18px] tracking-artu mb-[11px]">MATERIAL</p>
+        <Linha label="MATERIAL">
           <div className="flex flex-wrap gap-x-6 gap-y-2">
             {MATERIAIS.map((m) => (
               <button
@@ -189,9 +207,9 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
               </button>
             ))}
           </div>
-        </div>
+        </Linha>
 
-        <div className="flex items-center gap-x-8 pt-4 border-t border-black">
+        <div className="flex items-center gap-x-8 py-[17px] border-t border-b border-black">
           <button
             type="button"
             onClick={handleAdicionar}

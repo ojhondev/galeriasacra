@@ -12,6 +12,7 @@ type ArtPlateProps = {
   molduraColor?: string | null;
   className?: string;
   hoverZoom?: boolean;
+  fill?: boolean;
 };
 
 export function ArtPlate({
@@ -20,12 +21,13 @@ export function ArtPlate({
   molduraColor = null,
   className = "",
   hoverZoom = false,
+  fill = false,
 }: ArtPlateProps) {
   const plate = (
     <div
       className={`w-full h-full ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
       style={{
-        aspectRatio: ASPECT[orientacao],
+        aspectRatio: fill ? undefined : ASPECT[orientacao],
         background: `radial-gradient(120% 90% at 30% 20%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`,
       }}
     />

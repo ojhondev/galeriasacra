@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Customizer } from "@/components/Customizer";
-import { HairlineDivider } from "@/components/HairlineDivider";
-import { ArtPlate } from "@/components/ArtPlate";
+import { ProdutoDetalhe } from "@/components/ProdutoDetalhe";
 import { getProdutoBySlug, produtos } from "@/lib/products";
 
 type Props = {
@@ -26,34 +23,17 @@ export default async function ProdutoPage({ params }: Props) {
   const produto = getProdutoBySlug(slug);
   if (!produto) notFound();
 
+  const indiceAtual = produtos.findIndex((p) => p.id === produto.id);
+  const anterior = produtos[(indiceAtual - 1 + produtos.length) % produtos.length];
+  const proximo = produtos[(indiceAtual + 1) % produtos.length];
   const alternativas = produtos.filter((p) => p.id !== produto.id).slice(0, 4);
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
-      <Customizer produtoInicial={produto} />
-
-      <div className="mt-[80px] max-w-3xl">
-        <p className="text-[18px] tracking-artu mb-[17px]">SOBRE</p>
-        {produto.descricaoLonga.map((paragrafo, i) => (
-          <p key={i} className="text-[20px] leading-[1.2] mb-4">
-            {paragrafo}
-          </p>
-        ))}
-      </div>
-
-      <HairlineDivider className="my-[80px]" />
-
-      <div>
-        <p className="text-[18px] tracking-artu mb-[29px]">OUTRAS OBRAS</p>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">
-          {alternativas.map((alt) => (
-            <Link key={alt.id} href={`/quadros/${alt.slug}`} className="block group">
-              <ArtPlate hue={alt.hue} orientacao={alt.orientacao} hoverZoom />
-              <p className="text-[18px] mt-[11px]">{alt.nome}</p>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
+    <ProdutoDetalhe
+      produto={produto}
+      prevSlug={anterior.slug}
+      nextSlug={proximo.slug}
+      alternativas={alternativas}
+    />
   );
 }
