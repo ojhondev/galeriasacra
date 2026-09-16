@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Hero } from "@/components/Hero";
 import { ArtPlate } from "@/components/ArtPlate";
 import { HairlineDivider } from "@/components/HairlineDivider";
+import { VideoParallax } from "@/components/VideoParallax";
 import { produtos } from "@/lib/products";
 
 export default function Home() {
@@ -70,6 +71,8 @@ export default function Home() {
           </Link>
         </div>
       </section>
+
+      <VideoParallax />
     </div>
   );
 }
