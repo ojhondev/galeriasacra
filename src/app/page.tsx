@@ -3,9 +3,12 @@ import { Hero } from "@/components/Hero";
 import { ArtPlate } from "@/components/ArtPlate";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { VideoParallax } from "@/components/VideoParallax";
-import { produtos } from "@/lib/products";
+import { listarProdutos } from "@/lib/products";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const produtos = await listarProdutos();
   const grade1 = produtos.slice(0, 4);
   const grade2 = produtos.slice(4, 8);
 

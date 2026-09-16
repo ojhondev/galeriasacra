@@ -13,9 +13,10 @@ type ProdutoDetalheProps = {
   prevSlug: string;
   nextSlug: string;
   alternativas: Produto[];
+  produtos: Produto[];
 };
 
-export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: ProdutoDetalheProps) {
+export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, produtos }: ProdutoDetalheProps) {
   const [molduraColor, setMolduraColor] = useState<string | null>(null);
 
   return (
@@ -29,7 +30,12 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: Pr
         />
 
         <div className="px-4 md:px-8 py-[42px] lg:py-[100px]">
-          <Customizer produtoInicial={produto} ocultarImagem onMolduraChange={setMolduraColor} />
+          <Customizer
+            produtoInicial={produto}
+            produtos={produtos}
+            ocultarImagem
+            onMolduraChange={setMolduraColor}
+          />
 
           <div className="mt-[17px]">
             <div className="border-t border-black py-[17px]">

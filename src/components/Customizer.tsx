@@ -15,7 +15,7 @@ import {
   type MolduraId,
   type TamanhoId,
 } from "@/lib/pricing";
-import { produtos, type Produto, type Orientacao } from "@/lib/products";
+import type { Produto, Orientacao } from "@/lib/products";
 
 function aspectRatioDoTamanho(tamanhoId: TamanhoId, orientacao: Orientacao): number {
   if (orientacao === "quadrado") return 1;
@@ -26,6 +26,7 @@ function aspectRatioDoTamanho(tamanhoId: TamanhoId, orientacao: Orientacao): num
 
 type CustomizerProps = {
   produtoInicial?: Produto;
+  produtos?: Produto[];
   permitirTrocarImagem?: boolean;
   ocultarImagem?: boolean;
   onMolduraChange?: (cor: string | null) => void;
@@ -42,6 +43,7 @@ function Linha({ label, children }: { label: string; children: ReactNode }) {
 
 export function Customizer({
   produtoInicial,
+  produtos = [],
   permitirTrocarImagem = false,
   ocultarImagem = false,
   onMolduraChange,

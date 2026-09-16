@@ -1,28 +1,27 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProdutoDetalhe } from "@/components/ProdutoDetalhe";
-import { getProdutoBySlug, produtos } from "@/lib/products";
+import { getProdutoBySlug, listarProdutos } from "@/lib/products";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
-export function generateStaticParams() {
-  return produtos.map((p) => ({ slug: p.slug }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const produto = getProdutoBySlug(slug);
+  const produto = await getProdutoBySlug(slug);
   if (!produto) return {};
   return { title: `${produto.nome} | Artusa` };
 }
 
 export default async function ProdutoPage({ params }: Props) {
   const { slug } = await params;
-  const produto = getProdutoBySlug(slug);
+  const produto = await getProdutoBySlug(slug);
   if (!produto) notFound();
 
+  const produtos = await listarProdutos();
   const indiceAtual = produtos.findIndex((p) => p.id === produto.id);
   const anterior = produtos[(indiceAtual - 1 + produtos.length) % produtos.length];
   const proximo = produtos[(indiceAtual + 1) % produtos.length];
@@ -34,6 +33,7 @@ export default async function ProdutoPage({ params }: Props) {
       prevSlug={anterior.slug}
       nextSlug={proximo.slug}
       alternativas={alternativas}
+      produtos={produtos}
     />
   );
 }

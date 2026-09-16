@@ -4,6 +4,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { useCart } from "@/lib/cart";
+import { sair } from "@/lib/auth-actions";
+import type { SessionPayload } from "@/lib/session";
 
 const LINKS = [
   { href: "/quadros", label: "QUADROS" },
@@ -12,7 +14,7 @@ const LINKS = [
   { href: "/contato", label: "CONTATO" },
 ];
 
-export function Nav() {
+export function Nav({ sessao }: { sessao: SessionPayload | null }) {
   const { quantidadeTotal } = useCart();
   const [open, setOpen] = useState(false);
 
@@ -45,6 +47,20 @@ export function Nav() {
           <Link href="/carrinho" className="hidden lg:inline">
             CARRINHO ({quantidadeTotal})
           </Link>
+          {sessao?.role === "admin" && (
+            <Link href="/admin" className="hidden lg:inline">
+              ADMIN
+            </Link>
+          )}
+          {sessao ? (
+            <form action={sair} className="hidden lg:inline">
+              <button type="submit">SAIR</button>
+            </form>
+          ) : (
+            <Link href="/login" className="hidden lg:inline">
+              ENTRAR
+            </Link>
+          )}
           <button type="button" className="hidden lg:inline">
             MENU
           </button>
@@ -78,6 +94,22 @@ export function Nav() {
           <Link href="/carrinho" onClick={() => setOpen(false)}>
             CARRINHO ({quantidadeTotal})
           </Link>
+          {sessao?.role === "admin" && (
+            <Link href="/admin" onClick={() => setOpen(false)}>
+              ADMIN
+            </Link>
+          )}
+          {sessao ? (
+            <form action={sair}>
+              <button type="submit" onClick={() => setOpen(false)}>
+                SAIR
+              </button>
+            </form>
+          ) : (
+            <Link href="/login" onClick={() => setOpen(false)}>
+              ENTRAR
+            </Link>
+          )}
         </nav>
       )}
     </header>
