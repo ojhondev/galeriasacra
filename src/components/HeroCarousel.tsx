@@ -18,7 +18,7 @@ export function HeroCarousel({ produtos }: { produtos: Produto[] }) {
 
   return (
     <section>
-      <Link href={`/quadros/${atual.slug}`} className="block w-full">
+      <Link href={`/quadros/${atual.slug}`} className="block w-full px-4 md:px-8">
         <div
           className="w-full h-[62vh] md:h-[82vh]"
           style={{
