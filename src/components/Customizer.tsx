@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import { ArtPlate } from "@/components/ArtPlate";
+import { ARPreview } from "@/components/ARPreview";
 import { useCart } from "@/lib/cart";
 import {
   MATERIAIS,
@@ -14,7 +15,14 @@ import {
   type MolduraId,
   type TamanhoId,
 } from "@/lib/pricing";
-import { produtos, type Produto } from "@/lib/products";
+import { produtos, type Produto, type Orientacao } from "@/lib/products";
+
+function aspectRatioDoTamanho(tamanhoId: TamanhoId, orientacao: Orientacao): number {
+  if (orientacao === "quadrado") return 1;
+  const [a, b] = tamanhoId.split("x").map(Number);
+  const [largura, altura] = orientacao === "paisagem" ? [Math.max(a, b), Math.min(a, b)] : [Math.min(a, b), Math.max(a, b)];
+  return largura / altura;
+}
 
 type CustomizerProps = {
   produtoInicial?: Produto;
@@ -48,6 +56,7 @@ export function Customizer({
   const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
   const [material, setMaterial] = useState<MaterialId>("tela-canvas");
   const [adicionado, setAdicionado] = useState(false);
+  const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
   const precoBase = produtoSelecionado?.precoBase ?? 349;
   const nomeItem = imagemPropria
@@ -60,6 +69,7 @@ export function Customizer({
   );
 
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
+  const aspectRatio = aspectRatioDoTamanho(tamanho, produtoSelecionado?.orientacao ?? "retrato");
 
   useEffect(() => {
     onMolduraChange?.(molduraAtual?.cor ?? null);
@@ -209,13 +219,20 @@ export function Customizer({
           </div>
         </Linha>
 
-        <div className="flex items-center gap-x-8 py-[17px] border-t border-b border-black">
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 py-[17px] border-t border-b border-black">
           <button
             type="button"
             onClick={handleAdicionar}
             className="text-[18px] tracking-artu underline"
           >
             ADICIONAR AO CARRINHO
+          </button>
+          <button
+            type="button"
+            onClick={() => setTestandoAmbiente(true)}
+            className="text-[18px] tracking-artu underline"
+          >
+            TESTAR NO MEU AMBIENTE
           </button>
           {adicionado && (
             <button
@@ -228,6 +245,16 @@ export function Customizer({
           )}
         </div>
       </div>
+
+      {testandoAmbiente && (
+        <ARPreview
+          aspectRatio={aspectRatio}
+          hue={produtoSelecionado?.hue ?? 200}
+          molduraColor={molduraAtual?.cor ?? null}
+          imagemUrl={imagemPropria}
+          onClose={() => setTestandoAmbiente(false)}
+        />
+      )}
     </div>
   );
 }
