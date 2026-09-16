@@ -25,3 +25,19 @@ para a faixa do rodapé, layout full-bleed/full-width e totalmente responsivo.
 - Substituir imagens placeholder por fotografia real dos quadros.
 - Banco de dados (Neon + Drizzle) para catálogo, pedidos e upload de imagem própria.
 - Gateway de pagamento real (ex.: Mercado Pago/Stripe) no lugar do mock de checkout.
+
+## Git: commit, push e deploy automáticos
+
+Toda alteração de código feita neste projeto (nesta ou em sessões futuras) deve ser
+commitada, enviada para o GitHub (`origin/main`) e publicada em produção
+automaticamente, sem esperar autorização explícita a cada vez — isso já foi autorizado
+pelo usuário.
+
+Fluxo padrão ao concluir uma tarefa que altere código:
+1. Rodar typecheck/build normalmente.
+2. `git add -A`
+3. `git commit -m "<mensagem descrevendo a mudança>"`
+4. `git push origin main`
+5. `npx vercel@latest --prod` — **obrigatório**, não presumir que o push sozinho
+   publica a mudança (o auto-deploy nativo da Vercel já falhou silenciosamente neste
+   tipo de projeto antes; ver `dev.md` para o histórico).
