@@ -28,7 +28,7 @@ export type ItemCarrinho = {
 
 type CarrinhoContexto = {
   itens: ItemCarrinho[];
-  adicionar: (item: Omit<ItemCarrinho, "id" | "quantidade">) => void;
+  adicionar: (item: Omit<ItemCarrinho, "id" | "quantidade"> & { quantidade?: number }) => void;
   remover: (id: string) => void;
   atualizarQuantidade: (id: string, quantidade: number) => void;
   esvaziar: () => void;
@@ -64,12 +64,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, [itens, carregado]);
 
-  const adicionar = useCallback((item: Omit<ItemCarrinho, "id" | "quantidade">) => {
-    setItens((atual) => [
-      ...atual,
-      { ...item, id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`, quantidade: 1 },
-    ]);
-  }, []);
+  const adicionar = useCallback(
+    (item: Omit<ItemCarrinho, "id" | "quantidade"> & { quantidade?: number }) => {
+      setItens((atual) => [
+        ...atual,
+        {
+          ...item,
+          id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+          quantidade: Math.max(1, item.quantidade ?? 1),
+        },
+      ]);
+    },
+    [],
+  );
 
   const remover = useCallback((id: string) => {
     setItens((atual) => atual.filter((i) => i.id !== id));

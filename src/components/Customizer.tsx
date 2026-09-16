@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ChangeEvent, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ArtPlate } from "@/components/ArtPlate";
 import { ARPreview } from "@/components/ARPreview";
@@ -32,15 +32,6 @@ type CustomizerProps = {
   onMolduraChange?: (cor: string | null) => void;
 };
 
-function Linha({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="grid grid-cols-[100px_1fr] md:grid-cols-[140px_1fr] gap-x-6 py-[17px] border-t border-black">
-      <p className="text-[18px] tracking-artu">{label}</p>
-      <div>{children}</div>
-    </div>
-  );
-}
-
 export function Customizer({
   produtoInicial,
   produtos = [],
@@ -57,6 +48,7 @@ export function Customizer({
   const [tamanho, setTamanho] = useState<TamanhoId>("40x60");
   const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
   const [material, setMaterial] = useState<MaterialId>("tela-canvas");
+  const [quantidade, setQuantidade] = useState(1);
   const [adicionado, setAdicionado] = useState(false);
   const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
@@ -85,8 +77,8 @@ export function Customizer({
     setProdutoSelecionado(undefined);
   }
 
-  function handleAdicionar() {
-    adicionar({
+  function montarItem() {
+    return {
       nome: nomeItem,
       hue: produtoSelecionado?.hue ?? 200,
       tamanho,
@@ -97,9 +89,19 @@ export function Customizer({
       materialLabel: MATERIAIS.find((m) => m.id === material)!.label,
       personalizado: permitirTrocarImagem || moldura !== "sem-moldura" || material !== "tela-canvas",
       precoUnitario: preco,
-    });
+      quantidade,
+    };
+  }
+
+  function handleAdicionar() {
+    adicionar(montarItem());
     setAdicionado(true);
     setTimeout(() => setAdicionado(false), 2500);
+  }
+
+  function handleComprarAgora() {
+    adicionar(montarItem());
+    router.push("/carrinho");
   }
 
   return (
@@ -132,13 +134,16 @@ export function Customizer({
       )}
 
       <div>
-        <div className="flex items-baseline justify-between border-b border-black pb-[17px]">
-          <p className="text-[24px] md:text-[32px] leading-tight">{nomeItem}</p>
-          <p className="text-[20px] md:text-[24px]">{formatarPreco(preco)}</p>
+        <p className="text-[28px] md:text-[32px] leading-tight mb-1">{formatarPreco(preco)}</p>
+        <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
+
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu mb-[24px]">
+          <span aria-hidden="true">✓</span> PRODUÇÃO SOB ENCOMENDA
         </div>
 
         {permitirTrocarImagem && (
-          <Linha label="IMAGEM">
+          <div className="border-t border-black py-[17px]">
+            <p className="text-[16px] tracking-artu mb-[11px]">IMAGEM</p>
             <div className="grid grid-cols-4 gap-2 mb-[17px]">
               {produtos.map((p) => (
                 <button
@@ -162,77 +167,104 @@ export function Customizer({
                 </button>
               ))}
             </div>
-            <label className="text-[18px] tracking-artu underline cursor-pointer">
+            <label className="text-[16px] tracking-artu underline cursor-pointer">
               ENVIAR IMAGEM PRÓPRIA
               <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
             </label>
-            {nomeArquivo && <p className="text-[18px] mt-2 text-black/60">{nomeArquivo}</p>}
-          </Linha>
+            {nomeArquivo && <p className="text-[16px] mt-2 text-black/60">{nomeArquivo}</p>}
+          </div>
         )}
 
-        <Linha label="TAMANHO">
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {TAMANHOS.map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setTamanho(t.id)}
-                className={`text-[18px] tracking-artu pb-1 ${
-                  tamanho === t.id ? "border-b border-black" : "text-black/50"
-                }`}
-              >
-                {t.label}
-              </button>
-            ))}
-          </div>
-        </Linha>
+        <div className="grid grid-cols-2 gap-4 py-[17px] border-t border-black">
+          <label className="flex flex-col gap-1">
+            <span className="text-[13px] tracking-artu text-black/60">TAMANHO</span>
+            <select
+              value={tamanho}
+              onChange={(e) => setTamanho(e.target.value as TamanhoId)}
+              className="border border-black/30 px-3 py-2 text-[16px] bg-transparent"
+            >
+              {TAMANHOS.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.label}
+                </option>
+              ))}
+            </select>
+          </label>
 
-        <Linha label="MOLDURA">
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
+          <label className="flex flex-col gap-1">
+            <span className="text-[13px] tracking-artu text-black/60">MATERIAL</span>
+            <select
+              value={material}
+              onChange={(e) => setMaterial(e.target.value as MaterialId)}
+              className="border border-black/30 px-3 py-2 text-[16px] bg-transparent"
+            >
+              {MATERIAIS.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+
+        <label className="flex flex-col gap-1 py-[17px] border-t border-black">
+          <span className="text-[13px] tracking-artu text-black/60">MOLDURA</span>
+          <select
+            value={moldura}
+            onChange={(e) => setMoldura(e.target.value as MolduraId)}
+            className="border border-black/30 px-3 py-2 text-[16px] bg-transparent"
+          >
             {MOLDURAS.map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => setMoldura(m.id)}
-                className={`text-[18px] tracking-artu pb-1 ${
-                  moldura === m.id ? "border-b border-black" : "text-black/50"
-                }`}
-              >
+              <option key={m.id} value={m.id}>
                 {m.label}
-              </button>
+              </option>
             ))}
-          </div>
-        </Linha>
+          </select>
+        </label>
 
-        <Linha label="MATERIAL">
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {MATERIAIS.map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => setMaterial(m.id)}
-                className={`text-[18px] tracking-artu pb-1 ${
-                  material === m.id ? "border-b border-black" : "text-black/50"
-                }`}
-              >
-                {m.label}
-              </button>
-            ))}
+        <div className="flex items-stretch gap-4 py-[17px] border-t border-black">
+          <div className="flex items-center border border-black">
+            <button
+              type="button"
+              onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
+              className="px-4 py-2 text-[18px]"
+              aria-label="Diminuir quantidade"
+            >
+              −
+            </button>
+            <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
+            <button
+              type="button"
+              onClick={() => setQuantidade((q) => q + 1)}
+              className="px-4 py-2 text-[18px]"
+              aria-label="Aumentar quantidade"
+            >
+              +
+            </button>
           </div>
-        </Linha>
 
-        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 py-[17px] border-t border-b border-black">
           <button
             type="button"
             onClick={handleAdicionar}
-            className="text-[18px] tracking-artu underline"
+            className="flex-1 border border-black px-6 py-3 text-[16px] tracking-artu"
           >
             ADICIONAR AO CARRINHO
           </button>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleComprarAgora}
+          className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu mb-[17px]"
+        >
+          COMPRAR AGORA
+        </button>
+
+        <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mb-[17px]">
           <button
             type="button"
             onClick={() => setTestandoAmbiente(true)}
-            className="text-[18px] tracking-artu underline"
+            className="text-[16px] tracking-artu underline"
           >
             TESTAR NO MEU AMBIENTE
           </button>
@@ -240,12 +272,16 @@ export function Customizer({
             <button
               type="button"
               onClick={() => router.push("/carrinho")}
-              className="text-[18px] tracking-artu text-[var(--color-brand)] underline"
+              className="text-[16px] tracking-artu text-[var(--color-brand)] underline"
             >
               VER CARRINHO
             </button>
           )}
         </div>
+
+        <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
+          📦 Frete grátis para compras acima de R$ 400
+        </p>
       </div>
 
       {testandoAmbiente && (

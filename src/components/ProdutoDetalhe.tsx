@@ -2,8 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ProdutoVisual } from "@/components/ProdutoVisual";
+import { ProdutoGaleria } from "@/components/ProdutoGaleria";
 import { Customizer } from "@/components/Customizer";
+import { Accordion } from "@/components/Accordion";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { ArtPlate } from "@/components/ArtPlate";
 import type { Produto } from "@/lib/products";
@@ -21,15 +22,18 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, prod
 
   return (
     <div>
-      <div className="lg:grid lg:grid-cols-2">
-        <ProdutoVisual
-          produto={produto}
-          molduraColor={molduraColor}
-          prevSlug={prevSlug}
-          nextSlug={nextSlug}
-        />
+      <div className="px-4 md:px-8 pt-[24px] text-[14px] text-black/50">
+        <Link href="/">Home</Link> / <Link href="/quadros">Quadros</Link> /{" "}
+        <span>{produto.categoria}</span> / <span className="text-black">{produto.nome}</span>
+      </div>
 
-        <div className="px-4 md:px-8 py-[42px] lg:py-[100px]">
+      <div className="lg:grid lg:grid-cols-2 gap-[42px] px-4 md:px-8 py-[24px]">
+        <div className="order-2 lg:order-1">
+          <p className="text-[13px] tracking-artu text-black/60 mb-2">
+            {produto.categoria.toUpperCase()}
+          </p>
+          <h1 className="text-[32px] md:text-[40px] leading-tight mb-[17px]">{produto.nome}</h1>
+
           <Customizer
             produtoInicial={produto}
             produtos={produtos}
@@ -37,16 +41,43 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, prod
             onMolduraChange={setMolduraColor}
           />
 
-          <div className="mt-[17px]">
-            <div className="border-t border-black py-[17px]">
-              <p className="text-[18px] tracking-artu mb-[11px]">SOBRE</p>
-              {produto.descricaoLonga.map((paragrafo, i) => (
-                <p key={i} className="text-[20px] leading-[1.2] mb-4 last:mb-0">
-                  {paragrafo}
-                </p>
-              ))}
-            </div>
-          </div>
+          <Accordion titulo="SOBRE">
+            {produto.descricaoLonga.map((paragrafo, i) => (
+              <p key={i} className="mb-3 last:mb-0">
+                {paragrafo}
+              </p>
+            ))}
+          </Accordion>
+          <Accordion titulo="MATERIAIS">
+            <p>
+              Impressão de alta definição sobre tela canvas, papel fine art ou acrílico, com
+              fidelidade de cor testada para longa duração.
+            </p>
+          </Accordion>
+          <Accordion titulo="ENVIO">
+            <p>
+              Cada peça é produzida sob encomenda. Prazo de produção e envio informado no
+              carrinho antes da finalização da compra.
+            </p>
+          </Accordion>
+          <Accordion titulo="TROCAS E DEVOLUÇÕES">
+            <p>
+              Consulte nossa{" "}
+              <Link href="/trocas-e-devolucoes" className="underline">
+                política de trocas e devoluções
+              </Link>
+              .
+            </p>
+          </Accordion>
+        </div>
+
+        <div className="order-1 lg:order-2">
+          <ProdutoGaleria
+            produto={produto}
+            molduraColor={molduraColor}
+            prevSlug={prevSlug}
+            nextSlug={nextSlug}
+          />
         </div>
       </div>
 
