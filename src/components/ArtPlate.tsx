@@ -13,6 +13,8 @@ type ArtPlateProps = {
   className?: string;
   hoverZoom?: boolean;
   fill?: boolean;
+  /** Placeholder stand-in for a second product photo (different angle), until real photography exists. */
+  inverso?: boolean;
 };
 
 export function ArtPlate({
@@ -22,13 +24,16 @@ export function ArtPlate({
   className = "",
   hoverZoom = false,
   fill = false,
+  inverso = false,
 }: ArtPlateProps) {
   const plate = (
     <div
       className={`w-full h-full ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
       style={{
         aspectRatio: fill ? undefined : ASPECT[orientacao],
-        background: `radial-gradient(120% 90% at 30% 20%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`,
+        background: inverso
+          ? `radial-gradient(120% 90% at 70% 80%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`
+          : `radial-gradient(120% 90% at 30% 20%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`,
       }}
     />
   );

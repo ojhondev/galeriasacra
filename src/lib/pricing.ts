@@ -37,6 +37,21 @@ export function calcularPreco(
   return Math.round(preco);
 }
 
+export function precoRange(precoBase: number): { min: number; max: number } {
+  const multiplicadoresTamanho = TAMANHOS.map((t) => t.multiplicador);
+  const multiplicadoresMaterial = MATERIAIS.map((m) => m.multiplicador);
+  const adicionaisMoldura = MOLDURAS.map((m) => m.adicional);
+
+  const min =
+    precoBase * Math.min(...multiplicadoresTamanho) * Math.min(...multiplicadoresMaterial) +
+    Math.min(...adicionaisMoldura);
+  const max =
+    precoBase * Math.max(...multiplicadoresTamanho) * Math.max(...multiplicadoresMaterial) +
+    Math.max(...adicionaisMoldura);
+
+  return { min: Math.round(min), max: Math.round(max) };
+}
+
 export function formatarPreco(valor: number): string {
   return valor.toLocaleString("pt-BR", {
     style: "currency",
