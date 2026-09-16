@@ -13,7 +13,7 @@ export default function CarrinhoPage() {
 
   if (finalizado) {
     return (
-      <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
         <h1 className="text-[32px] mb-4">Pedido recebido</h1>
         <p className="text-[20px] max-w-xl">
           Recebemos seu pedido. Em breve entraremos em contato para confirmar produção e
@@ -28,7 +28,7 @@ export default function CarrinhoPage() {
 
   if (itens.length === 0) {
     return (
-      <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
         <h1 className="text-[32px] mb-4">Carrinho</h1>
         <p className="text-[20px]">Seu carrinho está vazio.</p>
         <Link href="/quadros" className="text-[18px] tracking-artu underline mt-[42px] inline-block">
@@ -39,7 +39,7 @@ export default function CarrinhoPage() {
   }
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
       <h1 className="text-[32px] mb-[42px]">Carrinho</h1>
 
       <div className="flex flex-col gap-[42px]">

@@ -15,7 +15,7 @@ export function Nav() {
 
   return (
     <header className="w-full pt-[17px] pb-[17px] px-4 md:px-8">
-      <div className="flex flex-wrap items-center justify-between gap-y-[11px] max-w-[var(--page-max-width)] mx-auto">
+      <div className="flex flex-wrap items-center justify-between gap-y-[11px]">
         <Link href="/" className="text-[20px] leading-none">
           galeria sacra
         </Link>
@@ -37,7 +37,7 @@ export function Nav() {
         </div>
       </div>
 
-      <nav className="lg:hidden flex flex-wrap gap-x-6 gap-y-2 text-[18px] tracking-artu mt-[17px] max-w-[var(--page-max-width)] mx-auto">
+      <nav className="lg:hidden flex flex-wrap gap-x-6 gap-y-2 text-[18px] tracking-artu mt-[17px]">
         {LINKS.map((link) => (
           <Link key={link.href} href={link.href}>
             {link.label}

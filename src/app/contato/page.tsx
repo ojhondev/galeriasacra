@@ -6,7 +6,7 @@ export default function ContatoPage() {
   const [enviado, setEnviado] = useState(false);
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
       <h1 className="text-[32px] mb-[42px]">Contato</h1>
 
       <div className="grid md:grid-cols-2 gap-[32px] max-w-4xl">

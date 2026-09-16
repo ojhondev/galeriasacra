@@ -29,7 +29,7 @@ export default async function ProdutoPage({ params }: Props) {
   const alternativas = produtos.filter((p) => p.id !== produto.id).slice(0, 4);
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
       <Customizer produtoInicial={produto} />
 
       <div className="mt-[80px] max-w-3xl">

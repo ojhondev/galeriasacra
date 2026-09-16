@@ -6,7 +6,7 @@ export const metadata: Metadata = {
 
 export default function TrocasEDevolucoesPage() {
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
       <h1 className="text-[32px] mb-[42px]">Trocas e Devoluções</h1>
       <div className="max-w-2xl flex flex-col gap-6 text-[20px] leading-[1.2]">
         <p>

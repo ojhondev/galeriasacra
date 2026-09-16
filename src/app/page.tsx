@@ -13,14 +13,14 @@ export default function Home() {
     <div>
       <HeroCarousel produtos={destaques} />
 
-      <section className="px-4 md:px-8 py-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <section className="px-4 md:px-8 py-[80px]">
         <p className="text-[24px] leading-[1.15] max-w-3xl">
           Galeria Sacra é uma galeria de arte sacra contemporânea, dedicada a criar quadros
           que elevam espaços de fé, memória e contemplação.
         </p>
       </section>
 
-      <section className="px-4 md:px-8 pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <section className="px-4 md:px-8 pb-[80px]">
         <div className="flex flex-wrap gap-[32px]">
           <Link href={`/quadros/${grade1[0].slug}`} className="block w-full md:w-[52%]">
             <ArtPlate hue={grade1[0].hue} orientacao={grade1[0].orientacao} />
@@ -37,9 +37,9 @@ export default function Home() {
         </div>
       </section>
 
-      <HairlineDivider className="max-w-[var(--page-max-width)] mx-auto" />
+      <HairlineDivider />
 
-      <section className="px-4 md:px-8 py-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <section className="px-4 md:px-8 py-[80px]">
         <p className="text-[24px] leading-[1.15] max-w-3xl">
           Especializada em quadros sacros, ícones e peças sob encomenda, a Galeria Sacra
           oferece obras pensadas para lares, capelas e espaços de oração. Cada peça é
@@ -55,7 +55,7 @@ export default function Home() {
         </p>
       </section>
 
-      <section className="px-4 md:px-8 pb-[80px] max-w-[var(--page-max-width)] mx-auto">
+      <section className="px-4 md:px-8 pb-[80px]">
         <div className="flex flex-wrap gap-[32px]">
           <Link href={`/quadros/${grade2[0].slug}`} className="block w-full md:w-[30%]">
             <ArtPlate hue={grade2[0].hue} orientacao={grade2[0].orientacao} />

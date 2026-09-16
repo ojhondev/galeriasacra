@@ -17,7 +17,7 @@ export function Footer() {
   return (
     <footer className="w-full">
       <div className="border-t border-black px-4 md:px-8 pt-8 pb-8">
-        <div className="max-w-[var(--page-max-width)] mx-auto">
+        <div>
           <a
             href="mailto:contato@galeriasacra.com.br"
             className="text-[18px] tracking-artu block mb-[29px]"
