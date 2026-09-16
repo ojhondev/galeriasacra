@@ -1,17 +1,16 @@
 import Link from "next/link";
-import { HeroCarousel } from "@/components/HeroCarousel";
+import { Hero } from "@/components/Hero";
 import { ArtPlate } from "@/components/ArtPlate";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { produtos } from "@/lib/products";
 
 export default function Home() {
-  const destaques = produtos.slice(0, 4);
   const grade1 = produtos.slice(0, 4);
   const grade2 = produtos.slice(4, 8);
 
   return (
     <div>
-      <HeroCarousel produtos={destaques} />
+      <Hero />
 
       <section className="px-4 md:px-8 py-[80px]">
         <p className="text-[40px] md:text-[56px] leading-[1.05] tracking-artu">
