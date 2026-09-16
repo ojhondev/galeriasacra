@@ -70,7 +70,7 @@ export default function CarrinhoPage() {
                   <button
                     type="button"
                     onClick={() => remover(item.id)}
-                    className="text-[18px] tracking-artu underline text-[var(--color-signal-red)]"
+                    className="text-[18px] tracking-artu underline text-[var(--color-brand)]"
                   >
                     REMOVER
                   </button>

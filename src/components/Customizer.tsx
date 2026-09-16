@@ -203,7 +203,7 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
             <button
               type="button"
               onClick={() => router.push("/carrinho")}
-              className="text-[18px] tracking-artu text-[var(--color-signal-red)] underline"
+              className="text-[18px] tracking-artu text-[var(--color-brand)] underline"
             >
               VER CARRINHO
             </button>

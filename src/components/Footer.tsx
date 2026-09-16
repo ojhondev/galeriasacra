@@ -9,7 +9,7 @@ const SITE_LINKS = [
 ];
 
 const SOCIAL_LINKS = [
-  { href: "https://instagram.com/galeriasacra", label: "INSTAGRAM" },
+  { href: "https://instagram.com/artusa", label: "INSTAGRAM" },
   { href: "https://wa.me/5500000000000", label: "WHATSAPP" },
 ];
 
@@ -19,10 +19,10 @@ export function Footer() {
       <div className="border-t border-black px-4 md:px-8 pt-8 pb-8">
         <div>
           <a
-            href="mailto:contato@galeriasacra.com.br"
+            href="mailto:contato@artusa.com.br"
             className="text-[18px] tracking-artu block mb-[29px]"
           >
-            CONTATO@GALERIASACRA.COM.BR
+            CONTATO@ARTUSA.COM.BR
           </a>
 
           <nav className="flex flex-wrap gap-x-8 gap-y-2 text-[18px] tracking-artu mb-[29px]">
@@ -42,12 +42,12 @@ export function Footer() {
           </nav>
 
           <p className="text-[18px] tracking-artu">
-            © Galeria Sacra, {new Date().getFullYear()}
+            © Artusa, {new Date().getFullYear()}
           </p>
         </div>
       </div>
 
-      <div className="w-full h-8 md:h-[32px] bg-[var(--color-terminal-lime)]" />
+      <div className="w-full h-8 md:h-[32px] bg-[var(--color-brand)]" />
     </footer>
   );
 }

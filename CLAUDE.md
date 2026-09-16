@@ -1,12 +1,15 @@
 @AGENTS.md
 
-# Galeria Sacra
+# Artusa
 
 E-commerce de arte sacra (foco inicial em quadros, com plano de expandir para outros
-produtos sacros). Design idêntico ao estilo ARTU (artu.works): galeria em papel branco,
-tipografia única (Helvetica/grotesco, peso 400, all-caps em nav/footer com tracking
-positivo), zero radius, hairlines pretas, um único bloco de cor (lime `#d7ff66`) reservado
-para a faixa do rodapé, layout full-bleed/full-width e totalmente responsivo.
+produtos sacros), com a marca "Artusa" (logo em `public/logo-artusa.png`). Design
+idêntico ao estilo ARTU (artu.works): galeria em papel branco, tipografia única
+(Helvetica/grotesco, peso 400, all-caps em nav/footer com tracking positivo), zero radius,
+hairlines pretas, e um único bloco de cor (`--color-brand`, `#de2f17`) reservado para a
+faixa do rodapé e destaques pontuais. Menu mobile precisa ficar idêntico ao print de
+referência do ARTU: logo à esquerda, ícone de hambúrguer à direita, sem links visíveis por
+padrão.
 
 ## Estado atual (mocked-first)
 

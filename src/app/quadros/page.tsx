@@ -3,7 +3,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { produtos } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "Quadros | Galeria Sacra",
+  title: "Quadros | Artusa",
 };
 
 export default function QuadrosPage() {

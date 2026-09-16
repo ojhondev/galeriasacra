@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Customizer } from "@/components/Customizer";
 
 export const metadata: Metadata = {
-  title: "Monte Seu Quadro | Galeria Sacra",
+  title: "Monte Seu Quadro | Artusa",
 };
 
 export default function MonteSeuQuadroPage() {

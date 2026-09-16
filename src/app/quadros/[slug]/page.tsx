@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const produto = getProdutoBySlug(slug);
   if (!produto) return {};
-  return { title: `${produto.nome} | Galeria Sacra` };
+  return { title: `${produto.nome} | Artusa` };
 }
 
 export default async function ProdutoPage({ params }: Props) {

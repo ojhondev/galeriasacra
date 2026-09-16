@@ -5,9 +5,9 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
-  title: "Galeria Sacra",
+  title: "Artusa",
   description:
-    "Galeria Sacra — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
+    "Artusa — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

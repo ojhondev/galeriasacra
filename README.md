@@ -1,9 +1,9 @@
-# Galeria Sacra
+# Artusa
 
 E-commerce de arte sacra — quadros religiosos prontos e sob encomenda, com personalização
 completa ("Monte Seu Quadro"). Estilo visual baseado em [artu.works](https://artu.works):
 galeria em papel branco, tipografia única em all-caps, hairlines pretas e uma única faixa
-de cor lime no rodapé.
+de cor (`#de2f17`) no rodapé.
 
 ## Stack
 
