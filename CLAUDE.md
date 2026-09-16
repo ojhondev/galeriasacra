@@ -1,0 +1,27 @@
+@AGENTS.md
+
+# Galeria Sacra
+
+E-commerce de arte sacra (foco inicial em quadros, com plano de expandir para outros
+produtos sacros). Design idêntico ao estilo ARTU (artu.works): galeria em papel branco,
+tipografia única (Helvetica/grotesco, peso 400, all-caps em nav/footer com tracking
+positivo), zero radius, hairlines pretas, um único bloco de cor (lime `#d7ff66`) reservado
+para a faixa do rodapé, layout full-bleed/full-width e totalmente responsivo.
+
+## Estado atual (mocked-first)
+
+- Catálogo de produtos e preços em `src/lib/products.ts` / `src/lib/pricing.ts` — dados
+  mockados, sem banco de dados ainda.
+- Imagens de produto são placeholders (gradientes via `ArtPlate`), até termos fotografia
+  real das obras — trocar por fotos reais é só substituir `ArtPlate` por `next/image` nos
+  pontos de uso.
+- Carrinho é client-side (Context + localStorage), sem checkout/pagamento real — o botão
+  "Finalizar pedido" apenas confirma o pedido na tela, sem gateway de pagamento.
+- "Monte Seu Quadro" permite escolher uma imagem do catálogo ou enviar imagem própria
+  (preview local no navegador, sem upload para servidor ainda).
+
+## Próximos passos sugeridos
+
+- Substituir imagens placeholder por fotografia real dos quadros.
+- Banco de dados (Neon + Drizzle) para catálogo, pedidos e upload de imagem própria.
+- Gateway de pagamento real (ex.: Mercado Pago/Stripe) no lugar do mock de checkout.
