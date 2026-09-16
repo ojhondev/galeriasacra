@@ -14,10 +14,9 @@ type ProdutoDetalheProps = {
   prevSlug: string;
   nextSlug: string;
   alternativas: Produto[];
-  produtos: Produto[];
 };
 
-export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, produtos }: ProdutoDetalheProps) {
+export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: ProdutoDetalheProps) {
   const [molduraColor, setMolduraColor] = useState<string | null>(null);
 
   return (
@@ -34,13 +33,7 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas, prod
           </p>
           <h1 className="text-[32px] md:text-[40px] leading-tight mb-[17px]">{produto.nome}</h1>
 
-          <Customizer
-            produtoInicial={produto}
-            produtos={produtos}
-            ocultarImagem
-            onMolduraChange={setMolduraColor}
-            comprarFixoNoMobile
-          />
+          <Customizer produto={produto} onMolduraChange={setMolduraColor} comprarFixoNoMobile />
 
           <Accordion titulo="SOBRE">
             {produto.descricaoLonga.map((paragrafo, i) => (

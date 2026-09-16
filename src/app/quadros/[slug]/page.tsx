@@ -33,7 +33,6 @@ export default async function ProdutoPage({ params }: Props) {
       prevSlug={anterior.slug}
       nextSlug={proximo.slug}
       alternativas={alternativas}
-      produtos={produtos}
     />
   );
 }
