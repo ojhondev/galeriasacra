@@ -40,12 +40,12 @@ export default function Home() {
       <HairlineDivider />
 
       <section className="px-4 md:px-8 py-[80px]">
-        <p className="text-[24px] leading-[1.15] max-w-3xl">
+        <p className="text-[32px] md:text-[44px] leading-[1.1] tracking-artu">
           Especializada em quadros sacros, ícones e peças sob encomenda, a Galeria Sacra
           oferece obras pensadas para lares, capelas e espaços de oração. Cada peça é
           impressa e emoldurada sob medida, unindo tradição religiosa e cuidado artesanal.
         </p>
-        <p className="text-[20px] leading-[1.2] max-w-3xl mt-8">
+        <p className="text-[24px] md:text-[32px] leading-[1.15] tracking-artu mt-8">
           Além do catálogo, todo quadro pode ser personalizado — tamanho, moldura e
           acabamento — na seção{" "}
           <Link href="/monte-seu-quadro" className="underline">
