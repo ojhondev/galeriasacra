@@ -38,7 +38,7 @@ type CarrinhoContexto = {
 
 const CarrinhoContext = createContext<CarrinhoContexto | null>(null);
 
-const STORAGE_KEY = "artusa:carrinho";
+const STORAGE_KEY = "galeriasacra:carrinho";
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);

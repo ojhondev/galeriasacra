@@ -3,7 +3,7 @@ import { CatalogoFiltravel } from "@/components/CatalogoFiltravel";
 import { listarProdutos } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "Quadros | Artusa",
+  title: "Quadros | Galeria Sacra",
 };
 
 export const dynamic = "force-dynamic";

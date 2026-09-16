@@ -24,12 +24,12 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
         <div className="flex flex-wrap items-center gap-x-[42px] gap-y-[11px]">
           <Link href="/" className="block" onClick={() => setOpen(false)}>
             <Image
-              src="/logo-artusa.png"
-              alt="Artusa"
-              width={740}
-              height={194}
+              src="/logo-galeriasacra-terracota.png"
+              alt="Galeria Sacra"
+              width={765}
+              height={406}
               priority
-              className="h-[22px] w-auto"
+              className="h-[36px] w-auto"
             />
           </Link>
 

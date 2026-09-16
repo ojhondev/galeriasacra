@@ -12,8 +12,8 @@ export default function ContatoPage() {
       <div className="grid md:grid-cols-2 gap-[32px] max-w-4xl">
         <div className="flex flex-col gap-4">
           <p className="text-[20px]">
-            <a href="mailto:contato@artusa.com.br" className="underline">
-              contato@artusa.com.br
+            <a href="mailto:contato@galeriasacra.com.br" className="underline">
+              contato@galeriasacra.com.br
             </a>
           </p>
           <p className="text-[20px]">

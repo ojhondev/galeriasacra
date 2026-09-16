@@ -12,7 +12,7 @@ type ARPreviewProps = {
 
 type Box = { x: number; y: number; width: number };
 
-const TUTORIAL_KEY = "artusa:ar-tutorial-visto";
+const TUTORIAL_KEY = "galeriasacra:ar-tutorial-visto";
 
 const PASSOS_TUTORIAL = [
   {
@@ -417,7 +417,7 @@ export function ARPreview({ aspectRatio, hue, molduraColor, imagemUrl, onClose }
             </button>
             <a
               href={fotoUrl}
-              download="meu-quadro-artusa.png"
+              download="meu-quadro-galeriasacra.png"
               className="bg-white text-black px-6 py-3 text-[16px] tracking-artu"
             >
               SALVAR FOTO

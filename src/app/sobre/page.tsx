@@ -2,17 +2,17 @@ import type { Metadata } from "next";
 import { HairlineDivider } from "@/components/HairlineDivider";
 
 export const metadata: Metadata = {
-  title: "Sobre | Artusa",
+  title: "Sobre | Galeria Sacra",
 };
 
 export default function SobrePage() {
   return (
     <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
-      <h1 className="text-[32px] mb-[42px] max-w-2xl">Sobre a Artusa</h1>
+      <h1 className="text-[32px] mb-[42px] max-w-2xl">Sobre a Galeria Sacra</h1>
 
       <div className="max-w-2xl flex flex-col gap-8">
         <p className="text-[24px] leading-[1.15]">
-          A Artusa nasceu para aproximar a arte sacra do dia a dia — em casas,
+          A Galeria Sacra nasceu para aproximar a arte sacra do dia a dia — em casas,
           capelas e espaços de oração.
         </p>
         <p className="text-[20px] leading-[1.2]">

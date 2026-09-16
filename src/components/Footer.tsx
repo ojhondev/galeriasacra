@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useCart } from "@/lib/cart";
 
 const SOCIAL_LINKS = [
-  { href: "https://instagram.com/artusa", label: "INSTAGRAM" },
+  { href: "https://instagram.com/galeriasacra", label: "INSTAGRAM" },
   { href: "https://wa.me/5500000000000", label: "WHATSAPP" },
 ];
 
@@ -18,7 +18,7 @@ export function Footer() {
       <div className="border-t border-black px-4 md:px-8 pt-[42px] pb-[80px] bg-[var(--color-brand)] text-white">
         <div className="flex flex-wrap gap-x-16 gap-y-[37px]">
           <div className="flex flex-col gap-y-2 text-[18px] tracking-artu">
-            <a href="mailto:contato@artusa.com.br">CONTATO@ARTUSA.COM.BR</a>
+            <a href="mailto:contato@galeriasacra.com.br">CONTATO@GALERIASACRA.COM.BR</a>
           </div>
 
           <nav className="flex flex-col gap-y-2 text-[18px] tracking-artu">
@@ -43,7 +43,7 @@ export function Footer() {
         </div>
 
         <div className="flex flex-wrap items-end justify-between gap-y-8 mt-[80px]">
-          <p className="text-[18px] tracking-artu">© Artusa, {new Date().getFullYear()}</p>
+          <p className="text-[18px] tracking-artu">© Galeria Sacra, {new Date().getFullYear()}</p>
 
           <form
             className="flex flex-col gap-2 w-full md:w-[320px]"

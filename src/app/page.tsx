@@ -18,7 +18,7 @@ export default async function Home() {
 
       <section className="px-4 md:px-8 py-[80px]">
         <p className="text-[40px] md:text-[56px] leading-[1.05] tracking-artu">
-          Artusa é uma galeria de arte sacra contemporânea, dedicada a criar quadros
+          Galeria Sacra reúne arte sacra contemporânea, dedicada a criar quadros
           que elevam espaços de fé, memória e contemplação.
         </p>
       </section>
@@ -44,8 +44,8 @@ export default async function Home() {
 
       <section className="px-4 md:px-8 py-[80px]">
         <p className="text-[32px] md:text-[44px] leading-[1.1] tracking-artu">
-          Especializada em quadros sacros, ícones e peças sob encomenda, a Artusa
-          oferece obras pensadas para lares, capelas e espaços de oração. Cada peça é
+          Especializada em quadros sacros, ícones e peças sob encomenda, a Galeria
+          Sacra oferece obras pensadas para lares, capelas e espaços de oração. Cada peça é
           impressa e emoldurada sob medida, unindo tradição religiosa e cuidado artesanal.
         </p>
         <p className="text-[24px] md:text-[32px] leading-[1.15] tracking-artu mt-8">

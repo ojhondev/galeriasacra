@@ -6,9 +6,9 @@ import { Footer } from "@/components/Footer";
 import { obterSessao } from "@/lib/session";
 
 export const metadata: Metadata = {
-  title: "Artusa",
+  title: "Galeria Sacra",
   description:
-    "Artusa — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
+    "Galeria Sacra — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {

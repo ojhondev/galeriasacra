@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Trocas e Devoluções | Artusa",
+  title: "Trocas e Devoluções | Galeria Sacra",
 };
 
 export default function TrocasEDevolucoesPage() {
@@ -20,8 +20,8 @@ export default function TrocasEDevolucoesPage() {
         </p>
         <p>
           Em caso de defeito de fabricação ou avaria no transporte, entre em contato pelo{" "}
-          <a href="mailto:contato@artusa.com.br" className="underline">
-            contato@artusa.com.br
+          <a href="mailto:contato@galeriasacra.com.br" className="underline">
+            contato@galeriasacra.com.br
           </a>{" "}
           em até 7 dias após o recebimento.
         </p>

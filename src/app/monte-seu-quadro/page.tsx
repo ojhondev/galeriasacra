@@ -3,7 +3,7 @@ import { Customizer } from "@/components/Customizer";
 import { listarProdutos } from "@/lib/products";
 
 export const metadata: Metadata = {
-  title: "Monte Seu Quadro | Artusa",
+  title: "Monte Seu Quadro | Galeria Sacra",
 };
 
 export const dynamic = "force-dynamic";
