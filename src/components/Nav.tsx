@@ -16,18 +16,20 @@ export function Nav() {
   return (
     <header className="w-full pt-[17px] pb-[17px] px-4 md:px-8">
       <div className="flex flex-wrap items-center justify-between gap-y-[11px]">
-        <Link href="/" className="text-[20px] leading-none">
-          galeria sacra
-        </Link>
+        <div className="flex flex-wrap items-center gap-x-[42px] gap-y-[11px]">
+          <Link href="/" className="text-[20px] leading-none">
+            galeria sacra
+          </Link>
 
-        <nav className="hidden lg:flex items-center gap-x-8 text-[18px] tracking-artu">
-          {LINKS.map((link, i) => (
-            <span key={link.href} className="flex items-center gap-x-8">
-              <Link href={link.href}>{link.label}</Link>
-              {i < LINKS.length - 1 && <span aria-hidden="true">,</span>}
-            </span>
-          ))}
-        </nav>
+          <nav className="hidden lg:flex items-center gap-x-8 text-[18px] tracking-artu">
+            {LINKS.map((link, i) => (
+              <span key={link.href} className="flex items-center gap-x-8">
+                <Link href={link.href}>{link.label}</Link>
+                {i < LINKS.length - 1 && <span aria-hidden="true">,</span>}
+              </span>
+            ))}
+          </nav>
+        </div>
 
         <div className="flex items-center gap-x-8 text-[18px] tracking-artu">
           <Link href="/carrinho">CARRINHO ({quantidadeTotal})</Link>

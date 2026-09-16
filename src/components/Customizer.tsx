@@ -116,7 +116,7 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
                     setImagemPropria(null);
                   }}
                   aria-label={p.nome}
-                  className="block"
+                  className="block group"
                   style={{
                     outline:
                       produtoSelecionado?.id === p.id && !imagemPropria
@@ -125,7 +125,7 @@ export function Customizer({ produtoInicial, permitirTrocarImagem = false }: Cus
                     outlineOffset: "2px",
                   }}
                 >
-                  <ArtPlate hue={p.hue} orientacao={p.orientacao} />
+                  <ArtPlate hue={p.hue} orientacao={p.orientacao} hoverZoom />
                 </button>
               ))}
             </div>

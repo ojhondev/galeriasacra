@@ -11,12 +11,19 @@ type ArtPlateProps = {
   orientacao?: Orientacao;
   molduraColor?: string | null;
   className?: string;
+  hoverZoom?: boolean;
 };
 
-export function ArtPlate({ hue, orientacao = "retrato", molduraColor = null, className = "" }: ArtPlateProps) {
+export function ArtPlate({
+  hue,
+  orientacao = "retrato",
+  molduraColor = null,
+  className = "",
+  hoverZoom = false,
+}: ArtPlateProps) {
   const plate = (
     <div
-      className="w-full h-full"
+      className={`w-full h-full ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
       style={{
         aspectRatio: ASPECT[orientacao],
         background: `radial-gradient(120% 90% at 30% 20%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`,
@@ -24,12 +31,14 @@ export function ArtPlate({ hue, orientacao = "retrato", molduraColor = null, cla
     />
   );
 
+  const overflowClass = hoverZoom ? "overflow-hidden" : "";
+
   if (!molduraColor) {
-    return <div className={className}>{plate}</div>;
+    return <div className={`${overflowClass} ${className}`}>{plate}</div>;
   }
 
   return (
-    <div className={className} style={{ background: molduraColor, padding: "3.2%" }}>
+    <div className={`${overflowClass} ${className}`} style={{ background: molduraColor, padding: "3.2%" }}>
       {plate}
     </div>
   );

@@ -47,8 +47,8 @@ export default async function ProdutoPage({ params }: Props) {
         <p className="text-[18px] tracking-artu mb-[29px]">OUTRAS OBRAS</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">
           {alternativas.map((alt) => (
-            <Link key={alt.id} href={`/quadros/${alt.slug}`} className="block">
-              <ArtPlate hue={alt.hue} orientacao={alt.orientacao} />
+            <Link key={alt.id} href={`/quadros/${alt.slug}`} className="block group">
+              <ArtPlate hue={alt.hue} orientacao={alt.orientacao} hoverZoom />
               <p className="text-[18px] mt-[11px]">{alt.nome}</p>
             </Link>
           ))}

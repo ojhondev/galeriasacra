@@ -6,7 +6,7 @@ import type { Produto } from "@/lib/products";
 export function ProductCard({ produto }: { produto: Produto }) {
   return (
     <Link href={`/quadros/${produto.slug}`} className="block group">
-      <ArtPlate hue={produto.hue} orientacao={produto.orientacao} />
+      <ArtPlate hue={produto.hue} orientacao={produto.orientacao} hoverZoom />
       <div className="pt-[11px]">
         <p className="text-[20px] leading-tight">{produto.nome}</p>
         <p className="text-[18px] text-black/60 tracking-artu">{produto.categoria}</p>
