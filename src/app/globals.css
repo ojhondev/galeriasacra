@@ -23,6 +23,18 @@
   --radius-none: 0px;
 }
 
+/* Raio padrão da marca: 6px em todo container/botão. Precisa estar dentro de
+   @layer base (não solto no CSS) porque o Tailwind v4 usa CSS cascade layers:
+   uma regra fora de qualquer layer sempre vence uma regra em layer, não
+   importa a especificidade — então um `*` solto aqui derrotaria até o
+   rounded-full do Tailwind. Dentro de @layer base, a layer "utilities" do
+   Tailwind (onde rounded-full vive) continua vencendo normalmente. */
+@layer base {
+  * {
+    border-radius: 6px;
+  }
+}
+
 html,
 body {
   height: 100%;

@@ -19,7 +19,7 @@ export function ProductCard({
 
   return (
     <Link href={`/quadros/${produto.slug}`} className="block group" aria-label={produto.nome}>
-      <div className="relative aspect-[2/1] bg-[#f2f2ef] p-[8%] overflow-hidden">
+      <div className="relative aspect-[1/2] bg-[#f2f2ef] p-[8%] overflow-hidden">
         <p className="absolute top-[6%] left-[8%] text-[13px] tracking-artu text-black/60 z-10">
           {produto.categoria.toUpperCase()}
         </p>
