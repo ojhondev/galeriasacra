@@ -15,7 +15,7 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
 
   return (
     <section className="px-4 md:px-8 py-[80px]">
-      <p className="text-[13px] tracking-artu text-black/50 mb-[17px]">DESTAQUES POR CATEGORIA</p>
+      <p className="text-[13px] tracking-artu text-black/50 mb-[17px]">Destaques por Categoria</p>
 
       <div className="flex flex-wrap gap-x-8 gap-y-2 border-b border-black/10 mb-[32px]">
         {categorias.map((categoria) => (

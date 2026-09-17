@@ -2,73 +2,101 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { useCart } from "@/lib/cart";
-
-const SOCIAL_LINKS = [
-  { href: "https://instagram.com/galeriasacra", label: "INSTAGRAM" },
-  { href: "https://wa.me/5500000000000", label: "WHATSAPP" },
-];
 
 export function Footer() {
-  const { quantidadeTotal } = useCart();
   const [inscrito, setInscrito] = useState(false);
 
   return (
-    <footer className="w-full">
-      <div className="border-t border-black px-4 md:px-8 pt-[42px] pb-[80px] bg-[var(--color-brand)] text-white">
-        <div className="flex flex-wrap gap-x-16 gap-y-[37px]">
-          <div className="flex flex-col gap-y-2 text-[18px] tracking-artu">
-            <a href="mailto:contato@galeriasacra.com.br">CONTATO@GALERIASACRA.COM.BR</a>
+    <footer className="w-full bg-black text-white">
+      <div className="px-4 md:px-8 pt-[64px] pb-[42px]">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-[42px]">
+          <div className="col-span-2 md:col-span-1">
+            <p className="text-[20px] font-bold tracking-wide mb-3">GALERIA SACRA</p>
+            <p className="text-[14px] text-white/60 leading-[1.4] max-w-[220px]">
+              Arte sacra contemporânea, produzida sob medida para lares, capelas e espaços de
+              oração.
+            </p>
           </div>
 
-          <nav className="flex flex-col gap-y-2 text-[18px] tracking-artu">
-            <Link href="/quadros">QUADROS</Link>
-            <Link href="/carrinho">CARRINHO ({quantidadeTotal})</Link>
-            <Link href="/monte-seu-quadro">MONTE SEU QUADRO</Link>
-            <Link href="/sobre">SOBRE</Link>
-            <Link href="/trocas-e-devolucoes">TROCAS E DEVOLUÇÕES</Link>
-          </nav>
+          <div>
+            <p className="text-[15px] font-medium mb-3">Loja</p>
+            <nav className="flex flex-col gap-2 text-[14px] text-white/70">
+              <Link href="/quadros" className="hover:text-white">Quadros</Link>
+              <Link href="/monte-seu-quadro" className="hover:text-white">Monte Seu Quadro</Link>
+              <Link href="/carrinho" className="hover:text-white">Carrinho</Link>
+            </nav>
+          </div>
 
-          <nav className="flex flex-col gap-y-2 text-[18px] tracking-artu">
-            <Link href="/contato">CONTATO</Link>
-          </nav>
+          <div>
+            <p className="text-[15px] font-medium mb-3">Atendimento</p>
+            <nav className="flex flex-col gap-2 text-[14px] text-white/70">
+              <Link href="/contato" className="hover:text-white">Contato</Link>
+              <Link href="/trocas-e-devolucoes" className="hover:text-white">Trocas e Devoluções</Link>
+              <Link href="/sobre" className="hover:text-white">Sobre</Link>
+            </nav>
+          </div>
 
-          <nav className="flex flex-col gap-y-2 text-[18px] tracking-artu">
-            {SOCIAL_LINKS.map((link) => (
-              <a key={link.href} href={link.href} target="_blank" rel="noopener noreferrer">
-                {link.label}
+          <div>
+            <p className="text-[15px] font-medium mb-3">Contato</p>
+            <div className="flex flex-col gap-2 text-[14px] text-white/70">
+              <a href="mailto:contato@galeriasacra.com.br" className="hover:text-white">
+                contato@galeriasacra.com.br
               </a>
-            ))}
-          </nav>
-        </div>
+              <a
+                href="https://wa.me/5500000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                WhatsApp
+              </a>
+              <a
+                href="https://instagram.com/galeriasacra"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                Instagram
+              </a>
+            </div>
+          </div>
 
-        <div className="flex flex-wrap items-end justify-between gap-y-8 mt-[80px]">
-          <p className="text-[18px] tracking-artu">© Galeria Sacra, {new Date().getFullYear()}</p>
-
-          <form
-            className="flex flex-col gap-2 w-full md:w-[320px]"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setInscrito(true);
-            }}
-          >
+          <div className="col-span-2 md:col-span-1">
+            <p className="text-[15px] font-medium mb-3">Fique por dentro</p>
+            <p className="text-[13px] text-white/60 mb-3">
+              Novidades do catálogo e ofertas, direto no seu e-mail.
+            </p>
             {inscrito ? (
-              <p className="text-[18px] tracking-artu">Inscrição recebida.</p>
+              <p className="text-[14px]">Inscrição recebida.</p>
             ) : (
-              <>
-                <label htmlFor="newsletter-email" className="text-[18px] tracking-artu">
-                  Assine nossa newsletter
-                </label>
+              <form
+                className="flex"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  setInscrito(true);
+                }}
+              >
                 <input
-                  id="newsletter-email"
                   type="email"
                   required
-                  placeholder="E-mail"
-                  className="bg-transparent border-b border-white text-[18px] py-1 outline-none placeholder:text-white/60"
+                  placeholder="Seu e-mail"
+                  className="flex-1 min-w-0 bg-white/10 px-3 py-2 text-[14px] outline-none placeholder:text-white/40"
                 />
-              </>
+                <button type="submit" className="bg-white text-black px-4 py-2 text-[13px] shrink-0">
+                  Assinar
+                </button>
+              </form>
             )}
-          </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-white/10 px-4 md:px-8 py-[24px] flex flex-wrap items-center justify-between gap-4 text-[13px] text-white/50">
+        <p>© {new Date().getFullYear()} Galeria Sacra. Todos os direitos reservados.</p>
+        <div className="flex items-center gap-4">
+          <span className="border border-white/20 px-2 py-1 text-[12px]">Pix</span>
+          <span className="border border-white/20 px-2 py-1 text-[12px]">Visa</span>
+          <span className="border border-white/20 px-2 py-1 text-[12px]">Mastercard</span>
         </div>
       </div>
     </footer>

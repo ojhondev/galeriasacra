@@ -2,68 +2,95 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
 import { useCart } from "@/lib/cart";
 import { sair } from "@/lib/auth-actions";
+import { IconSearch, IconUser, IconBag } from "@/components/icons";
 import type { SessionPayload } from "@/lib/session";
 
 const LINKS = [
-  { href: "/quadros", label: "QUADROS" },
-  { href: "/monte-seu-quadro", label: "MONTE SEU QUADRO" },
-  { href: "/sobre", label: "SOBRE" },
-  { href: "/contato", label: "CONTATO" },
+  { href: "/quadros", label: "Quadros" },
+  { href: "/monte-seu-quadro", label: "Monte Seu Quadro" },
+  { href: "/sobre", label: "Sobre" },
+  { href: "/contato", label: "Contato" },
 ];
 
 export function Nav({ sessao }: { sessao: SessionPayload | null }) {
+  const router = useRouter();
   const { quantidadeTotal } = useCart();
   const [open, setOpen] = useState(false);
+  const [buscaAberta, setBuscaAberta] = useState(false);
+  const [termoBusca, setTermoBusca] = useState("");
+
+  function handleBuscar(e: FormEvent) {
+    e.preventDefault();
+    const termo = termoBusca.trim();
+    if (!termo) return;
+    router.push(`/quadros?busca=${encodeURIComponent(termo)}`);
+    setBuscaAberta(false);
+    setTermoBusca("");
+  }
 
   return (
-    <header className="w-full pt-[17px] pb-[17px] px-4 md:px-8">
-      <div className="flex flex-wrap items-center justify-between gap-y-[11px]">
-        <div className="flex flex-wrap items-center gap-x-[42px] gap-y-[11px]">
-          <Link href="/" className="block" onClick={() => setOpen(false)}>
-            <Image
-              src="/logo-galeriasacra-terracota.png"
-              alt="Galeria Sacra"
-              width={765}
-              height={406}
-              priority
-              className="h-[52px] w-auto"
-            />
-          </Link>
+    <header className="w-full border-b border-black/10">
+      <div className="flex items-center justify-between px-4 md:px-8 py-[20px]">
+        <Link href="/" className="block shrink-0" onClick={() => setOpen(false)}>
+          <Image
+            src="/logo-galeriasacra-terracota.png"
+            alt="Galeria Sacra"
+            width={765}
+            height={406}
+            priority
+            className="h-[38px] w-auto"
+          />
+        </Link>
 
-          <nav className="hidden lg:flex items-center gap-x-8 text-[18px] tracking-artu">
-            {LINKS.map((link, i) => (
-              <span key={link.href} className="flex items-center gap-x-8">
-                <Link href={link.href}>{link.label}</Link>
-                {i < LINKS.length - 1 && <span aria-hidden="true">,</span>}
-              </span>
-            ))}
-          </nav>
-        </div>
+        <nav className="hidden lg:flex items-center gap-x-8 text-[16px]">
+          {LINKS.map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-black/50 transition-colors">
+              {link.label}
+            </Link>
+          ))}
+        </nav>
 
-        <div className="flex items-center gap-x-8 text-[18px] tracking-artu">
-          <Link href="/carrinho" className="hidden lg:inline">
-            CARRINHO ({quantidadeTotal})
-          </Link>
+        <div className="flex items-center gap-x-5">
+          <button
+            type="button"
+            onClick={() => setBuscaAberta((v) => !v)}
+            aria-label="Buscar"
+            className="hidden sm:block"
+          >
+            <IconSearch />
+          </button>
+
           {sessao?.role === "admin" && (
-            <Link href="/admin" className="hidden lg:inline">
-              ADMIN
+            <Link href="/admin" className="hidden lg:inline text-[15px] hover:text-black/50">
+              Admin
             </Link>
           )}
+
           {sessao ? (
-            <form action={sair} className="hidden lg:inline">
-              <button type="submit">SAIR</button>
+            <form action={sair}>
+              <button type="submit" aria-label="Sair" title="Sair">
+                <IconUser />
+              </button>
             </form>
           ) : (
-            <Link href="/login" className="hidden lg:inline">
-              ENTRAR
+            <Link href="/login" aria-label="Entrar">
+              <IconUser />
             </Link>
           )}
-          <button type="button" className="hidden lg:inline">
-            MENU
-          </button>
+
+          <Link href="/carrinho" className="relative" aria-label="Carrinho">
+            <IconBag />
+            {quantidadeTotal > 0 && (
+              <span className="absolute -top-2 -right-2 bg-[var(--color-brand)] text-white text-[11px] leading-none w-[17px] h-[17px] flex items-center justify-center">
+                {quantidadeTotal}
+              </span>
+            )}
+          </Link>
+
           <button
             type="button"
             className="lg:hidden"
@@ -84,30 +111,34 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
         </div>
       </div>
 
+      {buscaAberta && (
+        <form
+          onSubmit={handleBuscar}
+          className="border-t border-black/10 px-4 md:px-8 py-[17px] flex gap-4 items-center"
+        >
+          <input
+            autoFocus
+            value={termoBusca}
+            onChange={(e) => setTermoBusca(e.target.value)}
+            placeholder="Buscar quadros..."
+            className="flex-1 bg-transparent outline-none text-[18px]"
+          />
+          <button type="submit" className="text-[14px] underline shrink-0">
+            Buscar
+          </button>
+        </form>
+      )}
+
       {open && (
-        <nav className="lg:hidden flex flex-col gap-y-[17px] text-[18px] tracking-artu mt-[32px]">
+        <nav className="lg:hidden flex flex-col gap-y-[17px] text-[18px] px-4 md:px-8 pb-[24px]">
           {LINKS.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setOpen(false)}>
               {link.label}
             </Link>
           ))}
-          <Link href="/carrinho" onClick={() => setOpen(false)}>
-            CARRINHO ({quantidadeTotal})
-          </Link>
           {sessao?.role === "admin" && (
             <Link href="/admin" onClick={() => setOpen(false)}>
-              ADMIN
-            </Link>
-          )}
-          {sessao ? (
-            <form action={sair}>
-              <button type="submit" onClick={() => setOpen(false)}>
-                SAIR
-              </button>
-            </form>
-          ) : (
-            <Link href="/login" onClick={() => setOpen(false)}>
-              ENTRAR
+              Admin
             </Link>
           )}
         </nav>

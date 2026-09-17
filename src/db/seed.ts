@@ -1,9 +1,16 @@
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
-import { eq } from "drizzle-orm";
-import { produtos, usuarios, avaliacoes } from "./schema";
+import { eq, isNull, and } from "drizzle-orm";
+import { produtos, usuarios, avaliacoes, etiquetasDesconto } from "./schema";
 import bcrypt from "bcryptjs";
+
+const ETIQUETAS_SEED: { slug: string | null; label: string; tipo: "percentual" | "fixo"; valor: number }[] = [
+  { slug: "sao-francisco-de-assis", label: "OFERTA", tipo: "percentual", valor: 15 },
+  { slug: "nossa-senhora-de-fatima", label: "OFERTA", tipo: "percentual", valor: 20 },
+  { slug: "cristo-ressuscitado", label: "OFERTA", tipo: "fixo", valor: 40 },
+  { slug: null, label: "10% OFF em toda a coleção", tipo: "percentual", valor: 10 },
+];
 
 const PRODUTOS_SEED = [
   {
@@ -202,6 +209,30 @@ async function seed() {
     }
   }
   console.log(`Avaliações: ${avaliacoesInseridas} inseridas.`);
+
+  let etiquetasInseridas = 0;
+  for (const etiqueta of ETIQUETAS_SEED) {
+    const produtoId = etiqueta.slug
+      ? (await db.query.produtos.findFirst({ where: eq(produtos.slug, etiqueta.slug) }))?.id
+      : null;
+    if (etiqueta.slug && !produtoId) continue;
+
+    const existente = await db.query.etiquetasDesconto.findFirst({
+      where: produtoId
+        ? eq(etiquetasDesconto.produtoId, produtoId)
+        : and(isNull(etiquetasDesconto.produtoId), eq(etiquetasDesconto.label, etiqueta.label)),
+    });
+    if (existente) continue;
+
+    await db.insert(etiquetasDesconto).values({
+      produtoId: produtoId ?? null,
+      label: etiqueta.label,
+      tipo: etiqueta.tipo,
+      valor: etiqueta.valor,
+    });
+    etiquetasInseridas++;
+  }
+  console.log(`Etiquetas de desconto: ${etiquetasInseridas} inseridas.`);
 
   const emailAdmin = "ojhonatanribeiroalves@gmail.com";
   const senhaAdmin = "UMQ211FaKq";

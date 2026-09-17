@@ -52,6 +52,15 @@ export function precoRange(precoBase: number): { min: number; max: number } {
   return { min: Math.round(min), max: Math.round(max) };
 }
 
+export function aplicarDesconto(
+  preco: number,
+  etiqueta: { tipo: "percentual" | "fixo"; valor: number },
+): number {
+  const resultado =
+    etiqueta.tipo === "percentual" ? preco * (1 - etiqueta.valor / 100) : preco - etiqueta.valor;
+  return Math.max(0, Math.round(resultado));
+}
+
 export function formatarPreco(valor: number): string {
   return valor.toLocaleString("pt-BR", {
     style: "currency",
