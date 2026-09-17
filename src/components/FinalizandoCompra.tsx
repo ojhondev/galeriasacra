@@ -34,7 +34,7 @@ export function FinalizandoCompra({ onConcluir }: { onConcluir: () => void }) {
   return (
     <div className="fixed inset-0 z-50 bg-white flex flex-col items-center justify-center px-4">
       <Image
-        src="/logo-galeriasacra-terracota.png"
+        src="/logo-galeriasacra-vinho.png"
         alt="Galeria Sacra"
         width={765}
         height={406}

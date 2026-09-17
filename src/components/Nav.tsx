@@ -37,7 +37,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
       <div className="flex items-center justify-between px-4 md:px-8 py-[20px]">
         <Link href="/" className="block shrink-0" onClick={() => setOpen(false)}>
           <Image
-            src="/logo-galeriasacra-terracota.png"
+            src="/logo-galeriasacra-vinho.png"
             alt="Galeria Sacra"
             width={765}
             height={406}
