@@ -3,7 +3,13 @@ import { ArtPlate } from "@/components/ArtPlate";
 import { precoRange, formatarPreco } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
-export function ProductCard({ produto }: { produto: Produto }) {
+export function ProductCard({
+  produto,
+  onQuickView,
+}: {
+  produto: Produto;
+  onQuickView?: (produto: Produto) => void;
+}) {
   const { min, max } = precoRange(produto.precoBase);
 
   return (
@@ -12,6 +18,21 @@ export function ProductCard({ produto }: { produto: Produto }) {
         <p className="absolute top-[6%] left-[8%] text-[13px] tracking-artu text-black/60 z-10">
           {produto.categoria.toUpperCase()}
         </p>
+
+        {onQuickView && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onQuickView(produto);
+            }}
+            aria-label={`Visualização rápida de ${produto.nome}`}
+            className="absolute top-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center text-[16px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
+            ⊕
+          </button>
+        )}
 
         <div className="relative w-full h-full">
           <ArtPlate

@@ -2,10 +2,12 @@
 
 import { useMemo, useState } from "react";
 import { ProductCard } from "@/components/ProductCard";
+import { QuickViewDrawer } from "@/components/QuickViewDrawer";
 import { formatarPreco } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
 export function CatalogoFiltravel({ produtos }: { produtos: Produto[] }) {
+  const [produtoQuickView, setProdutoQuickView] = useState<Produto | null>(null);
   const categorias = useMemo(
     () => Array.from(new Set(produtos.map((p) => p.categoria))),
     [produtos],
@@ -82,7 +84,7 @@ export function CatalogoFiltravel({ produtos }: { produtos: Produto[] }) {
       <div className="flex-1">
         <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-[32px]">
           {filtrados.map((produto) => (
-            <ProductCard key={produto.id} produto={produto} />
+            <ProductCard key={produto.id} produto={produto} onQuickView={setProdutoQuickView} />
           ))}
         </div>
 
@@ -96,6 +98,8 @@ export function CatalogoFiltravel({ produtos }: { produtos: Produto[] }) {
           </a>
         </div>
       </div>
+
+      <QuickViewDrawer produto={produtoQuickView} onClose={() => setProdutoQuickView(null)} />
     </div>
   );
 }

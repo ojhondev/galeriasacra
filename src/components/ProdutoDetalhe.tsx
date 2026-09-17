@@ -7,7 +7,7 @@ import { Customizer } from "@/components/Customizer";
 import { Accordion } from "@/components/Accordion";
 import { Estrelas } from "@/components/Estrelas";
 import { HairlineDivider } from "@/components/HairlineDivider";
-import { ArtPlate } from "@/components/ArtPlate";
+import { ObraTile } from "@/components/ObraTile";
 import { formatarPreco, precoRange } from "@/lib/pricing";
 import { calcularMedia, type Avaliacao } from "@/lib/avaliacoes-shared";
 import type { Produto } from "@/lib/products";
@@ -44,7 +44,7 @@ export function ProdutoDetalhe({
           <p className="text-[13px] tracking-artu text-black/60 mb-2">
             {produto.categoria.toUpperCase()}
           </p>
-          <h1 className="text-[32px] md:text-[40px] leading-tight mb-2">{produto.nome}</h1>
+          <h1 className="text-[clamp(26px,4.5vw,40px)] leading-tight mb-2">{produto.nome}</h1>
 
           {avaliacoes.length > 0 && (
             <div className="flex items-center gap-2 mb-[17px]">
@@ -63,13 +63,13 @@ export function ProdutoDetalhe({
               <p className="text-[16px] tracking-artu mb-[11px]">COSTUMA COMBINAR COM</p>
               <div className="grid grid-cols-2 gap-3">
                 {combinaCom.map((item) => (
-                  <Link key={item.id} href={`/quadros/${item.slug}`} className="block group">
-                    <ArtPlate hue={item.hue} orientacao={item.orientacao} hoverZoom />
+                  <div key={item.id}>
+                    <ObraTile slug={item.slug} nome={item.nome} hue={item.hue} orientacao={item.orientacao} />
                     <p className="text-[14px] mt-1">{item.nome}</p>
                     <p className="text-[13px] text-black/50">
                       {formatarPreco(precoRange(item.precoBase).min)}
                     </p>
-                  </Link>
+                  </div>
                 ))}
               </div>
             </div>
@@ -135,10 +135,10 @@ export function ProdutoDetalhe({
         <p className="text-[18px] tracking-artu mb-[29px]">OUTRAS OBRAS</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">
           {alternativas.map((alt) => (
-            <Link key={alt.id} href={`/quadros/${alt.slug}`} className="block group">
-              <ArtPlate hue={alt.hue} orientacao={alt.orientacao} hoverZoom />
+            <div key={alt.id}>
+              <ObraTile slug={alt.slug} nome={alt.nome} hue={alt.hue} orientacao={alt.orientacao} />
               <p className="text-[18px] mt-[11px]">{alt.nome}</p>
-            </Link>
+            </div>
           ))}
         </div>
       </div>

@@ -158,7 +158,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
         <div className={`w-full ${etapa === "revisao" ? "max-w-4xl" : "max-w-2xl"}`}>
           {etapa === "imagem" && (
             <div>
-              <h1 className="text-[28px] md:text-[36px] mb-[32px] text-center">
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">
                 Escolha uma imagem do catálogo
               </h1>
               <div className="grid grid-cols-3 md:grid-cols-4 gap-3 mb-[24px]">
@@ -191,7 +191,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
 
           {etapa === "tamanho" && (
             <div>
-              <h1 className="text-[28px] md:text-[36px] mb-[32px] text-center">
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">
                 Qual tamanho você prefere?
               </h1>
               <div className="flex flex-col gap-3">
@@ -206,7 +206,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
 
           {etapa === "material" && (
             <div>
-              <h1 className="text-[28px] md:text-[36px] mb-[32px] text-center">Qual material?</h1>
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Qual material?</h1>
               <div className="flex flex-col gap-3">
                 {MATERIAIS.map((m) => (
                   <OpcaoBotao key={m.id} ativo={material === m.id} onClick={() => escolherMaterial(m.id)}>
@@ -219,7 +219,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
 
           {etapa === "moldura" && (
             <div>
-              <h1 className="text-[28px] md:text-[36px] mb-[32px] text-center">Qual moldura?</h1>
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Qual moldura?</h1>
               <div className="flex flex-col gap-3">
                 {MOLDURAS.map((m) => (
                   <OpcaoBotao key={m.id} ativo={moldura === m.id} onClick={() => escolherMoldura(m.id)}>

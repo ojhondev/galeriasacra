@@ -15,7 +15,7 @@ export function Hero() {
           />
           <div className="absolute inset-0 bg-black/45" />
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-8 px-4">
-            <p className="text-white text-[32px] md:text-[56px] text-center leading-[1.05] tracking-artu max-w-4xl">
+            <p className="text-white text-[clamp(24px,6vw,56px)] text-center leading-[1.05] tracking-artu max-w-4xl">
               Curadoria de quadros sacros exclusivos
             </p>
             <Link
