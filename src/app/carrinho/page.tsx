@@ -1,29 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import { ArtPlate } from "@/components/ArtPlate";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { useCart } from "@/lib/cart";
 import { formatarPreco } from "@/lib/pricing";
 
+const WHATSAPP_NUMERO = "5514998570045";
+
 export default function CarrinhoPage() {
   const { itens, remover, atualizarQuantidade, esvaziar, total } = useCart();
-  const [finalizado, setFinalizado] = useState(false);
 
-  if (finalizado) {
-    return (
-      <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
-        <h1 className="text-[32px] mb-4">Pedido recebido</h1>
-        <p className="text-[20px] max-w-xl text-black/70">
-          Recebemos seu pedido. Em breve entraremos em contato para confirmar produção e
-          pagamento. Esta é uma etapa de demonstração — nenhum pagamento foi processado.
-        </p>
-        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] mt-[42px] inline-block">
-          Voltar para Quadros
-        </Link>
-      </div>
-    );
+  function finalizarPedido() {
+    const numeroPedido = `GS-${Date.now().toString(36).toUpperCase()}`;
+    const listaProdutos = itens
+      .map(
+        (item) =>
+          `${item.nome} (${item.tamanhoLabel}, ${item.molduraLabel}, ${item.materialLabel}) x${item.quantidade}`,
+      )
+      .join(", ");
+    const mensagem =
+      `Olá, fiz um pedido (Nº ${numeroPedido}) na Galeria Sacra de: ${listaProdutos}. ` +
+      `O total ficou em ${formatarPreco(total)} e gostaria de fazer o pagamento.`;
+
+    esvaziar();
+    window.location.href = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensagem)}`;
   }
 
   if (itens.length === 0) {
@@ -93,7 +94,7 @@ export default function CarrinhoPage() {
         </button>
         <button
           type="button"
-          onClick={() => setFinalizado(true)}
+          onClick={finalizarPedido}
           className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px]"
         >
           Finalizar Pedido

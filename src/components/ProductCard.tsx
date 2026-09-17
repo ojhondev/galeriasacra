@@ -14,7 +14,7 @@ export function ProductCard({
   onQuickView?: (produto: Produto) => void;
   etiqueta?: EtiquetaResumo;
 }) {
-  const { min, max } = precoRange(produto.precoBase);
+  const { min } = precoRange(produto.precoBase);
   const minComDesconto = etiqueta ? aplicarDesconto(min, etiqueta) : min;
 
   return (
@@ -74,16 +74,34 @@ export function ProductCard({
 
       <div className="mt-[11px]">
         <p className="text-[18px]">{produto.nome}</p>
-        {etiqueta ? (
-          <p className="text-[16px]">
-            <span className="text-black/40 line-through mr-2">{formatarPreco(min)}</span>
-            <span className="text-[var(--color-brand)]">{formatarPreco(minComDesconto)}</span>
-          </p>
-        ) : (
-          <p className="text-[16px] text-black/60">
-            {formatarPreco(min)} – {formatarPreco(max)}
-          </p>
+
+        {produto.etiquetasInfo.length > 0 && (
+          <div className="flex flex-wrap gap-1 mt-1">
+            {produto.etiquetasInfo.map((label) => (
+              <span
+                key={label}
+                className="text-[11px] tracking-artu text-black/60 bg-black/5 px-2 py-1 rounded-[6px]"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
         )}
+
+        <div className="mt-1">
+          {etiqueta ? (
+            <p className="text-[14px]">
+              <span className="text-black/40 line-through mr-2">{formatarPreco(min)}</span>
+              <span className="text-[var(--color-brand)]">{formatarPreco(minComDesconto)}</span>
+            </p>
+          ) : (
+            <p className="text-[14px] text-black/60">A partir de {formatarPreco(min)}</p>
+          )}
+          <p className="text-[15px] font-medium">
+            ou 12x de {formatarPreco(Math.round((etiqueta ? minComDesconto : min) / 12))} sem juros
+          </p>
+        </div>
+
         <p className="text-[14px] text-black/50 mt-1">{produto.descricaoCurta}</p>
       </div>
     </Link>

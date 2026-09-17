@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArtPlate } from "@/components/ArtPlate";
 
 export function SplitHero() {
   return (
@@ -29,7 +28,14 @@ export function SplitHero() {
       </div>
 
       <div className="relative h-[60vh] md:h-[80vh] overflow-hidden rounded-none">
-        <ArtPlate hue={28} fill className="w-full h-full rounded-none" />
+        <video
+          className="absolute inset-0 w-full h-full object-cover rounded-none"
+          src="/videos/monte-seu-quadro.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
         <div className="absolute inset-0 bg-black/25" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 text-white">
           <p className="text-[13px] tracking-artu mb-3">Personalize</p>

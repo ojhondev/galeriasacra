@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { etiquetasDesconto, avaliacoes } from "@/db/schema";
+import { etiquetasDesconto, etiquetasInfo, avaliacoes } from "@/db/schema";
 import {
   criarProduto,
   atualizarProduto,
@@ -85,6 +85,25 @@ export async function criarEtiquetaAction(formData: FormData) {
 export async function excluirEtiquetaAction(id: string) {
   await exigirAdmin();
   await db.delete(etiquetasDesconto).where(eq(etiquetasDesconto.id, id));
+  revalidarCatalogo();
+  redirect("/admin/etiquetas");
+}
+
+export async function criarEtiquetaInfoAction(formData: FormData) {
+  await exigirAdmin();
+  const produtoId = String(formData.get("produtoId") ?? "").trim();
+  await db.insert(etiquetasInfo).values({
+    produtoId: produtoId || null,
+    label: String(formData.get("label") ?? "").trim(),
+    ativo: formData.get("ativo") === "on",
+  });
+  revalidarCatalogo();
+  redirect("/admin/etiquetas");
+}
+
+export async function excluirEtiquetaInfoAction(id: string) {
+  await exigirAdmin();
+  await db.delete(etiquetasInfo).where(eq(etiquetasInfo.id, id));
   revalidarCatalogo();
   redirect("/admin/etiquetas");
 }
