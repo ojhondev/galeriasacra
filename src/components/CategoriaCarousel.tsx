@@ -1,10 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ArtPlate } from "@/components/ArtPlate";
 import { IconChevronRight } from "@/components/icons";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
 import type { Produto } from "@/lib/products";
+
+const IMAGENS_CATEGORIA: Record<string, string> = {
+  "Quadros Religiosos": "/categorias/quadros-religiosos.jpg",
+};
 
 export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
   const { ref, arrastando, handlers, bloquearCliqueSeArrastou, rolar } = useArrastarScroll<HTMLDivElement>();
@@ -39,8 +44,17 @@ export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
               draggable={false}
               className="group relative block shrink-0 w-[300px] md:w-[420px] aspect-[3/4] snap-start overflow-hidden"
             >
-              <div className="w-full h-full transition-transform duration-300 group-hover:scale-105">
-                <ArtPlate hue={hue} fill className="w-full h-full pointer-events-none" />
+              <div className="relative w-full h-full transition-transform duration-300 group-hover:scale-105">
+                {IMAGENS_CATEGORIA[categoria] ? (
+                  <Image
+                    src={IMAGENS_CATEGORIA[categoria]}
+                    alt={categoria}
+                    fill
+                    className="object-cover pointer-events-none"
+                  />
+                ) : (
+                  <ArtPlate hue={hue} fill className="w-full h-full pointer-events-none" />
+                )}
               </div>
               <div className="absolute inset-0 bg-black/20 pointer-events-none" />
               <p className="absolute bottom-5 left-5 text-white text-[24px] md:text-[28px] font-medium pointer-events-none">

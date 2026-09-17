@@ -6,6 +6,8 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { CadastroPopup } from "@/components/CadastroPopup";
+import { AvisoWhatsappBar } from "@/components/AvisoWhatsappBar";
 import { obterSessao } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -29,6 +31,8 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <Footer />
           <CartDrawer />
           <MobileBottomNav sessao={sessao} />
+          <AvisoWhatsappBar />
+          <CadastroPopup />
         </CartProvider>
       </body>
     </html>
