@@ -27,9 +27,9 @@ function QuickViewConteudo({ produto }: { produto: Produto }) {
 
       <Link
         href={`/quadros/${produto.slug}`}
-        className="text-[14px] tracking-artu underline block mt-[17px]"
+        className="text-[14px] underline block mt-[17px]"
       >
-        VER PÁGINA COMPLETA →
+        Ver página completa →
       </Link>
     </div>
   );
@@ -82,7 +82,7 @@ export function QuickViewDrawer({
         }`}
       >
         <div className="flex items-center justify-between px-4 md:px-8 py-[17px] border-b border-black sticky top-0 bg-white z-10">
-          <p className="text-[14px] tracking-artu">VISUALIZAÇÃO RÁPIDA</p>
+          <p className="text-[14px] font-medium">Visualização Rápida</p>
           <button type="button" onClick={onClose} aria-label="Fechar" className="text-[20px]">
             ✕
           </button>

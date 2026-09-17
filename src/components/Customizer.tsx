@@ -93,24 +93,24 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
 
       <div className="flex flex-wrap gap-2 mb-[24px]">
-        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
-          <span aria-hidden="true">✓</span> PRODUÇÃO SOB ENCOMENDA
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
+          <span aria-hidden="true">✓</span> Produção sob encomenda
         </div>
-        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
-          <span aria-hidden="true">🔒</span> COMPRA SEGURA
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
+          <span aria-hidden="true">🔒</span> Compra segura
         </div>
-        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
-          <span aria-hidden="true">↩</span> GARANTIA DE 7 DIAS
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
+          <span aria-hidden="true">↩</span> Garantia de 7 dias
         </div>
       </div>
 
       {esgotado ? (
-        <p className="text-[14px] tracking-artu text-[var(--color-brand)] mb-[24px]">
-          ESGOTADO — sem unidades físicas disponíveis no momento.
+        <p className="text-[14px] text-[var(--color-brand)] mb-[24px]">
+          Esgotado — sem unidades físicas disponíveis no momento.
         </p>
       ) : (
         estoqueBaixo && (
-          <p className="text-[14px] tracking-artu text-[var(--color-brand)] mb-[24px]">
+          <p className="text-[14px] text-[var(--color-brand)] mb-[24px]">
             🔥 Restam apenas {produto.estoque} {produto.estoque === 1 ? "unidade" : "unidades"}!
           </p>
         )
@@ -118,7 +118,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
 
       <div className="grid grid-cols-2 gap-4 py-[17px] border-t border-black">
         <label className="flex flex-col gap-1">
-          <span className="text-[13px] tracking-artu text-black/60">TAMANHO</span>
+          <span className="text-[13px] text-black/60">Tamanho</span>
           <select
             value={tamanho}
             onChange={(e) => setTamanho(e.target.value as TamanhoId)}
@@ -133,7 +133,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-[13px] tracking-artu text-black/60">MATERIAL</span>
+          <span className="text-[13px] text-black/60">Material</span>
           <select
             value={material}
             onChange={(e) => setMaterial(e.target.value as MaterialId)}
@@ -149,7 +149,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       </div>
 
       <label className="flex flex-col gap-1 py-[17px] border-t border-black">
-        <span className="text-[13px] tracking-artu text-black/60">MOLDURA</span>
+        <span className="text-[13px] text-black/60">Moldura</span>
         <select
           value={moldura}
           onChange={(e) => setMoldura(e.target.value as MolduraId)}
@@ -190,9 +190,9 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           type="button"
           onClick={handleAdicionar}
           disabled={esgotado}
-          className="flex-1 border border-black px-6 py-3 text-[16px] tracking-artu disabled:opacity-40"
+          className="flex-1 border border-black px-6 py-3 text-[16px] disabled:opacity-40"
         >
-          {esgotado ? "ESGOTADO" : "ADICIONAR AO CARRINHO"}
+          {esgotado ? "Esgotado" : "Adicionar ao Carrinho"}
         </button>
       </div>
 
@@ -207,9 +207,9 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           type="button"
           onClick={handleComprarAgora}
           disabled={esgotado}
-          className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu disabled:opacity-40"
+          className="w-full bg-black text-white px-6 py-4 text-[16px] disabled:opacity-40"
         >
-          {esgotado ? "ESGOTADO" : "COMPRAR AGORA"}
+          {esgotado ? "Esgotado" : "Comprar Agora"}
         </button>
       </div>
 
@@ -217,17 +217,17 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         <button
           type="button"
           onClick={() => setTestandoAmbiente(true)}
-          className="text-[16px] tracking-artu underline"
+          className="text-[16px] underline"
         >
-          TESTAR NO MEU AMBIENTE
+          Testar no Meu Ambiente
         </button>
         {adicionado && (
           <button
             type="button"
             onClick={() => router.push("/carrinho")}
-            className="text-[16px] tracking-artu text-[var(--color-brand)] underline"
+            className="text-[16px] text-[var(--color-brand)] underline"
           >
-            VER CARRINHO
+            Ver Carrinho
           </button>
         )}
       </div>
@@ -236,7 +236,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         href={`https://wa.me/5500000000000?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[14px] tracking-artu underline block mb-[17px]"
+        className="text-[14px] underline block mb-[17px]"
       >
         💬 Dúvidas? Fale conosco no WhatsApp
       </a>

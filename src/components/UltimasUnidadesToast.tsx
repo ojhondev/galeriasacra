@@ -16,7 +16,7 @@ export function UltimasUnidadesToast({ estoque }: { estoque: number }) {
     <div className="fixed bottom-[100px] lg:bottom-6 left-4 right-4 md:left-auto md:right-6 md:w-[320px] z-30 bg-black text-white px-5 py-4 flex items-start gap-3 shadow-lg">
       <span aria-hidden="true">🔥</span>
       <div className="flex-1">
-        <p className="text-[14px] tracking-artu">ÚLTIMAS UNIDADES</p>
+        <p className="text-[14px] font-medium">Últimas Unidades</p>
         <p className="text-[13px] text-white/70 mt-1">
           Restam apenas {estoque} {estoque === 1 ? "unidade" : "unidades"} deste quadro em estoque
           físico.

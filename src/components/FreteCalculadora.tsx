@@ -42,7 +42,7 @@ export function FreteCalculadora() {
 
   return (
     <div className="border-t border-black py-[17px]">
-      <p className="text-[13px] tracking-artu text-black/60 mb-2">CALCULAR FRETE E PRAZO</p>
+      <p className="text-[13px] text-black/60 mb-2">Calcular frete e prazo</p>
       <form onSubmit={calcular} className="flex gap-2">
         <input
           value={cep}
@@ -54,9 +54,9 @@ export function FreteCalculadora() {
         <button
           type="submit"
           disabled={calculando || cep.replace(/\D/g, "").length !== 8}
-          className="border border-black px-4 py-2 text-[14px] tracking-artu disabled:opacity-40"
+          className="border border-black px-4 py-2 text-[14px] disabled:opacity-40"
         >
-          {calculando ? "..." : "CALCULAR"}
+          {calculando ? "..." : "Calcular"}
         </button>
       </form>
       {resultado && (

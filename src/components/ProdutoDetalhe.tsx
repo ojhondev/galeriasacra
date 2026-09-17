@@ -60,7 +60,7 @@ export function ProdutoDetalhe({
 
           {combinaCom.length > 0 && (
             <div className="border-t border-black py-[17px]">
-              <p className="text-[16px] tracking-artu mb-[11px]">COSTUMA COMBINAR COM</p>
+              <p className="text-[16px] mb-[11px]">Costuma Combinar Com</p>
               <div className="grid grid-cols-2 gap-3">
                 {combinaCom.map((item) => (
                   <div key={item.id}>
@@ -75,26 +75,26 @@ export function ProdutoDetalhe({
             </div>
           )}
 
-          <Accordion titulo="SOBRE">
+          <Accordion titulo="Sobre">
             {produto.descricaoLonga.map((paragrafo, i) => (
               <p key={i} className="mb-3 last:mb-0">
                 {paragrafo}
               </p>
             ))}
           </Accordion>
-          <Accordion titulo="MATERIAIS">
+          <Accordion titulo="Materiais">
             <p>
               Impressão de alta definição sobre tela canvas, papel fine art ou acrílico, com
               fidelidade de cor testada para longa duração.
             </p>
           </Accordion>
-          <Accordion titulo="ENVIO">
+          <Accordion titulo="Envio">
             <p>
               Cada peça é produzida sob encomenda. Prazo de produção e envio informado no
               carrinho antes da finalização da compra.
             </p>
           </Accordion>
-          <Accordion titulo="TROCAS E DEVOLUÇÕES">
+          <Accordion titulo="Trocas e Devoluções">
             <p>
               Consulte nossa{" "}
               <Link href="/trocas-e-devolucoes" className="underline">
@@ -104,7 +104,7 @@ export function ProdutoDetalhe({
             </p>
           </Accordion>
           {avaliacoes.length > 0 && (
-            <Accordion titulo={`AVALIAÇÕES (${avaliacoes.length})`}>
+            <Accordion titulo={`Avaliações (${avaliacoes.length})`}>
               <div className="flex flex-col gap-[17px]">
                 {avaliacoes.map((avaliacao) => (
                   <div key={avaliacao.id}>
@@ -132,7 +132,7 @@ export function ProdutoDetalhe({
 
       <div className="px-4 md:px-8 py-[80px]">
         <HairlineDivider className="mb-[42px]" />
-        <p className="text-[18px] tracking-artu mb-[29px]">OUTRAS OBRAS</p>
+        <p className="text-[18px] mb-[29px]">Outras Obras</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">
           {alternativas.map((alt) => (
             <div key={alt.id}>

@@ -28,7 +28,7 @@ function CadastroForm() {
         <input type="hidden" name="redirect" value={redirectPara} />
 
         <label className="flex flex-col gap-1">
-          <span className="text-[18px] tracking-artu">NOME</span>
+          <span className="text-[14px] text-black/60">Nome</span>
           <input
             type="text"
             name="nome"
@@ -38,7 +38,7 @@ function CadastroForm() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-[18px] tracking-artu">E-MAIL</span>
+          <span className="text-[14px] text-black/60">E-mail</span>
           <input
             type="email"
             name="email"
@@ -48,7 +48,7 @@ function CadastroForm() {
         </label>
 
         <label className="flex flex-col gap-1">
-          <span className="text-[18px] tracking-artu">SENHA</span>
+          <span className="text-[14px] text-black/60">Senha</span>
           <input
             type="password"
             name="senha"
@@ -63,9 +63,9 @@ function CadastroForm() {
         <button
           type="submit"
           disabled={pendente}
-          className="bg-black text-white px-8 py-4 text-[18px] tracking-artu mt-4 disabled:opacity-50"
+          className="bg-black text-white px-8 py-4 text-[16px] mt-4 disabled:opacity-50"
         >
-          {pendente ? "CRIANDO CONTA..." : "CRIAR CONTA"}
+          {pendente ? "Criando conta..." : "Criar Conta"}
         </button>
       </form>
 

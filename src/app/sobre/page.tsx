@@ -30,7 +30,7 @@ export default function SobrePage() {
       <HairlineDivider className="my-[80px]" />
 
       <div className="max-w-2xl flex flex-col gap-6">
-        <p className="text-[18px] tracking-artu">PRODUÇÃO</p>
+        <p className="text-[16px] tracking-artu text-black/50">Produção</p>
         <p className="text-[20px] leading-[1.2]">
           Impressão em alta definição, com fidelidade de cor testada para grandes formatos
           e acabamento sob medida em cada pedido.

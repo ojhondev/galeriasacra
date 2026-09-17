@@ -15,12 +15,12 @@ export default function CarrinhoPage() {
     return (
       <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
         <h1 className="text-[32px] mb-4">Pedido recebido</h1>
-        <p className="text-[20px] max-w-xl">
+        <p className="text-[20px] max-w-xl text-black/70">
           Recebemos seu pedido. Em breve entraremos em contato para confirmar produção e
           pagamento. Esta é uma etapa de demonstração — nenhum pagamento foi processado.
         </p>
-        <Link href="/quadros" className="text-[18px] tracking-artu underline mt-[42px] inline-block">
-          VOLTAR PARA QUADROS
+        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] mt-[42px] inline-block">
+          Voltar para Quadros
         </Link>
       </div>
     );
@@ -30,9 +30,9 @@ export default function CarrinhoPage() {
     return (
       <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
         <h1 className="text-[32px] mb-4">Carrinho</h1>
-        <p className="text-[20px]">Seu carrinho está vazio.</p>
-        <Link href="/quadros" className="text-[18px] tracking-artu underline mt-[42px] inline-block">
-          VER QUADROS
+        <p className="text-[20px] text-black/70">Seu carrinho está vazio.</p>
+        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] mt-[42px] inline-block">
+          Ver Quadros
         </Link>
       </div>
     );
@@ -49,12 +49,12 @@ export default function CarrinhoPage() {
               <ArtPlate hue={item.hue} orientacao="retrato" />
               <div className="flex flex-col gap-2">
                 <p className="text-[20px]">{item.nome}</p>
-                <p className="text-[18px] text-black/60">{item.tamanhoLabel}</p>
-                <p className="text-[18px] text-black/60">{item.molduraLabel}</p>
-                <p className="text-[18px] text-black/60">{item.materialLabel}</p>
+                <p className="text-[16px] text-black/60">{item.tamanhoLabel}</p>
+                <p className="text-[16px] text-black/60">{item.molduraLabel}</p>
+                <p className="text-[16px] text-black/60">{item.materialLabel}</p>
                 <div className="flex items-center gap-x-6 mt-2">
-                  <label className="text-[18px] tracking-artu" htmlFor={`qtd-${item.id}`}>
-                    QTD
+                  <label className="text-[15px] text-black/60" htmlFor={`qtd-${item.id}`}>
+                    Qtd.
                   </label>
                   <input
                     id={`qtd-${item.id}`}
@@ -62,17 +62,17 @@ export default function CarrinhoPage() {
                     min={1}
                     value={item.quantidade}
                     onChange={(e) => atualizarQuantidade(item.id, Number(e.target.value))}
-                    className="w-16 border-b border-black bg-transparent text-[18px] outline-none"
+                    className="w-16 border-b border-black bg-transparent text-[16px] outline-none"
                   />
-                  <p className="text-[20px] ml-auto md:ml-0">
+                  <p className="text-[18px] ml-auto md:ml-0">
                     {formatarPreco(item.precoUnitario * item.quantidade)}
                   </p>
                   <button
                     type="button"
                     onClick={() => remover(item.id)}
-                    className="text-[18px] tracking-artu underline text-[var(--color-brand)]"
+                    className="text-[15px] underline text-[var(--color-brand)]"
                   >
-                    REMOVER
+                    Remover
                   </button>
                 </div>
               </div>
@@ -83,20 +83,20 @@ export default function CarrinhoPage() {
       </div>
 
       <div className="flex items-center justify-between mt-[42px] max-w-lg ml-auto">
-        <p className="text-[24px]">Total</p>
-        <p className="text-[24px]">{formatarPreco(total)}</p>
+        <p className="text-[22px]">Total</p>
+        <p className="text-[22px]">{formatarPreco(total)}</p>
       </div>
 
-      <div className="flex items-center gap-x-8 mt-[32px] justify-end">
-        <button type="button" onClick={esvaziar} className="text-[18px] tracking-artu underline">
-          ESVAZIAR CARRINHO
+      <div className="flex flex-wrap items-center gap-4 mt-[32px] justify-end">
+        <button type="button" onClick={esvaziar} className="text-[15px] underline">
+          Esvaziar Carrinho
         </button>
         <button
           type="button"
           onClick={() => setFinalizado(true)}
-          className="text-[18px] tracking-artu underline"
+          className="bg-black text-white px-6 py-3 text-[15px]"
         >
-          FINALIZAR PEDIDO
+          Finalizar Pedido
         </button>
       </div>
     </div>

@@ -31,8 +31,8 @@ export default function ContatoPage() {
           }}
         >
           <div>
-            <label className="text-[18px] tracking-artu block mb-2" htmlFor="nome">
-              NOME
+            <label className="text-[14px] text-black/60 block mb-2" htmlFor="nome">
+              Nome
             </label>
             <input
               id="nome"
@@ -41,8 +41,8 @@ export default function ContatoPage() {
             />
           </div>
           <div>
-            <label className="text-[18px] tracking-artu block mb-2" htmlFor="email">
-              E-MAIL
+            <label className="text-[14px] text-black/60 block mb-2" htmlFor="email">
+              E-mail
             </label>
             <input
               id="email"
@@ -52,8 +52,8 @@ export default function ContatoPage() {
             />
           </div>
           <div>
-            <label className="text-[18px] tracking-artu block mb-2" htmlFor="mensagem">
-              MENSAGEM
+            <label className="text-[14px] text-black/60 block mb-2" htmlFor="mensagem">
+              Mensagem
             </label>
             <textarea
               id="mensagem"
@@ -62,11 +62,11 @@ export default function ContatoPage() {
               className="w-full border-b border-black bg-transparent text-[20px] py-2 outline-none resize-none"
             />
           </div>
-          <button type="submit" className="text-[18px] tracking-artu underline self-start">
-            ENVIAR
+          <button type="submit" className="bg-black text-white px-6 py-3 text-[15px] self-start">
+            Enviar
           </button>
           {enviado && (
-            <p className="text-[18px] text-[var(--color-brand)]">
+            <p className="text-[16px] text-[var(--color-brand)]">
               Mensagem recebida. Responderemos em breve.
             </p>
           )}
