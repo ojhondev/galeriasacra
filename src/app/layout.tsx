@@ -2,15 +2,6 @@ import type { Metadata } from "next";
 import { Red_Hat_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
-import { AnnouncementBar } from "@/components/AnnouncementBar";
-import { Nav } from "@/components/Nav";
-import { CircularCategories } from "@/components/CircularCategories";
-import { Footer } from "@/components/Footer";
-import { CartDrawer } from "@/components/CartDrawer";
-import { MobileBottomNav } from "@/components/MobileBottomNav";
-import { CadastroPopup } from "@/components/CadastroPopup";
-import { AvisoWhatsappBar } from "@/components/AvisoWhatsappBar";
-import { obterSessao } from "@/lib/session";
 
 const redHatDisplay = Red_Hat_Display({
   subsets: ["latin"],
@@ -24,27 +15,11 @@ export const metadata: Metadata = {
     "Galeria Sacra — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
 };
 
-export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const sessao = await obterSessao();
-
+export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="pt-BR" className={`h-full antialiased ${redHatDisplay.variable}`}>
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <AnnouncementBar>
-            Frete grátis para compras acima de R$ 400 — em até 12x sem juros
-          </AnnouncementBar>
-          <Nav sessao={sessao} />
-          <div className="hidden md:block">
-            <CircularCategories />
-          </div>
-          <main className="flex-1 pb-[64px] md:pb-0">{children}</main>
-          <Footer />
-          <CartDrawer />
-          <MobileBottomNav sessao={sessao} />
-          <AvisoWhatsappBar />
-          <CadastroPopup />
-        </CartProvider>
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

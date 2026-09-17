@@ -1,18 +1,33 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { ArtPlate } from "@/components/ArtPlate";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { useCart } from "@/lib/cart";
 import { formatarPreco } from "@/lib/pricing";
+import { criarPedido } from "@/lib/pedido-actions";
 
 const WHATSAPP_NUMERO = "5514998570045";
 
 export default function CarrinhoPage() {
   const { itens, remover, atualizarQuantidade, esvaziar, total } = useCart();
+  const [enviando, setEnviando] = useState(false);
 
-  function finalizarPedido() {
-    const numeroPedido = `GS-${Date.now().toString(36).toUpperCase()}`;
+  async function finalizarPedido() {
+    setEnviando(true);
+    const numeroPedido = await criarPedido(
+      itens.map((item) => ({
+        nome: item.nome,
+        tamanhoLabel: item.tamanhoLabel,
+        molduraLabel: item.molduraLabel,
+        materialLabel: item.materialLabel,
+        quantidade: item.quantidade,
+        precoUnitario: item.precoUnitario,
+      })),
+      total,
+    );
+
     const listaProdutos = itens
       .map(
         (item) =>
@@ -93,9 +108,10 @@ export default function CarrinhoPage() {
         <button
           type="button"
           onClick={finalizarPedido}
-          className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px]"
+          disabled={enviando}
+          className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] disabled:opacity-50"
         >
-          Finalizar Pedido
+          {enviando ? "Enviando..." : "Finalizar Pedido"}
         </button>
       </div>
     </div>

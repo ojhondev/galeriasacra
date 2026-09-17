@@ -1,9 +1,17 @@
-import { pgTable, uuid, text, integer, boolean, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { pgTable, uuid, text, integer, boolean, timestamp, pgEnum, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 export const roleEnum = pgEnum("role", ["cliente", "admin"]);
 export const orientacaoEnum = pgEnum("orientacao", ["retrato", "paisagem", "quadrado"]);
 export const descontoTipoEnum = pgEnum("desconto_tipo", ["percentual", "fixo"]);
+export const statusPedidoEnum = pgEnum("status_pedido", [
+  "aguardando_pagamento",
+  "pago",
+  "em_producao",
+  "enviado",
+  "concluido",
+  "cancelado",
+]);
 
 export const usuarios = pgTable("usuarios", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -47,6 +55,17 @@ export const etiquetasInfo = pgTable("etiquetas_info", {
   produtoId: uuid("produto_id").references(() => produtos.id, { onDelete: "cascade" }),
   label: text("label").notNull(),
   ativo: boolean("ativo").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const pedidos = pgTable("pedidos", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  numero: text("numero").notNull().unique(),
+  itens: jsonb("itens").notNull().$type<
+    { nome: string; tamanhoLabel: string; molduraLabel: string; materialLabel: string; quantidade: number; precoUnitario: number }[]
+  >(),
+  total: integer("total").notNull(),
+  status: statusPedidoEnum("status").notNull().default("aguardando_pagamento"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

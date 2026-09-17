@@ -9,42 +9,44 @@ export default async function AdminProdutosPage() {
   const produtos = await listarProdutosAdmin();
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
-      <div className="flex items-center justify-between mb-[32px]">
-        <h1 className="text-[32px]">Produtos</h1>
-        <Link href="/admin/produtos/novo" className="bg-black text-white px-6 py-3 text-[16px] tracking-artu rounded-[6px]">
-          + NOVO PRODUTO
+    <div className="px-4 md:px-8 py-[32px] max-w-[1200px]">
+      <div className="flex items-center justify-between mb-[24px]">
+        <h1 className="text-[28px]">Produtos</h1>
+        <Link
+          href="/admin/produtos/novo"
+          className="bg-black text-white px-5 py-2.5 text-[14px] rounded-[6px]"
+        >
+          + Novo produto
         </Link>
       </div>
 
-      <div className="flex flex-col">
+      <div className="bg-white border border-black/10 rounded-[6px] overflow-hidden">
         {produtos.map((produto) => (
           <div
             key={produto.id}
-            className="flex flex-wrap items-center justify-between gap-4 border-t border-black py-[17px]"
+            className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
           >
             <div>
-              <p className="text-[18px]">
+              <p className="text-[15px]">
                 {produto.nome} {!produto.ativo && <span className="text-black/40">(inativo)</span>}
               </p>
-              <p className="text-[14px] text-black/50">
+              <p className="text-[13px] text-black/50">
                 {produto.sku} · {produto.categoria} · {formatarPreco(produto.precoBase)} ·{" "}
                 {produto.estoque} em estoque
               </p>
             </div>
-            <div className="flex items-center gap-x-6 text-[16px] tracking-artu">
+            <div className="flex items-center gap-x-5 text-[13px]">
               <Link href={`/admin/produtos/${produto.id}`} className="underline">
-                EDITAR
+                Editar
               </Link>
               <form action={excluirProdutoAction.bind(null, produto.id)}>
                 <button type="submit" className="underline text-[var(--color-brand)]">
-                  EXCLUIR
+                  Excluir
                 </button>
               </form>
             </div>
           </div>
         ))}
-        <div className="border-t border-black" />
       </div>
     </div>
   );

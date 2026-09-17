@@ -147,6 +147,75 @@ export function IconWhatsApp({ className = "" }: { className?: string }) {
   );
 }
 
+export function IconChart({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path d="M3 17V3M3 17H17" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path
+        d="M6 13.5V10M10 13.5V6.5M14 13.5V8.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+export function IconReceipt({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M5 2h10v16l-2-1.3-1.5 1.3-1.5-1.3L8.5 18 7 16.7 5 18V2Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+      <path d="M7.5 6.5h5M7.5 10h5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+export function IconTag({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M11 3H4v7l9 9 7-7-9-9Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+      <circle cx="7.5" cy="6.5" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function IconStarOutline({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M10 2.5l2.4 4.9 5.4.8-3.9 3.8.9 5.4L10 15l-4.8 2.4.9-5.4-3.9-3.8 5.4-.8L10 2.5Z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function IconLogout({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M8 17H4a1 1 0 01-1-1V4a1 1 0 011-1h4M13 14l4-4-4-4M17 10H7"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 export function IconBox({ className = "" }: { className?: string }) {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">

@@ -3,8 +3,8 @@ import { criarProdutoAction } from "@/lib/admin-actions";
 
 export default function NovoProdutoPage() {
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
-      <h1 className="text-[32px] mb-[32px]">Novo Produto</h1>
+    <div className="px-4 md:px-8 py-[32px] max-w-[1200px]">
+      <h1 className="text-[28px] mb-[24px]">Novo produto</h1>
       <ProdutoForm action={criarProdutoAction} />
     </div>
   );
