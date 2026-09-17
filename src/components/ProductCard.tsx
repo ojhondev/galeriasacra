@@ -18,8 +18,12 @@ export function ProductCard({
   const minComDesconto = etiqueta ? aplicarDesconto(min, etiqueta) : min;
 
   return (
-    <Link href={`/quadros/${produto.slug}`} className="block group" aria-label={produto.nome}>
-      <div className="relative aspect-[1/2] bg-[#f2f2ef] p-[8%] overflow-hidden">
+    <Link
+      href={`/quadros/${produto.slug}`}
+      className="block group relative z-0 hover:z-10 w-full max-w-[280px] mx-auto"
+      aria-label={produto.nome}
+    >
+      <div className="relative aspect-[1/2] bg-[#f2f2ef] p-[8%] overflow-hidden transition-transform duration-300 group-hover:scale-105">
         <p className="absolute top-[6%] left-[8%] text-[13px] tracking-artu text-black/60 z-10">
           {produto.categoria.toUpperCase()}
         </p>

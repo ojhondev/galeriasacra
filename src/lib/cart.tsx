@@ -9,13 +9,13 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { MaterialId, MolduraId, TamanhoId } from "@/lib/pricing";
+import type { MaterialId, MolduraId } from "@/lib/pricing";
 
 export type ItemCarrinho = {
   id: string;
   nome: string;
   hue: number;
-  tamanho: TamanhoId;
+  tamanho: string;
   tamanhoLabel: string;
   moldura: MolduraId;
   molduraLabel: string;
@@ -34,6 +34,9 @@ type CarrinhoContexto = {
   esvaziar: () => void;
   total: number;
   quantidadeTotal: number;
+  drawerAberto: boolean;
+  abrirDrawer: () => void;
+  fecharDrawer: () => void;
 };
 
 const CarrinhoContext = createContext<CarrinhoContexto | null>(null);
@@ -43,6 +46,9 @@ const STORAGE_KEY = "galeriasacra:carrinho";
 export function CartProvider({ children }: { children: ReactNode }) {
   const [itens, setItens] = useState<ItemCarrinho[]>([]);
   const [carregado, setCarregado] = useState(false);
+  const [drawerAberto, setDrawerAberto] = useState(false);
+  const abrirDrawer = useCallback(() => setDrawerAberto(true), []);
+  const fecharDrawer = useCallback(() => setDrawerAberto(false), []);
 
   useEffect(() => {
     try {
@@ -102,7 +108,18 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   return (
     <CarrinhoContext.Provider
-      value={{ itens, adicionar, remover, atualizarQuantidade, esvaziar, total, quantidadeTotal }}
+      value={{
+        itens,
+        adicionar,
+        remover,
+        atualizarQuantidade,
+        esvaziar,
+        total,
+        quantidadeTotal,
+        drawerAberto,
+        abrirDrawer,
+        fecharDrawer,
+      }}
     >
       {children}
     </CarrinhoContext.Provider>

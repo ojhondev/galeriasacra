@@ -18,7 +18,7 @@ const LINKS = [
 
 export function Nav({ sessao }: { sessao: SessionPayload | null }) {
   const router = useRouter();
-  const { quantidadeTotal } = useCart();
+  const { quantidadeTotal, abrirDrawer } = useCart();
   const [open, setOpen] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
   const [termoBusca, setTermoBusca] = useState("");
@@ -82,14 +82,14 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
             </Link>
           )}
 
-          <Link href="/carrinho" className="relative" aria-label="Carrinho">
+          <button type="button" onClick={abrirDrawer} className="relative" aria-label="Carrinho">
             <IconBag />
             {quantidadeTotal > 0 && (
               <span className="absolute -top-2 -right-2 bg-[var(--color-brand)] text-white text-[11px] leading-none w-[17px] h-[17px] flex items-center justify-center">
                 {quantidadeTotal}
               </span>
             )}
-          </Link>
+          </button>
 
           <button
             type="button"

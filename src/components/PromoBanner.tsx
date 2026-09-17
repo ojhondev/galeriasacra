@@ -3,7 +3,7 @@ import Link from "next/link";
 export function PromoBanner({ label }: { label: string }) {
   return (
     <section
-      className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px] text-white"
+      className="grid md:grid-cols-2 min-h-[420px] md:min-h-[520px] text-white rounded-none"
       style={{ background: "var(--color-brand)" }}
     >
       <div className="flex flex-col justify-center px-4 md:px-10 py-[64px]">

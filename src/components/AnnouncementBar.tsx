@@ -30,7 +30,10 @@ export function AnnouncementBar({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="relative bg-black text-white text-center text-[13px] tracking-artu py-[10px] px-10">
+    <div
+      className="relative text-white text-center text-[13px] tracking-artu py-[10px] px-10 rounded-none"
+      style={{ background: "var(--color-brand)" }}
+    >
       {children}
       <button
         type="button"

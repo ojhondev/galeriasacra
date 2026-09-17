@@ -3,8 +3,8 @@ import { ArtPlate } from "@/components/ArtPlate";
 
 export function SplitHero() {
   return (
-    <section className="grid md:grid-cols-2">
-      <div className="relative h-[60vh] md:h-[80vh] overflow-hidden">
+    <section className="grid md:grid-cols-2 rounded-none">
+      <div className="relative h-[60vh] md:h-[80vh] overflow-hidden rounded-none">
         <video
           className="absolute inset-0 w-full h-full object-cover"
           src="/videos/sacra-hero.mp4"
@@ -28,8 +28,8 @@ export function SplitHero() {
         </div>
       </div>
 
-      <div className="relative h-[60vh] md:h-[80vh] overflow-hidden">
-        <ArtPlate hue={28} fill className="w-full h-full" />
+      <div className="relative h-[60vh] md:h-[80vh] overflow-hidden rounded-none">
+        <ArtPlate hue={28} fill className="w-full h-full rounded-none" />
         <div className="absolute inset-0 bg-black/25" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 text-white">
           <p className="text-[13px] tracking-artu mb-3">Personalize</p>

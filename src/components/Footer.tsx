@@ -7,7 +7,7 @@ export function Footer() {
   const [inscrito, setInscrito] = useState(false);
 
   return (
-    <footer className="w-full bg-black text-white">
+    <footer className="w-full text-white rounded-none" style={{ background: "var(--color-brand)" }}>
       <div className="px-4 md:px-8 pt-[64px] pb-[42px]">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-[42px]">
           <div className="col-span-2 md:col-span-1">

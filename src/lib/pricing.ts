@@ -23,6 +23,19 @@ export type TamanhoId = (typeof TAMANHOS)[number]["id"];
 export type MolduraId = (typeof MOLDURAS)[number]["id"];
 export type MaterialId = (typeof MATERIAIS)[number]["id"];
 
+export function calcularPrecoComMultiplicador(
+  precoBase: number,
+  multiplicadorTamanho: number,
+  molduraId: MolduraId,
+  materialId: MaterialId,
+): number {
+  const moldura = MOLDURAS.find((m) => m.id === molduraId) ?? MOLDURAS[0];
+  const material = MATERIAIS.find((m) => m.id === materialId) ?? MATERIAIS[0];
+
+  const preco = precoBase * multiplicadorTamanho * material.multiplicador + moldura.adicional;
+  return Math.round(preco);
+}
+
 export function calcularPreco(
   precoBase: number,
   tamanhoId: TamanhoId,
@@ -30,11 +43,13 @@ export function calcularPreco(
   materialId: MaterialId,
 ): number {
   const tamanho = TAMANHOS.find((t) => t.id === tamanhoId) ?? TAMANHOS[1];
-  const moldura = MOLDURAS.find((m) => m.id === molduraId) ?? MOLDURAS[0];
-  const material = MATERIAIS.find((m) => m.id === materialId) ?? MATERIAIS[0];
+  return calcularPrecoComMultiplicador(precoBase, tamanho.multiplicador, molduraId, materialId);
+}
 
-  const preco = precoBase * tamanho.multiplicador * material.multiplicador + moldura.adicional;
-  return Math.round(preco);
+const AREA_BASE_CM2 = 40 * 60;
+
+export function multiplicadorTamanhoPersonalizado(larguraCm: number, alturaCm: number): number {
+  return (larguraCm * alturaCm) / AREA_BASE_CM2;
 }
 
 export function precoRange(precoBase: number): { min: number; max: number } {

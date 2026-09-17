@@ -4,6 +4,8 @@ import { CartProvider } from "@/lib/cart";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
+import { CartDrawer } from "@/components/CartDrawer";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { obterSessao } from "@/lib/session";
 
 export const metadata: Metadata = {
@@ -23,8 +25,10 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             Frete grátis para compras acima de R$ 400 — em até 12x sem juros
           </AnnouncementBar>
           <Nav sessao={sessao} />
-          <main className="flex-1">{children}</main>
+          <main className="flex-1 pb-[64px] md:pb-0">{children}</main>
           <Footer />
+          <CartDrawer />
+          <MobileBottomNav sessao={sessao} />
         </CartProvider>
       </body>
     </html>

@@ -41,7 +41,7 @@ export default async function Home() {
             Ver Catálogo
           </Link>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-[32px]">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-[32px] justify-items-center">
           {maisVendidos.map((produto) => (
             <ProductCard key={produto.id} produto={produto} />
           ))}
@@ -56,7 +56,7 @@ export default async function Home() {
               Ver Todas
             </Link>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-[32px]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-[32px] justify-items-center">
             {emPromocao.map((produto) => (
               <ProductCard
                 key={produto.id}

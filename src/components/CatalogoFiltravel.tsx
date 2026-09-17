@@ -105,7 +105,7 @@ export function CatalogoFiltravel({ produtos, categoriaInicial, buscaInicial }: 
       </aside>
 
       <div className="flex-1">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-[32px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-[32px] justify-items-center">
           {filtrados.map((produto) => (
             <ProductCard key={produto.id} produto={produto} onQuickView={setProdutoQuickView} />
           ))}

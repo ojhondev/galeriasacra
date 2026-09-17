@@ -1,3 +1,35 @@
+export function IconHome({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M3 9.5L10 3L17 9.5V17H12V12H8V17H3V9.5Z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function IconGrid({ className = "" }: { className?: string }) {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
+      <rect x="3" y="3" width="6" height="6" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="11" y="3" width="6" height="6" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="3" y="11" width="6" height="6" stroke="currentColor" strokeWidth="1.4" />
+      <rect x="11" y="11" width="6" height="6" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+export function IconPlus({ className = "" }: { className?: string }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" className={className} aria-hidden="true">
+      <path d="M11 3V19M3 11H19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 export function IconSearch({ className = "" }: { className?: string }) {
   return (
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className={className} aria-hidden="true">
