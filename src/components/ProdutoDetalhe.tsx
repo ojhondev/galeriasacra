@@ -14,8 +14,6 @@ import type { Produto } from "@/lib/products";
 
 type ProdutoDetalheProps = {
   produto: Produto;
-  prevSlug: string;
-  nextSlug: string;
   alternativas: Produto[];
   combinaCom: Produto[];
   avaliacoes: Avaliacao[];
@@ -23,8 +21,6 @@ type ProdutoDetalheProps = {
 
 export function ProdutoDetalhe({
   produto,
-  prevSlug,
-  nextSlug,
   alternativas,
   combinaCom,
   avaliacoes,
@@ -121,12 +117,7 @@ export function ProdutoDetalhe({
         </div>
 
         <div className="order-1 lg:order-2">
-          <ProdutoGaleria
-            produto={produto}
-            molduraColor={molduraColor}
-            prevSlug={prevSlug}
-            nextSlug={nextSlug}
-          />
+          <ProdutoGaleria produto={produto} molduraColor={molduraColor} />
         </div>
       </div>
 

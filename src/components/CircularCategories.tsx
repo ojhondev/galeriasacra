@@ -2,18 +2,11 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { ArtPlate } from "@/components/ArtPlate";
-import { IMAGENS_CATEGORIA } from "@/lib/category-images";
+import { CATEGORIAS, IMAGENS_CATEGORIA } from "@/lib/category-images";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
-import type { Produto } from "@/lib/products";
 
-export function CircularCategories({ produtos }: { produtos: Produto[] }) {
+export function CircularCategories() {
   const { ref, handlers, bloquearCliqueSeArrastou } = useArrastarScroll<HTMLDivElement>();
-
-  const categorias = Array.from(new Set(produtos.map((p) => p.categoria))).map((categoria) => {
-    const representante = produtos.find((p) => p.categoria === categoria)!;
-    return { categoria, hue: representante.hue };
-  });
 
   return (
     <div
@@ -36,7 +29,7 @@ export function CircularCategories({ produtos }: { produtos: Produto[] }) {
         <span className="text-[13px] text-black/70 whitespace-nowrap">Em Oferta</span>
       </Link>
 
-      {categorias.map(({ categoria, hue }) => (
+      {CATEGORIAS.map((categoria) => (
         <Link
           key={categoria}
           href={`/quadros?categoria=${encodeURIComponent(categoria)}`}
@@ -45,13 +38,11 @@ export function CircularCategories({ produtos }: { produtos: Produto[] }) {
           className="flex flex-col items-center gap-2 shrink-0"
         >
           <span className="relative w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-full overflow-hidden shrink-0 bg-[#f2f2ef]">
-            {IMAGENS_CATEGORIA[categoria] ? (
-              <Image src={IMAGENS_CATEGORIA[categoria]} alt={categoria} fill className="object-cover" />
-            ) : (
-              <ArtPlate hue={hue} fill className="w-full h-full" />
-            )}
+            <Image src={IMAGENS_CATEGORIA[categoria]} alt={categoria} fill className="object-cover" />
           </span>
-          <span className="text-[13px] text-black/70 whitespace-nowrap">{categoria}</span>
+          <span className="text-[13px] text-black/70 whitespace-nowrap max-w-[88px] text-center">
+            {categoria}
+          </span>
         </Link>
       ))}
     </div>

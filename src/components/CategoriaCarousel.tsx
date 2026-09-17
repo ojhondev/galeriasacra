@@ -1,18 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { ArtPlate } from "@/components/ArtPlate";
+import Image from "next/image";
 import { IconChevronRight } from "@/components/icons";
+import { CATEGORIAS, IMAGENS_CATEGORIA } from "@/lib/category-images";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
-import type { Produto } from "@/lib/products";
 
-export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
+export function CategoriaCarousel() {
   const { ref, arrastando, handlers, bloquearCliqueSeArrastou, rolar } = useArrastarScroll<HTMLDivElement>();
-
-  const categorias = Array.from(new Set(produtos.map((p) => p.categoria))).map((categoria) => {
-    const representante = produtos.find((p) => p.categoria === categoria)!;
-    return { categoria, hue: representante.hue };
-  });
 
   return (
     <section className="px-4 md:px-8 py-[64px]">
@@ -31,7 +26,7 @@ export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
             arrastando ? "cursor-grabbing scroll-auto" : "cursor-grab scroll-smooth snap-x snap-mandatory"
           }`}
         >
-          {categorias.map(({ categoria, hue }) => (
+          {CATEGORIAS.map((categoria) => (
             <Link
               key={categoria}
               href={`/quadros?categoria=${encodeURIComponent(categoria)}`}
@@ -39,8 +34,13 @@ export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
               draggable={false}
               className="group relative block shrink-0 w-[300px] md:w-[420px] aspect-[3/4] snap-start overflow-hidden"
             >
-              <div className="w-full h-full transition-transform duration-300 group-hover:scale-105">
-                <ArtPlate hue={hue} fill className="w-full h-full pointer-events-none" />
+              <div className="relative w-full h-full transition-transform duration-300 group-hover:scale-105">
+                <Image
+                  src={IMAGENS_CATEGORIA[categoria]}
+                  alt={categoria}
+                  fill
+                  className="object-cover pointer-events-none"
+                />
               </div>
               <div className="absolute inset-0 bg-black/20 pointer-events-none" />
               <p className="absolute bottom-5 left-5 text-white text-[24px] md:text-[28px] font-medium pointer-events-none">

@@ -26,9 +26,6 @@ export default async function ProdutoPage({ params }: Props) {
     listarProdutos(),
     listarAvaliacoesPorProduto(produto.id),
   ]);
-  const indiceAtual = produtos.findIndex((p) => p.id === produto.id);
-  const anterior = produtos[(indiceAtual - 1 + produtos.length) % produtos.length];
-  const proximo = produtos[(indiceAtual + 1) % produtos.length];
   const alternativas = produtos.filter((p) => p.id !== produto.id).slice(0, 4);
   const combinaCom = produtos
     .filter((p) => p.id !== produto.id && p.categoria === produto.categoria)
@@ -40,8 +37,6 @@ export default async function ProdutoPage({ params }: Props) {
   return (
     <ProdutoDetalhe
       produto={produto}
-      prevSlug={anterior.slug}
-      nextSlug={proximo.slug}
       alternativas={alternativas}
       combinaCom={combinaComFinal}
       avaliacoes={avaliacoes}

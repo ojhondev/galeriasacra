@@ -11,7 +11,6 @@ import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { CadastroPopup } from "@/components/CadastroPopup";
 import { AvisoWhatsappBar } from "@/components/AvisoWhatsappBar";
 import { obterSessao } from "@/lib/session";
-import { listarProdutos } from "@/lib/products";
 
 const redHatDisplay = Red_Hat_Display({
   subsets: ["latin"],
@@ -26,7 +25,7 @@ export const metadata: Metadata = {
 };
 
 export default async function RootLayout({ children }: LayoutProps<"/">) {
-  const [sessao, produtos] = await Promise.all([obterSessao(), listarProdutos()]);
+  const sessao = await obterSessao();
 
   return (
     <html lang="pt-BR" className={`h-full antialiased ${redHatDisplay.variable}`}>
@@ -35,9 +34,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
           <AnnouncementBar>
             Frete grátis para compras acima de R$ 400 — em até 12x sem juros
           </AnnouncementBar>
-          <Nav sessao={sessao} produtos={produtos} />
+          <Nav sessao={sessao} />
           <div className="hidden md:block border-b border-black/10">
-            <CircularCategories produtos={produtos} />
+            <CircularCategories />
           </div>
           <main className="flex-1 pb-[64px] md:pb-0">{children}</main>
           <Footer />

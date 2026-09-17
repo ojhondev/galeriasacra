@@ -70,7 +70,7 @@ export default async function Home() {
 
       {etiquetaGlobal && <PromoBanner label={etiquetaGlobal.label} />}
 
-      <CategoriaCarousel produtos={produtos} />
+      <CategoriaCarousel />
 
       <HairlineDivider />
 

@@ -3,13 +3,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useMemo, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useCart } from "@/lib/cart";
 import { sair } from "@/lib/auth-actions";
 import { IconSearch, IconUser, IconBag, IconClose, IconChevronRight } from "@/components/icons";
 import { CircularCategories } from "@/components/CircularCategories";
+import { CATEGORIAS } from "@/lib/category-images";
 import type { SessionPayload } from "@/lib/session";
-import type { Produto } from "@/lib/products";
 
 const LINKS = [
   { href: "/quadros", label: "Quadros" },
@@ -18,18 +18,13 @@ const LINKS = [
   { href: "/contato", label: "Contato" },
 ];
 
-export function Nav({ sessao, produtos }: { sessao: SessionPayload | null; produtos: Produto[] }) {
+export function Nav({ sessao }: { sessao: SessionPayload | null }) {
   const router = useRouter();
   const { quantidadeTotal, abrirDrawer } = useCart();
   const [open, setOpen] = useState(false);
   const [buscaAberta, setBuscaAberta] = useState(false);
   const [termoBusca, setTermoBusca] = useState("");
   const [categoriaBusca, setCategoriaBusca] = useState("");
-
-  const categorias = useMemo(
-    () => Array.from(new Set(produtos.map((p) => p.categoria))),
-    [produtos],
-  );
 
   function handleBuscar(e: FormEvent) {
     e.preventDefault();
@@ -66,7 +61,7 @@ export function Nav({ sessao, produtos }: { sessao: SessionPayload | null; produ
               className="appearance-none bg-transparent pl-5 pr-8 py-3 text-[14px] text-black/70 outline-none cursor-pointer max-w-[180px]"
             >
               <option value="">Todas Categorias</option>
-              {categorias.map((categoria) => (
+              {CATEGORIAS.map((categoria) => (
                 <option key={categoria} value={categoria}>
                   {categoria}
                 </option>
@@ -189,7 +184,7 @@ export function Nav({ sessao, produtos }: { sessao: SessionPayload | null; produ
       )}
 
       <div className="md:hidden border-t border-black/10">
-        <CircularCategories produtos={produtos} />
+        <CircularCategories />
       </div>
     </header>
   );

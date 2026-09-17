@@ -200,8 +200,8 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       <div
         className={
           comprarFixoNoMobile
-            ? "fixed bottom-0 inset-x-0 z-40 bg-white border-t border-black px-4 pt-3 pb-[calc(12px+env(safe-area-inset-bottom))] lg:static lg:bg-transparent lg:border-0 lg:p-0 lg:mb-[17px]"
-            : "mb-[17px]"
+            ? "fixed bottom-16 inset-x-0 z-40 bg-white border-t border-black px-4 py-3 flex flex-col gap-2 lg:static lg:bg-transparent lg:border-0 lg:p-0 lg:gap-3 lg:mb-[17px]"
+            : "flex flex-col gap-3 mb-[17px]"
         }
       >
         <button
@@ -213,17 +213,18 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         >
           {esgotado ? "Esgotado" : "Comprar Agora"}
         </button>
-      </div>
 
-      <div className="flex flex-wrap items-center gap-x-8 gap-y-2 mb-[17px]">
         <button
           type="button"
           onClick={() => setTestandoAmbiente(true)}
-          className="text-[16px] underline"
+          className="w-full border border-black px-6 py-4 text-[16px] rounded-[6px]"
         >
           Testar no Meu Ambiente
         </button>
-        {adicionado && (
+      </div>
+
+      {adicionado && (
+        <div className="mb-[17px]">
           <button
             type="button"
             onClick={() => router.push("/carrinho")}
@@ -231,8 +232,8 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           >
             Ver Carrinho
           </button>
-        )}
-      </div>
+        </div>
+      )}
 
       <a
         href={`https://wa.me/5514998570045?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}

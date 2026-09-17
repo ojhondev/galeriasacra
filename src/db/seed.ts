@@ -17,7 +17,7 @@ const PRODUTOS_SEED = [
     sku: "ART-SAGRADA-FAMILIA",
     slug: "sagrada-familia",
     nome: "Sagrada Família",
-    categoria: "Quadros Religiosos",
+    categoria: "Sagrada Família",
     descricaoCurta: "A união entre José, Maria e o Menino Jesus, em composição serena.",
     descricaoLonga: [
       "Uma releitura contemporânea da Sagrada Família, pensada para ambientes que celebram a união e a fé.",
@@ -34,7 +34,7 @@ const PRODUTOS_SEED = [
     sku: "ART-NS-APARECIDA",
     slug: "nossa-senhora-aparecida",
     nome: "Nossa Senhora Aparecida",
-    categoria: "Ícones Marianos",
+    categoria: "Virgem Maria",
     descricaoCurta: "A padroeira do Brasil, em tons profundos de azul e terracota.",
     descricaoLonga: [
       "Inspirado na iconografia tradicional da Padroeira do Brasil, com paleta de azul mariano e terracota.",
@@ -51,7 +51,7 @@ const PRODUTOS_SEED = [
     sku: "ART-ULTIMA-CEIA",
     slug: "ultima-ceia",
     nome: "Última Ceia",
-    categoria: "Quadros Religiosos",
+    categoria: "Sacramentos e Liturgia",
     descricaoCurta: "Composição horizontal clássica, ideal para salas de jantar.",
     descricaoLonga: [
       "A cena mais icônica da tradição cristã, em formato panorâmico pensado para salas de jantar e recepções.",
@@ -68,7 +68,7 @@ const PRODUTOS_SEED = [
     sku: "ART-CRISTO-RESSUSCITADO",
     slug: "cristo-ressuscitado",
     nome: "Cristo Ressuscitado",
-    categoria: "Quadros Religiosos",
+    categoria: "Vida de Jesus",
     descricaoCurta: "Luz e esperança em uma composição vertical luminosa.",
     descricaoLonga: [
       "Uma composição vertical que trabalha luz e sombra para transmitir esperança e renovação.",
@@ -85,7 +85,7 @@ const PRODUTOS_SEED = [
     sku: "ART-SAO-FRANCISCO",
     slug: "sao-francisco-de-assis",
     nome: "São Francisco de Assis",
-    categoria: "Santos",
+    categoria: "Santos e Santas",
     descricaoCurta: "O santo da simplicidade e da natureza, em tons terrosos.",
     descricaoLonga: [
       "Retrato de São Francisco de Assis em paleta terrosa, remetendo à sua devoção pela natureza.",
@@ -102,7 +102,7 @@ const PRODUTOS_SEED = [
     sku: "ART-DIVINA-MISERICORDIA",
     slug: "divina-misericordia",
     nome: "Divina Misericórdia",
-    categoria: "Quadros Religiosos",
+    categoria: "Cristo",
     descricaoCurta: "Os raios vermelho e branco, em composição frontal e imponente.",
     descricaoLonga: [
       "Baseado na imagem revelada a Santa Faustina, com os raios de sangue e água em destaque.",
@@ -119,7 +119,7 @@ const PRODUTOS_SEED = [
     sku: "ART-NS-FATIMA",
     slug: "nossa-senhora-de-fatima",
     nome: "Nossa Senhora de Fátima",
-    categoria: "Ícones Marianos",
+    categoria: "Virgem Maria",
     descricaoCurta: "Tons claros e dourados, em composição delicada.",
     descricaoLonga: [
       "Paleta clara e dourada que remete às aparições de Fátima, em composição delicada e luminosa.",
@@ -136,7 +136,7 @@ const PRODUTOS_SEED = [
     sku: "ART-SAGRADO-CORACAO",
     slug: "sagrado-coracao-de-jesus",
     nome: "Sagrado Coração de Jesus",
-    categoria: "Quadros Religiosos",
+    categoria: "Cristo",
     descricaoCurta: "Composição clássica em vermelho profundo e dourado.",
     descricaoLonga: [
       "Uma das devoções mais tradicionais da Igreja, revisitada em vermelho profundo e dourado.",
