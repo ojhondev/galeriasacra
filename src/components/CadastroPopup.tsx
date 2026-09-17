@@ -91,15 +91,15 @@ export function CadastroPopup() {
                 }}
               >
                 <input
-                  type="text"
-                  required
-                  placeholder="Nome"
-                  className="bg-black/5 px-4 py-4 text-[16px] outline-none rounded-[6px] placeholder:text-black/50"
-                />
-                <input
                   type="email"
                   required
                   placeholder="E-mail"
+                  className="bg-black/5 px-4 py-4 text-[16px] outline-none rounded-[6px] placeholder:text-black/50"
+                />
+                <input
+                  type="tel"
+                  required
+                  placeholder="WhatsApp"
                   className="bg-black/5 px-4 py-4 text-[16px] outline-none rounded-[6px] placeholder:text-black/50"
                 />
                 <button

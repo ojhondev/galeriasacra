@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArtPlate } from "@/components/ArtPlate";
 import { IconChevronRight } from "@/components/icons";
 import { IMAGENS_CATEGORIA } from "@/lib/category-images";
 import type { Produto } from "@/lib/products";
@@ -12,9 +11,7 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
   const categorias = useMemo(() => Array.from(new Set(produtos.map((p) => p.categoria))), [produtos]);
   const [ativa, setAtiva] = useState(categorias[0]);
 
-  const produtoDestaque = produtos.find((p) => p.categoria === ativa) ?? produtos[0];
-
-  if (!produtoDestaque) return null;
+  if (!ativa) return null;
 
   return (
     <section className="px-4 md:px-8 py-[80px]">
@@ -35,28 +32,17 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
         ))}
       </div>
 
-      <Link href={`/quadros/${produtoDestaque.slug}`} className="block group relative">
-        {IMAGENS_CATEGORIA[ativa] ? (
-          <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
-            <Image
-              src={IMAGENS_CATEGORIA[ativa]}
-              alt={ativa}
-              fill
-              className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-            />
-          </div>
-        ) : (
-          <ArtPlate
-            hue={produtoDestaque.hue}
+      <Link href={`/quadros?categoria=${encodeURIComponent(ativa)}`} className="block group relative">
+        <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
+          <Image
+            src={IMAGENS_CATEGORIA[ativa]}
+            alt={ativa}
             fill
-            hoverZoom
-            className="w-full h-[50vh] md:h-[70vh]"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
           />
-        )}
+        </div>
         <div className="absolute inset-0 flex items-end justify-between p-4 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          <span className="bg-white/95 px-3 py-1.5 text-[13px] tracking-artu">
-            {produtoDestaque.nome}
-          </span>
+          <span className="bg-white/95 px-3 py-1.5 text-[13px] tracking-artu">{ativa}</span>
           <span className="bg-white w-10 h-10 flex items-center justify-center rounded-[6px] shrink-0">
             <IconChevronRight />
           </span>
