@@ -16,6 +16,9 @@ export default async function AdminPage() {
         <Link href="/admin/etiquetas" className="border border-black px-8 py-6 text-[20px] tracking-artu">
           ETIQUETAS DE DESCONTO
         </Link>
+        <Link href="/admin/avaliacoes" className="border border-black px-8 py-6 text-[20px] tracking-artu">
+          AVALIAÇÕES
+        </Link>
       </div>
     </div>
   );

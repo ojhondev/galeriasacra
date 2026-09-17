@@ -28,7 +28,8 @@ export default async function AdminProdutosPage() {
                 {produto.nome} {!produto.ativo && <span className="text-black/40">(inativo)</span>}
               </p>
               <p className="text-[14px] text-black/50">
-                {produto.sku} · {produto.categoria} · {formatarPreco(produto.precoBase)}
+                {produto.sku} · {produto.categoria} · {formatarPreco(produto.precoBase)} ·{" "}
+                {produto.estoque} em estoque
               </p>
             </div>
             <div className="flex items-center gap-x-6 text-[16px] tracking-artu">

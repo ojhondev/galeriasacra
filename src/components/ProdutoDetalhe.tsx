@@ -5,8 +5,11 @@ import Link from "next/link";
 import { ProdutoGaleria } from "@/components/ProdutoGaleria";
 import { Customizer } from "@/components/Customizer";
 import { Accordion } from "@/components/Accordion";
+import { Estrelas } from "@/components/Estrelas";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { ArtPlate } from "@/components/ArtPlate";
+import { formatarPreco, precoRange } from "@/lib/pricing";
+import { calcularMedia, type Avaliacao } from "@/lib/avaliacoes-shared";
 import type { Produto } from "@/lib/products";
 
 type ProdutoDetalheProps = {
@@ -14,10 +17,20 @@ type ProdutoDetalheProps = {
   prevSlug: string;
   nextSlug: string;
   alternativas: Produto[];
+  combinaCom: Produto[];
+  avaliacoes: Avaliacao[];
 };
 
-export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: ProdutoDetalheProps) {
+export function ProdutoDetalhe({
+  produto,
+  prevSlug,
+  nextSlug,
+  alternativas,
+  combinaCom,
+  avaliacoes,
+}: ProdutoDetalheProps) {
   const [molduraColor, setMolduraColor] = useState<string | null>(null);
+  const media = calcularMedia(avaliacoes);
 
   return (
     <div>
@@ -31,9 +44,36 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: Pr
           <p className="text-[13px] tracking-artu text-black/60 mb-2">
             {produto.categoria.toUpperCase()}
           </p>
-          <h1 className="text-[32px] md:text-[40px] leading-tight mb-[17px]">{produto.nome}</h1>
+          <h1 className="text-[32px] md:text-[40px] leading-tight mb-2">{produto.nome}</h1>
+
+          {avaliacoes.length > 0 && (
+            <div className="flex items-center gap-2 mb-[17px]">
+              <Estrelas nota={media} />
+              <span className="text-[14px] text-black/60">
+                {media.toFixed(1)} ({avaliacoes.length}{" "}
+                {avaliacoes.length === 1 ? "avaliação" : "avaliações"})
+              </span>
+            </div>
+          )}
 
           <Customizer produto={produto} onMolduraChange={setMolduraColor} comprarFixoNoMobile />
+
+          {combinaCom.length > 0 && (
+            <div className="border-t border-black py-[17px]">
+              <p className="text-[16px] tracking-artu mb-[11px]">COSTUMA COMBINAR COM</p>
+              <div className="grid grid-cols-2 gap-3">
+                {combinaCom.map((item) => (
+                  <Link key={item.id} href={`/quadros/${item.slug}`} className="block group">
+                    <ArtPlate hue={item.hue} orientacao={item.orientacao} hoverZoom />
+                    <p className="text-[14px] mt-1">{item.nome}</p>
+                    <p className="text-[13px] text-black/50">
+                      {formatarPreco(precoRange(item.precoBase).min)}
+                    </p>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
 
           <Accordion titulo="SOBRE">
             {produto.descricaoLonga.map((paragrafo, i) => (
@@ -63,6 +103,21 @@ export function ProdutoDetalhe({ produto, prevSlug, nextSlug, alternativas }: Pr
               .
             </p>
           </Accordion>
+          {avaliacoes.length > 0 && (
+            <Accordion titulo={`AVALIAÇÕES (${avaliacoes.length})`}>
+              <div className="flex flex-col gap-[17px]">
+                {avaliacoes.map((avaliacao) => (
+                  <div key={avaliacao.id}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <Estrelas nota={avaliacao.nota} tamanho={14} />
+                      <span className="text-[14px] font-medium">{avaliacao.nomeCliente}</span>
+                    </div>
+                    <p className="text-[15px] text-black/70">{avaliacao.comentario}</p>
+                  </div>
+                ))}
+              </div>
+            </Accordion>
+          )}
         </div>
 
         <div className="order-1 lg:order-2">

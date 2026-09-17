@@ -17,6 +17,7 @@ export type Produto = {
   orientacao: Orientacao;
   hue: number;
   ativo: boolean;
+  estoque: number;
 };
 
 function paraProduto(row: typeof produtosTable.$inferSelect): Produto {
@@ -32,6 +33,7 @@ function paraProduto(row: typeof produtosTable.$inferSelect): Produto {
     orientacao: row.orientacao,
     hue: row.hue,
     ativo: row.ativo,
+    estoque: row.estoque,
   };
 }
 
@@ -71,6 +73,7 @@ export type ProdutoInput = {
   orientacao: Orientacao;
   hue: number;
   ativo: boolean;
+  estoque: number;
 };
 
 export async function criarProduto(dados: ProdutoInput) {

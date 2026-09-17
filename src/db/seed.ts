@@ -1,7 +1,8 @@
 import { config } from "dotenv";
 config({ path: ".env.local" });
 
-import { produtos, usuarios } from "./schema";
+import { eq } from "drizzle-orm";
+import { produtos, usuarios, avaliacoes } from "./schema";
 import bcrypt from "bcryptjs";
 
 const PRODUTOS_SEED = [
@@ -20,6 +21,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 28,
     ordem: 0,
+    estoque: 3,
   },
   {
     sku: "ART-NS-APARECIDA",
@@ -36,6 +38,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 212,
     ordem: 1,
+    estoque: 8,
   },
   {
     sku: "ART-ULTIMA-CEIA",
@@ -52,6 +55,7 @@ const PRODUTOS_SEED = [
     orientacao: "paisagem" as const,
     hue: 34,
     ordem: 2,
+    estoque: 2,
   },
   {
     sku: "ART-CRISTO-RESSUSCITADO",
@@ -68,6 +72,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 48,
     ordem: 3,
+    estoque: 12,
   },
   {
     sku: "ART-SAO-FRANCISCO",
@@ -84,6 +89,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 24,
     ordem: 4,
+    estoque: 5,
   },
   {
     sku: "ART-DIVINA-MISERICORDIA",
@@ -100,6 +106,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 4,
     ordem: 5,
+    estoque: 15,
   },
   {
     sku: "ART-NS-FATIMA",
@@ -116,6 +123,7 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 44,
     ordem: 6,
+    estoque: 4,
   },
   {
     sku: "ART-SAGRADO-CORACAO",
@@ -132,16 +140,68 @@ const PRODUTOS_SEED = [
     orientacao: "retrato" as const,
     hue: 10,
     ordem: 7,
+    estoque: 20,
   },
 ];
+
+const AVALIACOES_SEED: Record<string, { nomeCliente: string; nota: number; comentario: string }[]> = {
+  "sagrada-familia": [
+    { nomeCliente: "Marcos T.", nota: 5, comentario: "Impressão linda, cores fiéis à foto do site. Ficou lindo na sala." },
+    { nomeCliente: "Beatriz A.", nota: 5, comentario: "Presente para o casamento dos meus pais, chegou bem embalado e no prazo." },
+  ],
+  "nossa-senhora-aparecida": [
+    { nomeCliente: "Cláudia R.", nota: 5, comentario: "Já é o segundo que compro. Qualidade de impressão impecável." },
+    { nomeCliente: "João P.", nota: 4, comentario: "Muito bonito, só achei o frete um pouco caro para minha região." },
+  ],
+  "ultima-ceia": [
+    { nomeCliente: "Fernanda L.", nota: 5, comentario: "Ficou perfeito na sala de jantar, exatamente como eu queria." },
+    { nomeCliente: "Ricardo M.", nota: 5, comentario: "Acabamento sob medida superou minhas expectativas." },
+  ],
+  "cristo-ressuscitado": [
+    { nomeCliente: "Patrícia S.", nota: 5, comentario: "Comprei para o consultório, todo mundo elogia." },
+    { nomeCliente: "Eduardo N.", nota: 4, comentario: "Muito bom, chegou um pouco depois do prazo mas valeu a pena." },
+  ],
+  "sao-francisco-de-assis": [
+    { nomeCliente: "Luciana F.", nota: 5, comentario: "As cores terrosas ficaram lindas na varanda, como eu imaginei." },
+  ],
+  "divina-misericordia": [
+    { nomeCliente: "Antônio C.", nota: 5, comentario: "Peça grande e imponente, ótimo para a capela da nossa comunidade." },
+    { nomeCliente: "Sandra V.", nota: 5, comentario: "Superou expectativas, moldura dourada ficou belíssima." },
+  ],
+  "nossa-senhora-de-fatima": [
+    { nomeCliente: "Isabela G.", nota: 5, comentario: "Dei de presente de crisma, a afilhada amou." },
+  ],
+  "sagrado-coracao-de-jesus": [
+    { nomeCliente: "Paulo H.", nota: 4, comentario: "Muito bonito, impressão de ótima qualidade." },
+    { nomeCliente: "Renata B.", nota: 5, comentario: "Já é o terceiro quadro que compro da loja, sempre impecável." },
+  ],
+};
 
 async function seed() {
   const { db } = await import("./index");
 
   for (const produto of PRODUTOS_SEED) {
-    await db.insert(produtos).values(produto).onConflictDoNothing({ target: produtos.slug });
+    await db
+      .insert(produtos)
+      .values(produto)
+      .onConflictDoUpdate({ target: produtos.slug, set: { estoque: produto.estoque } });
   }
-  console.log(`Produtos: ${PRODUTOS_SEED.length} inseridos (ou já existentes).`);
+  console.log(`Produtos: ${PRODUTOS_SEED.length} inseridos/atualizados (estoque sincronizado).`);
+
+  let avaliacoesInseridas = 0;
+  for (const [slug, lista] of Object.entries(AVALIACOES_SEED)) {
+    const produto = await db.query.produtos.findFirst({ where: eq(produtos.slug, slug) });
+    if (!produto) continue;
+
+    const existentes = await db.query.avaliacoes.findMany({ where: eq(avaliacoes.produtoId, produto.id) });
+    if (existentes.length > 0) continue;
+
+    for (const avaliacao of lista) {
+      await db.insert(avaliacoes).values({ produtoId: produto.id, ...avaliacao });
+      avaliacoesInseridas++;
+    }
+  }
+  console.log(`Avaliações: ${avaliacoesInseridas} inseridas.`);
 
   const emailAdmin = "ojhonatanribeiroalves@gmail.com";
   const senhaAdmin = "UMQ211FaKq";

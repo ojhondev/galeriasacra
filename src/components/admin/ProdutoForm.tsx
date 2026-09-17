@@ -91,6 +91,18 @@ export function ProdutoForm({
       </label>
 
       <label className="flex flex-col gap-1">
+        <span className="text-[16px] tracking-artu">ESTOQUE (unidades físicas disponíveis)</span>
+        <input
+          type="number"
+          name="estoque"
+          defaultValue={produto?.estoque ?? 10}
+          required
+          min={0}
+          className="border-b border-black py-2 text-[18px] outline-none bg-transparent"
+        />
+      </label>
+
+      <label className="flex flex-col gap-1">
         <span className="text-[16px] tracking-artu">ORIENTAÇÃO</span>
         <select
           name="orientacao"

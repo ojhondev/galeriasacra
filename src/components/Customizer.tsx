@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ARPreview } from "@/components/ARPreview";
+import { FreteCalculadora } from "@/components/FreteCalculadora";
+import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
 import { useCart } from "@/lib/cart";
 import {
   MATERIAIS,
@@ -47,6 +49,9 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
 
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
   const aspectRatio = aspectRatioDoTamanho(tamanho, produto.orientacao);
+  const esgotado = produto.estoque <= 0;
+  const estoqueBaixo = produto.estoque > 0 && produto.estoque <= 5;
+  const parcela = preco / 12;
 
   useEffect(() => {
     onMolduraChange?.(molduraAtual?.cor ?? null);
@@ -82,11 +87,34 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
   return (
     <div>
       <p className="text-[28px] md:text-[32px] leading-tight mb-1">{formatarPreco(preco)}</p>
+      <p className="text-[14px] text-black/60 mb-1">
+        ou 12x de {formatarPreco(parcela)} sem juros
+      </p>
       <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
 
-      <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu mb-[24px]">
-        <span aria-hidden="true">✓</span> PRODUÇÃO SOB ENCOMENDA
+      <div className="flex flex-wrap gap-2 mb-[24px]">
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
+          <span aria-hidden="true">✓</span> PRODUÇÃO SOB ENCOMENDA
+        </div>
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
+          <span aria-hidden="true">🔒</span> COMPRA SEGURA
+        </div>
+        <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px] tracking-artu">
+          <span aria-hidden="true">↩</span> GARANTIA DE 7 DIAS
+        </div>
       </div>
+
+      {esgotado ? (
+        <p className="text-[14px] tracking-artu text-[var(--color-brand)] mb-[24px]">
+          ESGOTADO — sem unidades físicas disponíveis no momento.
+        </p>
+      ) : (
+        estoqueBaixo && (
+          <p className="text-[14px] tracking-artu text-[var(--color-brand)] mb-[24px]">
+            🔥 Restam apenas {produto.estoque} {produto.estoque === 1 ? "unidade" : "unidades"}!
+          </p>
+        )
+      )}
 
       <div className="grid grid-cols-2 gap-4 py-[17px] border-t border-black">
         <label className="flex flex-col gap-1">
@@ -140,7 +168,8 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           <button
             type="button"
             onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
-            className="px-4 py-2 text-[18px]"
+            disabled={esgotado}
+            className="px-4 py-2 text-[18px] disabled:opacity-30"
             aria-label="Diminuir quantidade"
           >
             −
@@ -148,8 +177,9 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
           <button
             type="button"
-            onClick={() => setQuantidade((q) => q + 1)}
-            className="px-4 py-2 text-[18px]"
+            onClick={() => setQuantidade((q) => Math.min(produto.estoque, q + 1))}
+            disabled={esgotado || quantidade >= produto.estoque}
+            className="px-4 py-2 text-[18px] disabled:opacity-30"
             aria-label="Aumentar quantidade"
           >
             +
@@ -159,9 +189,10 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         <button
           type="button"
           onClick={handleAdicionar}
-          className="flex-1 border border-black px-6 py-3 text-[16px] tracking-artu"
+          disabled={esgotado}
+          className="flex-1 border border-black px-6 py-3 text-[16px] tracking-artu disabled:opacity-40"
         >
-          ADICIONAR AO CARRINHO
+          {esgotado ? "ESGOTADO" : "ADICIONAR AO CARRINHO"}
         </button>
       </div>
 
@@ -175,9 +206,10 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         <button
           type="button"
           onClick={handleComprarAgora}
-          className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu"
+          disabled={esgotado}
+          className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu disabled:opacity-40"
         >
-          COMPRAR AGORA
+          {esgotado ? "ESGOTADO" : "COMPRAR AGORA"}
         </button>
       </div>
 
@@ -200,9 +232,22 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         )}
       </div>
 
+      <a
+        href={`https://wa.me/5500000000000?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-[14px] tracking-artu underline block mb-[17px]"
+      >
+        💬 Dúvidas? Fale conosco no WhatsApp
+      </a>
+
+      <FreteCalculadora />
+
       <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
         📦 Frete grátis para compras acima de R$ 400
       </p>
+
+      {estoqueBaixo && <UltimasUnidadesToast estoque={produto.estoque} />}
 
       {testandoAmbiente && (
         <ARPreview

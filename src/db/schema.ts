@@ -27,6 +27,7 @@ export const produtos = pgTable("produtos", {
   hue: integer("hue").notNull().default(200),
   ativo: boolean("ativo").notNull().default(true),
   ordem: integer("ordem").notNull().default(0),
+  estoque: integer("estoque").notNull().default(10),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
@@ -41,13 +42,32 @@ export const etiquetasDesconto = pgTable("etiquetas_desconto", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const avaliacoes = pgTable("avaliacoes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  produtoId: uuid("produto_id")
+    .notNull()
+    .references(() => produtos.id, { onDelete: "cascade" }),
+  nomeCliente: text("nome_cliente").notNull(),
+  nota: integer("nota").notNull(),
+  comentario: text("comentario").notNull(),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
 export const produtosRelations = relations(produtos, ({ many }) => ({
   etiquetas: many(etiquetasDesconto),
+  avaliacoes: many(avaliacoes),
 }));
 
 export const etiquetasDescontoRelations = relations(etiquetasDesconto, ({ one }) => ({
   produto: one(produtos, {
     fields: [etiquetasDesconto.produtoId],
+    references: [produtos.id],
+  }),
+}));
+
+export const avaliacoesRelations = relations(avaliacoes, ({ one }) => ({
+  produto: one(produtos, {
+    fields: [avaliacoes.produtoId],
     references: [produtos.id],
   }),
 }));

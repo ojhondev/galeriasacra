@@ -4,7 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
-import { etiquetasDesconto } from "@/db/schema";
+import { etiquetasDesconto, avaliacoes } from "@/db/schema";
 import {
   criarProduto,
   atualizarProduto,
@@ -36,6 +36,7 @@ function lerProdutoForm(formData: FormData): ProdutoInput {
     orientacao: (formData.get("orientacao") as Orientacao) ?? "retrato",
     hue: Math.round(Number(formData.get("hue") ?? 200)),
     ativo: formData.get("ativo") === "on",
+    estoque: Math.max(0, Math.round(Number(formData.get("estoque") ?? 0))),
   };
 }
 
@@ -86,4 +87,23 @@ export async function excluirEtiquetaAction(id: string) {
   await db.delete(etiquetasDesconto).where(eq(etiquetasDesconto.id, id));
   revalidarCatalogo();
   redirect("/admin/etiquetas");
+}
+
+export async function criarAvaliacaoAction(formData: FormData) {
+  await exigirAdmin();
+  await db.insert(avaliacoes).values({
+    produtoId: String(formData.get("produtoId") ?? "").trim(),
+    nomeCliente: String(formData.get("nomeCliente") ?? "").trim(),
+    nota: Math.min(5, Math.max(1, Math.round(Number(formData.get("nota") ?? 5)))),
+    comentario: String(formData.get("comentario") ?? "").trim(),
+  });
+  revalidarCatalogo();
+  redirect("/admin/avaliacoes");
+}
+
+export async function excluirAvaliacaoAction(id: string) {
+  await exigirAdmin();
+  await db.delete(avaliacoes).where(eq(avaliacoes.id, id));
+  revalidarCatalogo();
+  redirect("/admin/avaliacoes");
 }
