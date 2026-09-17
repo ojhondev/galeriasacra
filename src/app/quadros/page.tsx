@@ -17,9 +17,15 @@ export default async function QuadrosPage({ searchParams }: Props) {
   const produtos = await listarProdutos();
 
   return (
-    <div id="topo" className="px-4 md:px-8 pt-[42px] pb-[80px]">
-      <h1 className="text-[32px] mb-[32px]">Quadros</h1>
-      <CatalogoFiltravel produtos={produtos} categoriaInicial={categoria} buscaInicial={busca} />
+    <div id="topo">
+      <div className="w-full h-[180px] md:h-[260px] bg-[#f2f2ef] rounded-none flex items-center justify-center">
+        <p className="text-[13px] tracking-artu text-black/40">Espaço reservado para banner</p>
+      </div>
+
+      <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
+        <h1 className="text-[32px] mb-[32px]">Quadros</h1>
+        <CatalogoFiltravel produtos={produtos} categoriaInicial={categoria} buscaInicial={busca} />
+      </div>
     </div>
   );
 }

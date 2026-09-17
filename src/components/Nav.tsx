@@ -42,7 +42,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
             width={765}
             height={406}
             priority
-            className="h-[38px] w-auto"
+            className="h-[46px] w-auto"
           />
         </Link>
 

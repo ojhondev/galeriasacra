@@ -20,7 +20,7 @@ export function SplitHero() {
           </h1>
           <Link
             href="/quadros"
-            className="bg-white text-black px-6 py-3 text-[15px] rounded-[6px] w-fit hover:bg-black hover:text-white transition-colors"
+            className="bg-white text-black px-6 py-3 text-[15px] rounded-[6px] w-fit hover:bg-[var(--color-brand)] hover:text-white transition-colors"
           >
             Explorar Catálogo
           </Link>
@@ -44,7 +44,7 @@ export function SplitHero() {
           </h1>
           <Link
             href="/monte-seu-quadro"
-            className="bg-white text-black px-6 py-3 text-[15px] rounded-[6px] w-fit hover:bg-black hover:text-white transition-colors"
+            className="bg-white text-black px-6 py-3 text-[15px] rounded-[6px] w-fit hover:bg-[var(--color-brand)] hover:text-white transition-colors"
           >
             Monte Seu Quadro
           </Link>

@@ -59,67 +59,68 @@ export function CatalogoFiltravel({ produtos, categoriaInicial, buscaInicial }: 
   );
 
   return (
-    <div className="flex flex-col md:flex-row gap-[42px]">
-      <aside className="w-full md:w-[220px] shrink-0">
-        <label className="flex flex-col gap-1 mb-[32px]">
-          <span className="text-[16px] tracking-artu border-b border-black pb-2">Buscar</span>
+    <div>
+      <div className="flex flex-col gap-4 mb-[42px] pb-[24px] border-b border-black/10">
+        <div className="flex flex-wrap items-center gap-4">
           <input
             type="search"
             value={busca}
             onChange={(e) => setBusca(e.target.value)}
-            placeholder="Nome do quadro..."
-            className="border border-black/20 px-3 py-2 text-[15px] bg-transparent mt-2"
+            placeholder="Buscar quadros..."
+            className="flex-1 min-w-[200px] max-w-[320px] border-b border-black/20 py-2 text-[15px] bg-transparent outline-none"
           />
-        </label>
 
-        <p className="text-[16px] tracking-artu border-b border-black pb-2 mb-[17px]">Categoria</p>
-        <div className="flex flex-col gap-2 mb-[32px]">
+          <div className="flex items-center gap-3 text-[14px] text-black/60 ml-auto">
+            <span>Até {formatarPreco(precoMax)}</span>
+            <input
+              type="range"
+              min={precoMinCatalogo}
+              max={precoMaxCatalogo}
+              value={precoMax}
+              onChange={(e) => setPrecoMax(Number(e.target.value))}
+              className="w-[140px] md:w-[180px]"
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2">
           {categorias.map((categoria) => (
-            <label key={categoria} className="flex items-center gap-2 text-[16px] cursor-pointer">
-              <input
-                type="checkbox"
-                checked={categoriasAtivas.has(categoria)}
-                onChange={() => alternarCategoria(categoria)}
-              />
+            <button
+              key={categoria}
+              type="button"
+              onClick={() => alternarCategoria(categoria)}
+              className={`px-4 py-2 text-[14px] rounded-[6px] transition-colors ${
+                categoriasAtivas.has(categoria)
+                  ? "bg-black text-white"
+                  : "border border-black/20 text-black/70 hover:border-black/40"
+              }`}
+            >
               {categoria}
-            </label>
+            </button>
           ))}
+
+          {filtrosAtivos && (
+            <button type="button" onClick={limparFiltros} className="text-[14px] underline ml-auto">
+              Limpar filtros
+            </button>
+          )}
         </div>
+      </div>
 
-        <p className="text-[16px] tracking-artu border-b border-black pb-2 mb-[17px]">Preço</p>
-        <input
-          type="range"
-          min={precoMinCatalogo}
-          max={precoMaxCatalogo}
-          value={precoMax}
-          onChange={(e) => setPrecoMax(Number(e.target.value))}
-          className="w-full"
-        />
-        <p className="text-[14px] text-black/60 mt-2">Até {formatarPreco(precoMax)}</p>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-x-4 gap-y-[32px] justify-items-center">
+        {filtrados.map((produto) => (
+          <ProductCard key={produto.id} produto={produto} onQuickView={setProdutoQuickView} />
+        ))}
+      </div>
 
-        {filtrosAtivos && (
-          <button type="button" onClick={limparFiltros} className="text-[14px] underline mt-[17px]">
-            Limpar filtros
-          </button>
-        )}
-      </aside>
+      {filtrados.length === 0 && (
+        <p className="text-[18px] text-black/50">Nenhum quadro encontrado com esses filtros.</p>
+      )}
 
-      <div className="flex-1">
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-[32px] justify-items-center">
-          {filtrados.map((produto) => (
-            <ProductCard key={produto.id} produto={produto} onQuickView={setProdutoQuickView} />
-          ))}
-        </div>
-
-        {filtrados.length === 0 && (
-          <p className="text-[18px] text-black/50">Nenhum quadro encontrado com esses filtros.</p>
-        )}
-
-        <div className="flex justify-end mt-[42px]">
-          <a href="#topo" className="text-[16px] underline">
-            Voltar ao topo
-          </a>
-        </div>
+      <div className="flex justify-end mt-[42px]">
+        <a href="#topo" className="text-[16px] underline">
+          Voltar ao topo
+        </a>
       </div>
 
       <QuickViewDrawer produto={produtoQuickView} onClose={() => setProdutoQuickView(null)} />

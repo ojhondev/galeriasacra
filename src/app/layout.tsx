@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Red_Hat_Display } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/lib/cart";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
@@ -10,6 +11,12 @@ import { CadastroPopup } from "@/components/CadastroPopup";
 import { AvisoWhatsappBar } from "@/components/AvisoWhatsappBar";
 import { obterSessao } from "@/lib/session";
 
+const redHatDisplay = Red_Hat_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-redhat",
+});
+
 export const metadata: Metadata = {
   title: "Galeria Sacra",
   description:
@@ -20,7 +27,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
   const sessao = await obterSessao();
 
   return (
-    <html lang="pt-BR" className="h-full antialiased">
+    <html lang="pt-BR" className={`h-full antialiased ${redHatDisplay.variable}`}>
       <body className="min-h-full flex flex-col">
         <CartProvider>
           <AnnouncementBar>

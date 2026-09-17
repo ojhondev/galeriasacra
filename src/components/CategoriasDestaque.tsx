@@ -2,8 +2,13 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ArtPlate } from "@/components/ArtPlate";
 import type { Produto } from "@/lib/products";
+
+const IMAGENS_CATEGORIA: Record<string, string> = {
+  "Quadros Religiosos": "/categorias/quadros-religiosos.jpg",
+};
 
 export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
   const categorias = useMemo(() => Array.from(new Set(produtos.map((p) => p.categoria))), [produtos]);
@@ -33,12 +38,23 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
       </div>
 
       <Link href={`/quadros/${produtoDestaque.slug}`} className="block group relative">
-        <ArtPlate
-          hue={produtoDestaque.hue}
-          fill
-          hoverZoom
-          className="w-full h-[50vh] md:h-[70vh]"
-        />
+        {IMAGENS_CATEGORIA[ativa] ? (
+          <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
+            <Image
+              src={IMAGENS_CATEGORIA[ativa]}
+              alt={ativa}
+              fill
+              className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+            />
+          </div>
+        ) : (
+          <ArtPlate
+            hue={produtoDestaque.hue}
+            fill
+            hoverZoom
+            className="w-full h-[50vh] md:h-[70vh]"
+          />
+        )}
         <div className="absolute inset-0 flex items-end justify-between p-4 md:p-8 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
           <span className="bg-white/95 px-3 py-1.5 text-[13px] tracking-artu">
             {produtoDestaque.nome}

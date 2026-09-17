@@ -5,7 +5,7 @@
   --color-ink-black: #000000;
   --color-brand: #3b011d;
 
-  --font-grotesque: "Helvetica Neue", "Helvetica Now Text", Helvetica, Arial, sans-serif;
+  --font-grotesque: var(--font-redhat), "Red Hat Display", Helvetica, Arial, sans-serif;
 
   --text-body-sm: 18px;
   --text-body: 20px;
@@ -46,6 +46,31 @@ body {
   font-family: var(--font-grotesque);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Títulos usam um peso mais forte que o texto corrido (peso 400 padrão do
+   body). Cobre tanto tags de heading reais quanto os "títulos" em tamanho
+   grande implementados como <p> no restante do site — identificados pelo
+   próprio tamanho de fonte, já que é o padrão consistente usado no projeto. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  [class*="text-[22px]"],
+  [class*="text-[24px]"],
+  [class*="text-[26px]"],
+  [class*="text-[28px]"],
+  [class*="text-[32px]"],
+  [class*="text-[36px]"],
+  [class*="text-[40px]"],
+  [class*="text-[44px]"],
+  [class*="text-[clamp(22"],
+  [class*="text-[clamp(26"],
+  [class*="text-[clamp(28"],
+  [class*="text-[clamp(32"] {
+    font-weight: 600;
+  }
 }
 
 .tracking-artu {
