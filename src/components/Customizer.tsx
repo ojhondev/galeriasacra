@@ -7,6 +7,7 @@ import { FreteCalculadora } from "@/components/FreteCalculadora";
 import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
 import { IconCheck, IconLock, IconRefresh, IconWhatsApp } from "@/components/icons";
 import { useCart } from "@/lib/cart";
+import { registrarProdutoVisto } from "@/lib/produto-visto";
 import {
   MATERIAIS,
   MOLDURAS,
@@ -76,12 +77,14 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
 
   function handleAdicionar() {
     adicionar(montarItem());
+    registrarProdutoVisto({ nome: produto.nome, slug: produto.slug });
     setAdicionado(true);
     setTimeout(() => setAdicionado(false), 2500);
   }
 
   function handleComprarAgora() {
     adicionar(montarItem());
+    registrarProdutoVisto({ nome: produto.nome, slug: produto.slug });
     router.push("/carrinho");
   }
 

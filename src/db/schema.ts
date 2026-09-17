@@ -69,6 +69,19 @@ export const pedidos = pgTable("pedidos", {
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
+export const pushInscricoes = pgTable("push_inscricoes", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  usuarioId: uuid("usuario_id").references(() => usuarios.id, { onDelete: "cascade" }),
+  endpoint: text("endpoint").notNull().unique(),
+  p256dh: text("p256dh").notNull(),
+  auth: text("auth").notNull(),
+  produtoVistoNome: text("produto_visto_nome"),
+  produtoVistoSlug: text("produto_visto_slug"),
+  notificadoEm: timestamp("notificado_em"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+});
+
 export const avaliacoes = pgTable("avaliacoes", {
   id: uuid("id").defaultRandom().primaryKey(),
   produtoId: uuid("produto_id")
@@ -104,5 +117,12 @@ export const avaliacoesRelations = relations(avaliacoes, ({ one }) => ({
   produto: one(produtos, {
     fields: [avaliacoes.produtoId],
     references: [produtos.id],
+  }),
+}));
+
+export const pushInscricoesRelations = relations(pushInscricoes, ({ one }) => ({
+  usuario: one(usuarios, {
+    fields: [pushInscricoes.usuarioId],
+    references: [usuarios.id],
   }),
 }));

@@ -6,6 +6,7 @@ import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { CadastroPopup } from "@/components/CadastroPopup";
 import { AvisoWhatsappBar } from "@/components/AvisoWhatsappBar";
+import { PushNotificationManager } from "@/components/PushNotificationManager";
 import { obterSessao } from "@/lib/session";
 
 export default async function LojaLayout({ children }: { children: React.ReactNode }) {
@@ -26,6 +27,7 @@ export default async function LojaLayout({ children }: { children: React.ReactNo
       <MobileBottomNav sessao={sessao} />
       <AvisoWhatsappBar />
       <CadastroPopup />
+      <PushNotificationManager />
     </>
   );
 }

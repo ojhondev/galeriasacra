@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ProdutoGaleria } from "@/components/ProdutoGaleria";
 import { Customizer } from "@/components/Customizer";
@@ -10,6 +10,7 @@ import { HairlineDivider } from "@/components/HairlineDivider";
 import { ObraTile } from "@/components/ObraTile";
 import { formatarPreco, precoRange } from "@/lib/pricing";
 import { calcularMedia, type Avaliacao } from "@/lib/avaliacoes-shared";
+import { registrarProdutoVisto } from "@/lib/produto-visto";
 import type { Produto } from "@/lib/products";
 
 type ProdutoDetalheProps = {
@@ -27,6 +28,10 @@ export function ProdutoDetalhe({
 }: ProdutoDetalheProps) {
   const [molduraColor, setMolduraColor] = useState<string | null>(null);
   const media = calcularMedia(avaliacoes);
+
+  useEffect(() => {
+    registrarProdutoVisto({ nome: produto.nome, slug: produto.slug });
+  }, [produto.id, produto.nome, produto.slug]);
 
   return (
     <div>

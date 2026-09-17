@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/lembretes-push",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}
