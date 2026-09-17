@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/cron/lembretes-push",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 13 * * *"
     }
   ]
 }
