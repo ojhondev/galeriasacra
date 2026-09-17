@@ -101,8 +101,6 @@ export function ProductCard({
             ou 12x de {formatarPreco(Math.round((etiqueta ? minComDesconto : min) / 12))} sem juros
           </p>
         </div>
-
-        <p className="text-[14px] text-black/50 mt-1">{produto.descricaoCurta}</p>
       </div>
     </Link>
   );
