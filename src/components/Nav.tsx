@@ -33,7 +33,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
   }
 
   return (
-    <header className="w-full border-b border-black/10">
+    <header className="w-full border-b border-black/10 rounded-none">
       <div className="flex items-center justify-between px-4 md:px-8 py-[20px]">
         <Link href="/" className="block shrink-0" onClick={() => setOpen(false)}>
           <Image

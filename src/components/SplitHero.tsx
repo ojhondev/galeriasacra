@@ -6,7 +6,7 @@ export function SplitHero() {
     <section className="grid md:grid-cols-2 rounded-none">
       <div className="relative h-[60vh] md:h-[80vh] overflow-hidden rounded-none">
         <video
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover rounded-none"
           src="/videos/sacra-hero.mp4"
           autoPlay
           muted
