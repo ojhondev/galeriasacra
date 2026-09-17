@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/lib/cart";
 import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { Nav } from "@/components/Nav";
+import { CircularCategories } from "@/components/CircularCategories";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
@@ -35,6 +36,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             Frete grátis para compras acima de R$ 400 — em até 12x sem juros
           </AnnouncementBar>
           <Nav sessao={sessao} produtos={produtos} />
+          <div className="hidden md:block border-b border-black/10">
+            <CircularCategories produtos={produtos} />
+          </div>
           <main className="flex-1 pb-[64px] md:pb-0">{children}</main>
           <Footer />
           <CartDrawer />

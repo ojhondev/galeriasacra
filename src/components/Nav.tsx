@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useMemo, useState, type FormEvent } from "react";
 import { useCart } from "@/lib/cart";
 import { sair } from "@/lib/auth-actions";
-import { IconSearch, IconUser, IconBag, IconClose } from "@/components/icons";
+import { IconSearch, IconUser, IconBag, IconClose, IconChevronRight } from "@/components/icons";
 import { CircularCategories } from "@/components/CircularCategories";
 import type { SessionPayload } from "@/lib/session";
 import type { Produto } from "@/lib/products";
@@ -57,32 +57,39 @@ export function Nav({ sessao, produtos }: { sessao: SessionPayload | null; produ
 
         <form
           onSubmit={handleBuscar}
-          className="hidden md:flex flex-1 max-w-[560px] items-stretch border border-black/20 rounded-[6px] overflow-hidden"
+          className="hidden md:flex flex-1 items-stretch bg-[#f1f1ee] rounded-full overflow-hidden"
         >
-          <select
-            value={categoriaBusca}
-            onChange={(e) => setCategoriaBusca(e.target.value)}
-            className="bg-[#f7f7f5] border-r border-black/20 px-3 text-[14px] text-black/70 outline-none max-w-[160px]"
-          >
-            <option value="">Todas Categorias</option>
-            {categorias.map((categoria) => (
-              <option key={categoria} value={categoria}>
-                {categoria}
-              </option>
-            ))}
-          </select>
+          <div className="relative flex items-center border-r border-black/10 shrink-0">
+            <select
+              value={categoriaBusca}
+              onChange={(e) => setCategoriaBusca(e.target.value)}
+              className="appearance-none bg-transparent pl-5 pr-8 py-3 text-[14px] text-black/70 outline-none cursor-pointer max-w-[180px]"
+            >
+              <option value="">Todas Categorias</option>
+              {categorias.map((categoria) => (
+                <option key={categoria} value={categoria}>
+                  {categoria}
+                </option>
+              ))}
+            </select>
+            <IconChevronRight className="rotate-90 pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-black/50" />
+          </div>
           <input
             value={termoBusca}
             onChange={(e) => setTermoBusca(e.target.value)}
             placeholder="O que você está procurando?"
-            className="flex-1 min-w-0 px-3 text-[14px] outline-none"
+            className="flex-1 min-w-0 bg-transparent px-4 text-[14px] outline-none placeholder:text-black/40"
           />
-          <button type="submit" aria-label="Buscar" className="px-4 flex items-center justify-center">
+          <button
+            type="submit"
+            aria-label="Buscar"
+            className="px-5 flex items-center justify-center text-black/60 hover:text-black shrink-0"
+          >
             <IconSearch />
           </button>
         </form>
 
-        <div className="flex items-center gap-x-5 ml-auto md:ml-0">
+        <div className="flex items-center gap-x-5 ml-auto">
           <button
             type="button"
             onClick={() => setBuscaAberta((v) => !v)}
@@ -181,7 +188,7 @@ export function Nav({ sessao, produtos }: { sessao: SessionPayload | null; produ
         </nav>
       )}
 
-      <div className="border-t border-black/10">
+      <div className="md:hidden border-t border-black/10">
         <CircularCategories produtos={produtos} />
       </div>
     </header>

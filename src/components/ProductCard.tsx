@@ -21,7 +21,7 @@ export function ProductCard({
   return (
     <Link
       href={`/quadros/${produto.slug}`}
-      className="block group relative z-0 hover:z-10 w-full max-w-[280px] mx-auto"
+      className="block group relative z-0 hover:z-10 w-full max-w-[340px] mx-auto"
       aria-label={produto.nome}
     >
       <div className="relative aspect-square bg-[#f2f2ef] p-[8%] overflow-hidden transition-transform duration-300 group-hover:scale-105">
