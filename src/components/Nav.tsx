@@ -183,7 +183,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
         </nav>
       )}
 
-      <div className="md:hidden border-t border-black/10">
+      <div className="md:hidden">
         <CircularCategories />
       </div>
     </header>

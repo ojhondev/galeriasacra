@@ -2,17 +2,22 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { CATEGORIAS, IMAGENS_CATEGORIA } from "@/lib/category-images";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
 
 export function CircularCategories() {
   const { ref, handlers, bloquearCliqueSeArrastou } = useArrastarScroll<HTMLDivElement>();
+  const pathname = usePathname();
+  const naPaginaDeProduto = /^\/quadros\/.+/.test(pathname);
+
+  if (naPaginaDeProduto) return null;
 
   return (
     <div
       ref={ref}
       {...handlers}
-      className="flex items-start gap-6 md:gap-8 overflow-x-auto px-4 md:px-8 py-4 select-none cursor-grab active:cursor-grabbing scrollbar-hide"
+      className="flex items-start gap-6 md:gap-8 overflow-x-auto px-4 md:px-8 py-4 border-t border-black/10 select-none cursor-grab active:cursor-grabbing scrollbar-hide"
     >
       <Link
         href="/quadros"

@@ -48,12 +48,12 @@ export default function CarrinhoPage() {
           <div key={item.id}>
             <div className="grid grid-cols-[120px_1fr] md:grid-cols-[160px_1fr] gap-6 items-start">
               <ArtPlate hue={item.hue} orientacao="retrato" />
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 min-w-0">
                 <p className="text-[20px]">{item.nome}</p>
                 <p className="text-[16px] text-black/60">{item.tamanhoLabel}</p>
                 <p className="text-[16px] text-black/60">{item.molduraLabel}</p>
                 <p className="text-[16px] text-black/60">{item.materialLabel}</p>
-                <div className="flex items-center gap-x-6 mt-2">
+                <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2">
                   <label className="text-[15px] text-black/60" htmlFor={`qtd-${item.id}`}>
                     Qtd.
                   </label>
@@ -65,9 +65,7 @@ export default function CarrinhoPage() {
                     onChange={(e) => atualizarQuantidade(item.id, Number(e.target.value))}
                     className="w-16 border-b border-black bg-transparent text-[16px] outline-none"
                   />
-                  <p className="text-[18px] ml-auto md:ml-0">
-                    {formatarPreco(item.precoUnitario * item.quantidade)}
-                  </p>
+                  <p className="text-[18px]">{formatarPreco(item.precoUnitario * item.quantidade)}</p>
                   <button
                     type="button"
                     onClick={() => remover(item.id)}

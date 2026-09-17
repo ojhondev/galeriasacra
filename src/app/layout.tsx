@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
             Frete grátis para compras acima de R$ 400 — em até 12x sem juros
           </AnnouncementBar>
           <Nav sessao={sessao} />
-          <div className="hidden md:block border-b border-black/10">
+          <div className="hidden md:block">
             <CircularCategories />
           </div>
           <main className="flex-1 pb-[64px] md:pb-0">{children}</main>
