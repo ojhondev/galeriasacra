@@ -58,7 +58,7 @@ export default async function AdminAvaliacoesPage() {
           />
         </label>
 
-        <button type="submit" className="bg-black text-white px-6 py-3 text-[16px] tracking-artu">
+        <button type="submit" className="bg-black text-white px-6 py-3 text-[16px] tracking-artu rounded-[6px]">
           ADICIONAR
         </button>
       </form>

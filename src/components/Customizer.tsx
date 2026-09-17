@@ -190,7 +190,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           type="button"
           onClick={handleAdicionar}
           disabled={esgotado}
-          className="flex-1 border border-black px-6 py-3 text-[16px] disabled:opacity-40"
+          className="flex-1 border border-black px-6 py-3 text-[16px] rounded-[6px] disabled:opacity-40"
         >
           {esgotado ? "Esgotado" : "Adicionar ao Carrinho"}
         </button>
@@ -207,7 +207,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           type="button"
           onClick={handleComprarAgora}
           disabled={esgotado}
-          className="w-full bg-black text-white px-6 py-4 text-[16px] disabled:opacity-40"
+          className="w-full bg-black text-white px-6 py-4 text-[16px] rounded-[6px] disabled:opacity-40"
         >
           {esgotado ? "Esgotado" : "Comprar Agora"}
         </button>

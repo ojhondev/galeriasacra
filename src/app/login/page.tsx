@@ -52,7 +52,7 @@ function LoginForm() {
         <button
           type="submit"
           disabled={pendente}
-          className="bg-black text-white px-8 py-4 text-[16px] mt-4 disabled:opacity-50"
+          className="bg-black text-white px-8 py-4 text-[16px] rounded-[6px] mt-4 disabled:opacity-50"
         >
           {pendente ? "Entrando..." : "Entrar"}
         </button>

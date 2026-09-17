@@ -12,7 +12,7 @@ export default async function AdminProdutosPage() {
     <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
       <div className="flex items-center justify-between mb-[32px]">
         <h1 className="text-[32px]">Produtos</h1>
-        <Link href="/admin/produtos/novo" className="bg-black text-white px-6 py-3 text-[16px] tracking-artu">
+        <Link href="/admin/produtos/novo" className="bg-black text-white px-6 py-3 text-[16px] tracking-artu rounded-[6px]">
           + NOVO PRODUTO
         </Link>
       </div>

@@ -82,7 +82,7 @@ export function Footer() {
                   placeholder="Seu e-mail"
                   className="flex-1 min-w-0 bg-white/10 px-3 py-2 text-[14px] outline-none placeholder:text-white/40"
                 />
-                <button type="submit" className="bg-white text-black px-4 py-2 text-[13px] shrink-0">
+                <button type="submit" className="bg-white text-black px-4 py-2 text-[13px] rounded-[6px] shrink-0">
                   Assinar
                 </button>
               </form>

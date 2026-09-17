@@ -28,8 +28,6 @@ export default async function Home() {
     <div>
       <SplitHero />
 
-      <FeatureIconsRow />
-
       <HairlineDivider />
 
       <CategoriasDestaque produtos={produtos} />
@@ -39,7 +37,7 @@ export default async function Home() {
       <section className="px-4 md:px-8 py-[64px]">
         <div className="flex items-center justify-between mb-[32px]">
           <p className="text-[28px] md:text-[36px]">Mais Vendidos</p>
-          <Link href="/quadros" className="bg-black text-white px-5 py-3 text-[14px]">
+          <Link href="/quadros" className="bg-black text-white px-5 py-3 text-[14px] rounded-[6px]">
             Ver Catálogo
           </Link>
         </div>
@@ -54,7 +52,7 @@ export default async function Home() {
         <section className="px-4 md:px-8 pb-[64px]">
           <div className="flex items-center justify-between mb-[32px]">
             <p className="text-[28px] md:text-[36px]">Ofertas</p>
-            <Link href="/quadros" className="bg-black text-white px-5 py-3 text-[14px]">
+            <Link href="/quadros" className="bg-black text-white px-5 py-3 text-[14px] rounded-[6px]">
               Ver Todas
             </Link>
           </div>
@@ -79,6 +77,10 @@ export default async function Home() {
       <FAQSection />
 
       <ContactCTA />
+
+      <HairlineDivider />
+
+      <FeatureIconsRow />
     </div>
   );
 }

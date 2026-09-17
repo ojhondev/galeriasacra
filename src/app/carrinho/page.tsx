@@ -19,7 +19,7 @@ export default function CarrinhoPage() {
           Recebemos seu pedido. Em breve entraremos em contato para confirmar produção e
           pagamento. Esta é uma etapa de demonstração — nenhum pagamento foi processado.
         </p>
-        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] mt-[42px] inline-block">
+        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] mt-[42px] inline-block">
           Voltar para Quadros
         </Link>
       </div>
@@ -31,7 +31,7 @@ export default function CarrinhoPage() {
       <div className="px-4 md:px-8 pt-[42px] pb-[80px]">
         <h1 className="text-[32px] mb-4">Carrinho</h1>
         <p className="text-[20px] text-black/70">Seu carrinho está vazio.</p>
-        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] mt-[42px] inline-block">
+        <Link href="/quadros" className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] mt-[42px] inline-block">
           Ver Quadros
         </Link>
       </div>
@@ -94,7 +94,7 @@ export default function CarrinhoPage() {
         <button
           type="button"
           onClick={() => setFinalizado(true)}
-          className="bg-black text-white px-6 py-3 text-[15px]"
+          className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px]"
         >
           Finalizar Pedido
         </button>

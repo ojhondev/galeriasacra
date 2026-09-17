@@ -10,13 +10,13 @@ export default async function AdminPage() {
       <p className="text-[18px] mb-[42px]">Olá, {sessao?.nome}.</p>
 
       <div className="flex flex-wrap gap-[32px]">
-        <Link href="/admin/produtos" className="border border-black px-8 py-6 text-[20px] tracking-artu">
+        <Link href="/admin/produtos" className="border border-black px-8 py-6 text-[20px] tracking-artu rounded-[6px]">
           PRODUTOS
         </Link>
-        <Link href="/admin/etiquetas" className="border border-black px-8 py-6 text-[20px] tracking-artu">
+        <Link href="/admin/etiquetas" className="border border-black px-8 py-6 text-[20px] tracking-artu rounded-[6px]">
           ETIQUETAS DE DESCONTO
         </Link>
-        <Link href="/admin/avaliacoes" className="border border-black px-8 py-6 text-[20px] tracking-artu">
+        <Link href="/admin/avaliacoes" className="border border-black px-8 py-6 text-[20px] tracking-artu rounded-[6px]">
           AVALIAÇÕES
         </Link>
       </div>

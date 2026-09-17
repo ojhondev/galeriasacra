@@ -134,7 +134,7 @@ export function ProdutoForm({
 
       <button
         type="submit"
-        className="bg-black text-white px-8 py-4 text-[18px] tracking-artu mt-4 self-start"
+        className="bg-black text-white px-8 py-4 text-[18px] tracking-artu rounded-[6px] mt-4 self-start"
       >
         SALVAR
       </button>

@@ -62,7 +62,7 @@ export default function ContatoPage() {
               className="w-full border-b border-black bg-transparent text-[20px] py-2 outline-none resize-none"
             />
           </div>
-          <button type="submit" className="bg-black text-white px-6 py-3 text-[15px] self-start">
+          <button type="submit" className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] self-start">
             Enviar
           </button>
           {enviado && (

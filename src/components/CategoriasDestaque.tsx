@@ -43,7 +43,7 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
           <span className="bg-white/95 px-3 py-1.5 text-[13px] tracking-artu">
             {produtoDestaque.nome}
           </span>
-          <span className="bg-white w-10 h-10 flex items-center justify-center text-[18px] shrink-0">
+          <span className="bg-white w-10 h-10 flex items-center justify-center text-[18px] rounded-[6px] shrink-0">
             →
           </span>
         </div>

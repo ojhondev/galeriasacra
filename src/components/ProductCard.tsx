@@ -19,13 +19,13 @@ export function ProductCard({
 
   return (
     <Link href={`/quadros/${produto.slug}`} className="block group" aria-label={produto.nome}>
-      <div className="relative aspect-square bg-[#f2f2ef] p-[8%] overflow-hidden">
+      <div className="relative aspect-[2/1] bg-[#f2f2ef] p-[8%] overflow-hidden">
         <p className="absolute top-[6%] left-[8%] text-[13px] tracking-artu text-black/60 z-10">
           {produto.categoria.toUpperCase()}
         </p>
 
         {etiqueta && (
-          <span className="absolute top-[6%] right-[8%] z-10 bg-black text-white px-2.5 py-1 text-[12px]">
+          <span className="absolute top-[6%] right-[8%] z-10 bg-black text-white px-2.5 py-1 text-[12px] rounded-[6px]">
             {etiqueta.label}
           </span>
         )}
@@ -39,7 +39,7 @@ export function ProductCard({
               onQuickView(produto);
             }}
             aria-label={`Visualização rápida de ${produto.nome}`}
-            className="absolute bottom-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center text-[16px] opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            className="absolute bottom-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center text-[16px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[6px]"
           >
             ⊕
           </button>
@@ -62,7 +62,7 @@ export function ProductCard({
         </div>
 
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="bg-white text-black px-6 py-3 text-[14px] tracking-artu">
+          <span className="bg-white text-black px-6 py-3 text-[14px] tracking-artu rounded-[6px]">
             Ver Detalhes
           </span>
         </div>

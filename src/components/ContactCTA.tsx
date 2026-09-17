@@ -11,7 +11,7 @@ export function ContactCTA() {
             Dúvidas sobre um pedido, personalização ou prazo de entrega? Estamos a uma mensagem
             de distância.
           </p>
-          <Link href="/contato" className="bg-black text-white px-6 py-3 text-[15px] w-fit inline-block">
+          <Link href="/contato" className="bg-black text-white px-6 py-3 text-[15px] rounded-[6px] w-fit inline-block">
             Enviar Mensagem
           </Link>
         </div>

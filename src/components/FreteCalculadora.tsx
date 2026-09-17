@@ -54,7 +54,7 @@ export function FreteCalculadora() {
         <button
           type="submit"
           disabled={calculando || cep.replace(/\D/g, "").length !== 8}
-          className="border border-black px-4 py-2 text-[14px] disabled:opacity-40"
+          className="border border-black px-4 py-2 text-[14px] rounded-[6px] disabled:opacity-40"
         >
           {calculando ? "..." : "Calcular"}
         </button>
