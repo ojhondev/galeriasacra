@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { IconWhatsApp } from "@/components/icons";
 
 export function Footer() {
   const [inscrito, setInscrito] = useState(false);
@@ -43,12 +44,12 @@ export function Footer() {
                 contato@galeriasacra.com.br
               </a>
               <a
-                href="https://wa.me/5500000000000"
+                href="https://wa.me/5514998570045"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-white"
+                className="flex items-center gap-2 hover:text-white"
               >
-                WhatsApp
+                <IconWhatsApp /> WhatsApp
               </a>
               <a
                 href="https://instagram.com/galeriasacra"

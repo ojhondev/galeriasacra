@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ARPreview } from "@/components/ARPreview";
 import { FreteCalculadora } from "@/components/FreteCalculadora";
 import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
-import { IconCheck, IconLock, IconRefresh } from "@/components/icons";
+import { IconCheck, IconLock, IconRefresh, IconWhatsApp } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import {
   MATERIAIS,
@@ -239,9 +239,9 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
         href={`https://wa.me/5514998570045?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[14px] underline block mb-[17px]"
+        className="flex items-center gap-2 text-[14px] underline mb-[17px] text-[#25D366]"
       >
-        Dúvidas? Fale conosco no WhatsApp
+        <IconWhatsApp /> Dúvidas? Fale conosco no WhatsApp
       </a>
 
       <FreteCalculadora />

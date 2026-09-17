@@ -18,7 +18,7 @@ export function CircularCategories() {
         href="/quadros"
         onClickCapture={bloquearCliqueSeArrastou}
         draggable={false}
-        className="flex flex-col items-center gap-2 shrink-0"
+        className="flex flex-col items-center gap-2 shrink-0 w-[80px] md:w-[92px]"
       >
         <span
           className="w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-full flex items-center justify-center text-white text-[13px] tracking-artu shrink-0"
@@ -26,7 +26,7 @@ export function CircularCategories() {
         >
           Ofertas
         </span>
-        <span className="text-[13px] text-black/70 whitespace-nowrap">Em Oferta</span>
+        <span className="text-[12px] leading-tight text-black/70 text-center">Em Oferta</span>
       </Link>
 
       {CATEGORIAS.map((categoria) => (
@@ -35,14 +35,12 @@ export function CircularCategories() {
           href={`/quadros?categoria=${encodeURIComponent(categoria)}`}
           onClickCapture={bloquearCliqueSeArrastou}
           draggable={false}
-          className="flex flex-col items-center gap-2 shrink-0"
+          className="flex flex-col items-center gap-2 shrink-0 w-[80px] md:w-[92px]"
         >
-          <span className="relative w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-full overflow-hidden shrink-0 bg-[#f2f2ef]">
+          <span className="relative w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-full overflow-hidden shrink-0 bg-[#f2f2ef] mx-auto">
             <Image src={IMAGENS_CATEGORIA[categoria]} alt={categoria} fill className="object-cover" />
           </span>
-          <span className="text-[13px] text-black/70 whitespace-nowrap max-w-[88px] text-center">
-            {categoria}
-          </span>
+          <span className="text-[12px] leading-tight text-black/70 text-center">{categoria}</span>
         </Link>
       ))}
     </div>
