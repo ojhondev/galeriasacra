@@ -3,6 +3,7 @@
 import { useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { ArtPlate } from "@/components/ArtPlate";
+import { ARPreview } from "@/components/ARPreview";
 import { FinalizandoCompra } from "@/components/FinalizandoCompra";
 import { useCart } from "@/lib/cart";
 import {
@@ -15,10 +16,17 @@ import {
   type MolduraId,
   type TamanhoId,
 } from "@/lib/pricing";
-import type { Produto } from "@/lib/products";
+import type { Produto, Orientacao } from "@/lib/products";
 
 const ETAPAS = ["imagem", "tamanho", "material", "moldura", "revisao"] as const;
 type Etapa = (typeof ETAPAS)[number];
+
+function aspectRatioDoTamanho(tamanhoId: TamanhoId, orientacao: Orientacao): number {
+  if (orientacao === "quadrado") return 1;
+  const [a, b] = tamanhoId.split("x").map(Number);
+  const [largura, altura] = orientacao === "paisagem" ? [Math.max(a, b), Math.min(a, b)] : [Math.min(a, b), Math.max(a, b)];
+  return largura / altura;
+}
 
 const ATRASO_AVANCO_MS = 250;
 
@@ -57,9 +65,11 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
   const [moldura, setMoldura] = useState<MolduraId | null>(null);
   const [quantidade, setQuantidade] = useState(1);
   const [finalizando, setFinalizando] = useState(false);
+  const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
   const etapa: Etapa = ETAPAS[etapaIndex];
   const precoBase = produtoSelecionado?.precoBase ?? 349;
+  const aspectRatio = aspectRatioDoTamanho(tamanho ?? "40x60", produtoSelecionado?.orientacao ?? "retrato");
   const preco = tamanho && material && moldura ? calcularPreco(precoBase, tamanho, moldura, material) : null;
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
   const nomeItem = imagemPropria
@@ -145,7 +155,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
       </div>
 
       <div className="flex-1 flex items-center justify-center px-4 md:px-8 py-[32px] min-h-[60vh]">
-        <div className="w-full max-w-2xl">
+        <div className={`w-full ${etapa === "revisao" ? "max-w-4xl" : "max-w-2xl"}`}>
           {etapa === "imagem" && (
             <div>
               <h1 className="text-[28px] md:text-[36px] mb-[32px] text-center">
@@ -230,8 +240,8 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
           )}
 
           {etapa === "revisao" && (
-            <div className="flex flex-col md:flex-row gap-[32px] items-center md:items-start">
-              <div className="w-full md:w-[240px] shrink-0">
+            <div className="flex flex-col md:flex-row gap-[42px] items-center md:items-start">
+              <div className="w-full md:w-[400px] shrink-0 bg-[#f2f2ef] p-[8%]">
                 {imagemPropria ? (
                   <div style={molduraAtual?.cor ? { background: molduraAtual.cor, padding: "3.2%" } : undefined}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -286,15 +296,33 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
                 <button
                   type="button"
                   onClick={() => setFinalizando(true)}
-                  className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu"
+                  className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu mb-[17px]"
                 >
                   FINALIZAR COMPRA
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setTestandoAmbiente(true)}
+                  className="text-[16px] tracking-artu underline"
+                >
+                  TESTAR NO MEU AMBIENTE
                 </button>
               </div>
             </div>
           )}
         </div>
       </div>
+
+      {testandoAmbiente && (
+        <ARPreview
+          aspectRatio={aspectRatio}
+          hue={produtoSelecionado?.hue ?? 200}
+          molduraColor={molduraAtual?.cor ?? null}
+          imagemUrl={imagemPropria}
+          onClose={() => setTestandoAmbiente(false)}
+        />
+      )}
     </div>
   );
 }
