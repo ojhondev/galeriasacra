@@ -35,9 +35,12 @@
   }
 }
 
-html,
-body {
+html {
   height: 100%;
+}
+
+body {
+  min-height: 100%;
 }
 
 body {
@@ -84,4 +87,13 @@ body {
 ::selection {
   background: var(--color-brand);
   color: var(--color-canvas-white);
+}
+
+.scrollbar-hide {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
 }

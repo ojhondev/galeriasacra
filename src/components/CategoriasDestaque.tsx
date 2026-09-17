@@ -4,11 +4,9 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArtPlate } from "@/components/ArtPlate";
+import { IconChevronRight } from "@/components/icons";
+import { IMAGENS_CATEGORIA } from "@/lib/category-images";
 import type { Produto } from "@/lib/products";
-
-const IMAGENS_CATEGORIA: Record<string, string> = {
-  "Quadros Religiosos": "/categorias/quadros-religiosos.jpg",
-};
 
 export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
   const categorias = useMemo(() => Array.from(new Set(produtos.map((p) => p.categoria))), [produtos]);
@@ -59,8 +57,8 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
           <span className="bg-white/95 px-3 py-1.5 text-[13px] tracking-artu">
             {produtoDestaque.nome}
           </span>
-          <span className="bg-white w-10 h-10 flex items-center justify-center text-[18px] rounded-[6px] shrink-0">
-            →
+          <span className="bg-white w-10 h-10 flex items-center justify-center rounded-[6px] shrink-0">
+            <IconChevronRight />
           </span>
         </div>
       </Link>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArtPlate } from "@/components/ArtPlate";
+import { IconEye } from "@/components/icons";
 import { precoRange, formatarPreco, aplicarDesconto } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
@@ -23,7 +24,7 @@ export function ProductCard({
       className="block group relative z-0 hover:z-10 w-full max-w-[280px] mx-auto"
       aria-label={produto.nome}
     >
-      <div className="relative aspect-[2/3] bg-[#f2f2ef] p-[8%] overflow-hidden transition-transform duration-300 group-hover:scale-105">
+      <div className="relative aspect-square bg-[#f2f2ef] p-[8%] overflow-hidden transition-transform duration-300 group-hover:scale-105">
         <p className="absolute top-[6%] left-[8%] text-[13px] tracking-artu text-black/60 z-10">
           {produto.categoria.toUpperCase()}
         </p>
@@ -43,9 +44,9 @@ export function ProductCard({
               onQuickView(produto);
             }}
             aria-label={`Visualização rápida de ${produto.nome}`}
-            className="absolute bottom-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center text-[16px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[6px]"
+            className="absolute bottom-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[6px]"
           >
-            ⊕
+            <IconEye />
           </button>
         )}
 

@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ARPreview } from "@/components/ARPreview";
 import { FreteCalculadora } from "@/components/FreteCalculadora";
 import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
+import { IconCheck, IconLock, IconRefresh } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import {
   MATERIAIS,
@@ -94,13 +95,13 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
 
       <div className="flex flex-wrap gap-2 mb-[24px]">
         <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
-          <span aria-hidden="true">✓</span> Produção sob encomenda
+          <IconCheck className="w-4 h-4" /> Produção sob encomenda
         </div>
         <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
-          <span aria-hidden="true">🔒</span> Compra segura
+          <IconLock /> Compra segura
         </div>
         <div className="inline-flex items-center gap-2 border border-black/20 rounded-full px-4 py-2 text-[13px]">
-          <span aria-hidden="true">↩</span> Garantia de 7 dias
+          <IconRefresh /> Garantia de 7 dias
         </div>
       </div>
 
@@ -111,7 +112,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       ) : (
         estoqueBaixo && (
           <p className="text-[14px] text-[var(--color-brand)] mb-[24px]">
-            🔥 Restam apenas {produto.estoque} {produto.estoque === 1 ? "unidade" : "unidades"}!
+            Restam apenas {produto.estoque} {produto.estoque === 1 ? "unidade" : "unidades"}!
           </p>
         )
       )}
@@ -207,7 +208,8 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           type="button"
           onClick={handleComprarAgora}
           disabled={esgotado}
-          className="w-full bg-black text-white px-6 py-4 text-[16px] rounded-[6px] disabled:opacity-40"
+          className="w-full text-white px-6 py-4 text-[16px] rounded-[6px] disabled:opacity-40"
+          style={{ background: "var(--color-brand)" }}
         >
           {esgotado ? "Esgotado" : "Comprar Agora"}
         </button>
@@ -233,18 +235,18 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       </div>
 
       <a
-        href={`https://wa.me/5500000000000?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
+        href={`https://wa.me/5514998570045?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="text-[14px] underline block mb-[17px]"
       >
-        💬 Dúvidas? Fale conosco no WhatsApp
+        Dúvidas? Fale conosco no WhatsApp
       </a>
 
       <FreteCalculadora />
 
       <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
-        📦 Frete grátis para compras acima de R$ 400
+        Frete grátis para compras acima de R$ 400
       </p>
 
       {estoqueBaixo && <UltimasUnidadesToast estoque={produto.estoque} />}

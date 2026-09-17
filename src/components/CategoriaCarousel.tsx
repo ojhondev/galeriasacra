@@ -18,8 +18,8 @@ export function CategoriaCarousel({ produtos }: { produtos: Produto[] }) {
     <section className="px-4 md:px-8 py-[64px]">
       <div className="flex items-center justify-between mb-[24px]">
         <p className="text-[13px] tracking-artu text-black/50">Compre por Categoria</p>
-        <Link href="/quadros" className="text-[14px] underline">
-          Ver tudo →
+        <Link href="/quadros" className="text-[14px] underline flex items-center gap-1">
+          Ver tudo <IconChevronRight />
         </Link>
       </div>
 

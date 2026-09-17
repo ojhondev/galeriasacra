@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { ArtPlate } from "@/components/ArtPlate";
+import { IconClose } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { formatarPreco } from "@/lib/pricing";
 
@@ -35,8 +36,8 @@ export function CartDrawer() {
       >
         <div className="flex items-center justify-between px-4 md:px-8 py-[17px] border-b border-black shrink-0">
           <p className="text-[16px] font-medium">Carrinho ({itens.length})</p>
-          <button type="button" onClick={fecharDrawer} aria-label="Fechar" className="text-[20px]">
-            ✕
+          <button type="button" onClick={fecharDrawer} aria-label="Fechar">
+            <IconClose />
           </button>
         </div>
 

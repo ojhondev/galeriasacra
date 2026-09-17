@@ -370,7 +370,7 @@ export function ARPreview({ aspectRatio, hue, molduraColor, imagemUrl, onClose }
         onClick={onClose}
         className="absolute top-4 right-4 md:top-8 md:right-8 bg-white text-black px-6 py-3 text-[16px] tracking-artu"
       >
-        FECHAR ✕
+        FECHAR
       </button>
 
       {tutorialPasso !== null && (

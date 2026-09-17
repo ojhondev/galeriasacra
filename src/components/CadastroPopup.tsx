@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { IconClose } from "@/components/icons";
 
 const STORAGE_KEY = "galeriasacra:cadastro-popup-fechado";
 const ATRASO_MS = 2500;
@@ -62,9 +63,9 @@ export function CadastroPopup() {
             type="button"
             onClick={fechar}
             aria-label="Fechar"
-            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white text-[18px]"
+            className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center text-white/80 hover:text-white"
           >
-            ✕
+            <IconClose />
           </button>
         </div>
 

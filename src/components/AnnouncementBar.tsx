@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { IconClose } from "@/components/icons";
 
 const STORAGE_KEY = "galeriasacra:announcement-fechado";
 
@@ -41,7 +42,7 @@ export function AnnouncementBar({ children }: { children: React.ReactNode }) {
         aria-label="Fechar aviso"
         className="absolute right-4 top-1/2 -translate-y-1/2 text-white/60 hover:text-white"
       >
-        ✕
+        <IconClose />
       </button>
     </div>
   );
