@@ -98,6 +98,9 @@ export function Footer() {
           <span className="border border-white/20 px-2 py-1 text-[12px]">Pix</span>
           <span className="border border-white/20 px-2 py-1 text-[12px]">Visa</span>
           <span className="border border-white/20 px-2 py-1 text-[12px]">Mastercard</span>
+          <Link href="/admin" className="hover:text-white">
+            Painel
+          </Link>
         </div>
       </div>
     </footer>
