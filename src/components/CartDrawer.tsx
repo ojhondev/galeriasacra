@@ -48,7 +48,7 @@ export function CartDrawer() {
             <div className="flex flex-col gap-[24px]">
               {itens.map((item) => (
                 <div key={item.id} className="grid grid-cols-[70px_1fr] gap-4 items-start">
-                  <ArtPlate hue={item.hue} orientacao="retrato" imagemUrl={item.imagemUrl} />
+                  <ArtPlate orientacao="retrato" imagemUrl={item.imagemUrl} />
                   <div>
                     <p className="text-[15px]">{item.nome}</p>
                     <p className="text-[13px] text-black/50">

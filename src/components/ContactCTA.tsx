@@ -16,7 +16,7 @@ export function ContactCTA() {
           </Link>
         </div>
         <div className="h-[220px] md:h-[220px]">
-          <ArtPlate hue={44} fill className="w-full h-full" />
+          <ArtPlate fill className="w-full h-full" />
         </div>
       </div>
     </section>

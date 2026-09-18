@@ -78,7 +78,6 @@ export function ProdutoDetalhe({
                     <ObraTile
                       slug={item.slug}
                       nome={item.nome}
-                      hue={item.hue}
                       orientacao={item.orientacao}
                       imagemUrl={item.imagens?.["sem-moldura"]}
                     />
@@ -151,7 +150,6 @@ export function ProdutoDetalhe({
               <ObraTile
                 slug={alt.slug}
                 nome={alt.nome}
-                hue={alt.hue}
                 orientacao={alt.orientacao}
                 imagemUrl={alt.imagens?.["sem-moldura"]}
               />

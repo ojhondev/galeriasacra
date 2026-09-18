@@ -6,63 +6,51 @@ const ASPECT: Record<Orientacao, string> = {
   quadrado: "1 / 1",
 };
 
+const PLACEHOLDER: Record<Orientacao, string> = {
+  retrato: "/placeholders/retrato.png",
+  paisagem: "/placeholders/paisagem.png",
+  quadrado: "/placeholders/quadrado.png",
+};
+
 type ArtPlateProps = {
-  hue: number;
   orientacao?: Orientacao;
   molduraColor?: string | null;
   className?: string;
   hoverZoom?: boolean;
   fill?: boolean;
-  /** Placeholder stand-in for a second product photo (different angle), until real photography exists. */
-  inverso?: boolean;
-  /** Foto real da obra já emoldurada nessa variante — substitui o gradiente placeholder quando presente. */
+  /** Foto real da obra já emoldurada nessa variante — substitui o placeholder genérico quando presente. */
   imagemUrl?: string | null;
 };
 
 export function ArtPlate({
-  hue,
   orientacao = "retrato",
   molduraColor = null,
   className = "",
   hoverZoom = false,
   fill = false,
-  inverso = false,
   imagemUrl = null,
 }: ArtPlateProps) {
   const overflowClass = hoverZoom ? "overflow-hidden" : "";
+  const src = imagemUrl ?? PLACEHOLDER[orientacao];
 
-  if (imagemUrl) {
-    return (
-      <div className={`${overflowClass} ${className}`} style={{ aspectRatio: fill ? undefined : ASPECT[orientacao] }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={imagemUrl}
-          alt=""
-          className={`w-full h-full object-cover ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
-        />
-      </div>
-    );
-  }
-
-  const plate = (
-    <div
-      className={`w-full h-full ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
-      style={{
-        aspectRatio: fill ? undefined : ASPECT[orientacao],
-        background: inverso
-          ? `radial-gradient(120% 90% at 70% 80%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`
-          : `radial-gradient(120% 90% at 30% 20%, hsl(${hue} 45% 92%) 0%, hsl(${hue} 55% 62%) 45%, hsl(${hue} 62% 28%) 100%)`,
-      }}
-    />
+  const foto = (
+    <div className="w-full h-full" style={{ aspectRatio: fill ? undefined : ASPECT[orientacao] }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt=""
+        className={`w-full h-full object-cover ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
+      />
+    </div>
   );
 
   if (!molduraColor) {
-    return <div className={`${overflowClass} ${className}`}>{plate}</div>;
+    return <div className={`${overflowClass} ${className}`}>{foto}</div>;
   }
 
   return (
     <div className={`${overflowClass} ${className}`} style={{ background: molduraColor, padding: "3.2%" }}>
-      {plate}
+      {foto}
     </div>
   );
 }

@@ -70,22 +70,12 @@ export function ProductCard({
         <div className="relative flex-1 overflow-hidden">
           <div className="relative w-full h-full transition-transform duration-300 group-hover:scale-105">
             <ArtPlate
-              hue={produto.hue}
+              orientacao={produto.orientacao}
               fill
               molduraColor={molduraCor}
               imagemUrl={imagemUrl}
-              className="w-full h-full transition-opacity duration-300 group-hover:opacity-0"
+              className="w-full h-full"
             />
-            <div className="absolute inset-0">
-              <ArtPlate
-                hue={produto.hue}
-                fill
-                inverso
-                molduraColor={molduraCor}
-                imagemUrl={imagemUrl}
-                className="w-full h-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              />
-            </div>
           </div>
 
           {onQuickView && (

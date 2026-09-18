@@ -303,7 +303,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                         outlineOffset: "2px",
                       }}
                     >
-                      <ArtPlate hue={p.hue} orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
+                      <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
                       <p className="text-[14px] mt-2 text-left">{p.nome}</p>
                     </button>
                   ))}
@@ -426,7 +426,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                   </div>
                 ) : (
                   <ArtPlate
-                    hue={produtoSelecionado?.hue ?? 200}
                     orientacao={produtoSelecionado?.orientacao ?? "retrato"}
                     molduraColor={molduraAtual?.cor ?? null}
                     imagemUrl={moldura ? produtoSelecionado?.imagens?.[moldura] : undefined}

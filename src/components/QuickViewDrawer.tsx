@@ -51,7 +51,6 @@ function QuickViewConteudo({
       <div className="px-4 md:px-8 py-[24px]">
         {mostrarImagem && (
           <ArtPlate
-            hue={produto.hue}
             orientacao={produto.orientacao}
             imagemUrl={produto.imagens?.["sem-moldura"]}
             className="mb-[24px] max-w-[220px] mx-auto rounded-none"
