@@ -6,7 +6,13 @@ import { ArtPlate } from "@/components/ArtPlate";
 import { IconClose, IconChevronRight, IconCheck, IconTruck, IconBox } from "@/components/icons";
 import type { Produto } from "@/lib/products";
 
-function QuickViewConteudo({ produto }: { produto: Produto }) {
+function QuickViewConteudo({
+  produto,
+  mostrarImagem = true,
+}: {
+  produto: Produto;
+  mostrarImagem?: boolean;
+}) {
   const emEstoque = produto.estoque > 0;
   const dias = produto.prazoEntregaDias;
   const diasLabel = dias === 1 ? "1 dia útil" : `${dias} dias úteis`;
@@ -43,11 +49,13 @@ function QuickViewConteudo({ produto }: { produto: Produto }) {
       </div>
 
       <div className="px-4 md:px-8 py-[24px]">
-        <ArtPlate
-          hue={produto.hue}
-          orientacao={produto.orientacao}
-          className="mb-[24px] max-w-[220px] mx-auto"
-        />
+        {mostrarImagem && (
+          <ArtPlate
+            hue={produto.hue}
+            orientacao={produto.orientacao}
+            className="mb-[24px] max-w-[220px] mx-auto rounded-none"
+          />
+        )}
 
         <p className="text-[13px] tracking-artu text-black/60 mb-1">
           {produto.categoria.toUpperCase()}
@@ -151,7 +159,7 @@ export function QuickViewDrawer({
       />
 
       <div
-        className={`absolute right-0 top-0 h-full w-full sm:w-[440px] bg-white overflow-y-auto transition-transform duration-300 ${
+        className={`hidden md:block absolute right-0 top-0 h-full w-[440px] bg-white overflow-y-auto transition-transform duration-300 ${
           aberto ? "translate-x-0" : "translate-x-full"
         }`}
       >
@@ -163,6 +171,23 @@ export function QuickViewDrawer({
         </div>
 
         {produtoExibido && <QuickViewConteudo key={produtoExibido.id} produto={produtoExibido} />}
+      </div>
+
+      <div
+        className={`md:hidden absolute inset-x-0 bottom-0 max-h-[85vh] bg-white overflow-y-auto rounded-t-[16px] transition-transform duration-300 ${
+          aberto ? "translate-y-0" : "translate-y-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-4 py-[17px] border-b border-black sticky top-0 bg-white z-10 rounded-t-[16px]">
+          <p className="text-[14px] font-medium">Visualização Rápida</p>
+          <button type="button" onClick={onClose} aria-label="Fechar">
+            <IconClose />
+          </button>
+        </div>
+
+        {produtoExibido && (
+          <QuickViewConteudo key={produtoExibido.id} produto={produtoExibido} mostrarImagem={false} />
+        )}
       </div>
     </div>
   );
