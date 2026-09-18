@@ -12,6 +12,7 @@ export type AuthState = { erro?: string };
 export async function cadastrar(_prevState: AuthState, formData: FormData): Promise<AuthState> {
   const nome = String(formData.get("nome") ?? "").trim();
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const whatsapp = String(formData.get("whatsapp") ?? "").trim();
   const senha = String(formData.get("senha") ?? "");
   const redirectPara = String(formData.get("redirect") ?? "/");
 
@@ -27,7 +28,7 @@ export async function cadastrar(_prevState: AuthState, formData: FormData): Prom
   const senhaHash = await hashSenha(senha);
   const [usuario] = await db
     .insert(usuarios)
-    .values({ nome, email, senhaHash, role: "cliente" })
+    .values({ nome, email, whatsapp: whatsapp || null, senhaHash, role: "cliente" })
     .returning();
 
   await criarSessao({ userId: usuario.id, email: usuario.email, nome: usuario.nome, role: usuario.role });

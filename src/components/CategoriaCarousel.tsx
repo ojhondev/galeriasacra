@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { IconChevronRight } from "@/components/icons";
-import { CATEGORIAS, IMAGENS_CATEGORIA } from "@/lib/category-images";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
+import type { Colecao } from "@/lib/colecoes";
 
-export function CategoriaCarousel() {
+export function CategoriaCarousel({ colecoes }: { colecoes: Colecao[] }) {
   const { ref, arrastando, handlers, bloquearCliqueSeArrastou, rolar } = useArrastarScroll<HTMLDivElement>();
 
   return (
@@ -26,25 +26,25 @@ export function CategoriaCarousel() {
             arrastando ? "cursor-grabbing scroll-auto" : "cursor-grab scroll-smooth snap-x snap-mandatory"
           }`}
         >
-          {CATEGORIAS.map((categoria) => (
+          {colecoes.map((colecao) => (
             <Link
-              key={categoria}
-              href={`/quadros?categoria=${encodeURIComponent(categoria)}`}
+              key={colecao.id}
+              href={`/quadros?categoria=${encodeURIComponent(colecao.nome)}`}
               onClickCapture={bloquearCliqueSeArrastou}
               draggable={false}
               className="group relative block shrink-0 w-[300px] md:w-[420px] aspect-[3/4] snap-start overflow-hidden"
             >
               <div className="relative w-full h-full transition-transform duration-300 group-hover:scale-105">
                 <Image
-                  src={IMAGENS_CATEGORIA[categoria]}
-                  alt={categoria}
+                  src={colecao.imagemUrl}
+                  alt={colecao.nome}
                   fill
                   className="object-cover pointer-events-none"
                 />
               </div>
               <div className="absolute inset-0 bg-black/20 pointer-events-none" />
               <p className="absolute bottom-5 left-5 text-white text-[24px] md:text-[28px] font-medium pointer-events-none">
-                {categoria}
+                {colecao.nome}
               </p>
             </Link>
           ))}

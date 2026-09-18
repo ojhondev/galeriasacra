@@ -18,6 +18,7 @@ type ProdutoDetalheProps = {
   alternativas: Produto[];
   combinaCom: Produto[];
   avaliacoes: Avaliacao[];
+  freteGratisMinimo: number;
 };
 
 export function ProdutoDetalhe({
@@ -25,6 +26,7 @@ export function ProdutoDetalhe({
   alternativas,
   combinaCom,
   avaliacoes,
+  freteGratisMinimo,
 }: ProdutoDetalheProps) {
   const [molduraColor, setMolduraColor] = useState<string | null>(null);
   const media = calcularMedia(avaliacoes);
@@ -57,7 +59,12 @@ export function ProdutoDetalhe({
             </div>
           )}
 
-          <Customizer produto={produto} onMolduraChange={setMolduraColor} comprarFixoNoMobile />
+          <Customizer
+            produto={produto}
+            onMolduraChange={setMolduraColor}
+            comprarFixoNoMobile
+            freteGratisMinimo={freteGratisMinimo}
+          />
 
           {combinaCom.length > 0 && (
             <div className="border-t border-black py-[17px]">

@@ -10,6 +10,9 @@ import {
   IconStarOutline,
   IconLogout,
   IconRefresh,
+  IconGrid,
+  IconUser,
+  IconTruck,
 } from "@/components/icons";
 import { sair } from "@/lib/auth-actions";
 import type { SessionPayload } from "@/lib/session";
@@ -19,6 +22,9 @@ const LINKS = [
   { href: "/admin/pedidos", label: "Pedidos", icon: IconReceipt },
   { href: "/admin/restauros", label: "Restauros", icon: IconRefresh },
   { href: "/admin/produtos", label: "Produtos", icon: IconBox },
+  { href: "/admin/colecoes", label: "Coleções", icon: IconGrid },
+  { href: "/admin/clientes", label: "Clientes", icon: IconUser },
+  { href: "/admin/frete", label: "Frete", icon: IconTruck },
   { href: "/admin/etiquetas", label: "Etiquetas", icon: IconTag },
   { href: "/admin/avaliacoes", label: "Avaliações", icon: IconStarOutline },
 ];

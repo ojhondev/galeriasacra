@@ -3,10 +3,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { CATEGORIAS, IMAGENS_CATEGORIA } from "@/lib/category-images";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
+import type { Colecao } from "@/lib/colecoes";
 
-export function CircularCategories() {
+export function CircularCategories({ colecoes }: { colecoes: Colecao[] }) {
   const { ref, handlers, bloquearCliqueSeArrastou } = useArrastarScroll<HTMLDivElement>();
   const pathname = usePathname();
   const naPaginaDeProduto = /^\/quadros\/.+/.test(pathname);
@@ -34,18 +34,18 @@ export function CircularCategories() {
         <span className="text-[12px] leading-tight text-black/70 text-center">Em Oferta</span>
       </Link>
 
-      {CATEGORIAS.map((categoria) => (
+      {colecoes.map((colecao) => (
         <Link
-          key={categoria}
-          href={`/quadros?categoria=${encodeURIComponent(categoria)}`}
+          key={colecao.id}
+          href={`/quadros?categoria=${encodeURIComponent(colecao.nome)}`}
           onClickCapture={bloquearCliqueSeArrastou}
           draggable={false}
           className="flex flex-col items-center gap-2 shrink-0 w-[80px] md:w-[92px]"
         >
           <span className="relative w-[64px] h-[64px] md:w-[76px] md:h-[76px] rounded-full overflow-hidden shrink-0 bg-[#f2f2ef] mx-auto">
-            <Image src={IMAGENS_CATEGORIA[categoria]} alt={categoria} fill className="object-cover" />
+            <Image src={colecao.imagemUrl} alt={colecao.nome} fill className="object-cover" />
           </span>
-          <span className="text-[12px] leading-tight text-black/70 text-center">{categoria}</span>
+          <span className="text-[12px] leading-tight text-black/70 text-center">{colecao.nome}</span>
         </Link>
       ))}
     </div>

@@ -1,8 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconClose } from "@/components/icons";
+import { inscreverLeadAction } from "@/lib/leads-actions";
 
 const STORAGE_KEY = "galeriasacra:cadastro-popup-fechado";
 const ATRASO_MS = 2500;
@@ -10,6 +11,9 @@ const ATRASO_MS = 2500;
 export function CadastroPopup() {
   const [aberto, setAberto] = useState(false);
   const [inscrito, setInscrito] = useState(false);
+  const [enviando, setEnviando] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const whatsappRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     try {
@@ -85,18 +89,25 @@ export function CadastroPopup() {
 
               <form
                 className="flex flex-col gap-4"
-                onSubmit={(e) => {
+                onSubmit={async (e) => {
                   e.preventDefault();
+                  const email = emailRef.current?.value ?? "";
+                  const whatsapp = whatsappRef.current?.value ?? "";
+                  setEnviando(true);
+                  await inscreverLeadAction(email, whatsapp);
+                  setEnviando(false);
                   setInscrito(true);
                 }}
               >
                 <input
+                  ref={emailRef}
                   type="email"
                   required
                   placeholder="E-mail"
                   className="bg-black/5 px-4 py-4 text-[16px] outline-none rounded-[6px] placeholder:text-black/50"
                 />
                 <input
+                  ref={whatsappRef}
                   type="tel"
                   required
                   placeholder="WhatsApp"
@@ -104,10 +115,11 @@ export function CadastroPopup() {
                 />
                 <button
                   type="submit"
-                  className="text-white px-6 py-4 text-[14px] tracking-artu rounded-[6px] mt-2"
+                  disabled={enviando}
+                  className="text-white px-6 py-4 text-[14px] tracking-artu rounded-[6px] mt-2 disabled:opacity-60"
                   style={{ background: "var(--color-brand)" }}
                 >
-                  QUERO ME CADASTRAR
+                  {enviando ? "Enviando..." : "QUERO ME CADASTRAR"}
                 </button>
               </form>
             </>

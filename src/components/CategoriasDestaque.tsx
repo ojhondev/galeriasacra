@@ -4,12 +4,18 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { IconChevronRight } from "@/components/icons";
-import { IMAGENS_CATEGORIA } from "@/lib/category-images";
 import type { Produto } from "@/lib/products";
+import type { Colecao } from "@/lib/colecoes";
 
-export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
+const IMAGEM_PADRAO = "/categorias/teste-generico.jpg";
+
+export function CategoriasDestaque({ produtos, colecoes }: { produtos: Produto[]; colecoes: Colecao[] }) {
   const categorias = useMemo(() => Array.from(new Set(produtos.map((p) => p.categoria))), [produtos]);
   const [ativa, setAtiva] = useState(categorias[0]);
+  const imagemPorCategoria = useMemo(
+    () => new Map(colecoes.map((c) => [c.nome, c.imagemUrl])),
+    [colecoes],
+  );
 
   if (!ativa) return null;
 
@@ -35,7 +41,7 @@ export function CategoriasDestaque({ produtos }: { produtos: Produto[] }) {
       <Link href={`/quadros?categoria=${encodeURIComponent(ativa)}`} className="block group relative">
         <div className="relative w-full h-[50vh] md:h-[70vh] overflow-hidden">
           <Image
-            src={IMAGENS_CATEGORIA[ativa]}
+            src={imagemPorCategoria.get(ativa) ?? IMAGEM_PADRAO}
             alt={ativa}
             fill
             className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"

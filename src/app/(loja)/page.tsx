@@ -9,11 +9,18 @@ import { HomeProductSections } from "@/components/HomeProductSections";
 import { HairlineDivider } from "@/components/HairlineDivider";
 import { listarProdutos } from "@/lib/products";
 import { listarEtiquetasAtivas } from "@/lib/etiquetas";
+import { listarColecoesAtivas } from "@/lib/colecoes";
+import { obterConfigLoja } from "@/lib/frete";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const [produtos, etiquetasAtivas] = await Promise.all([listarProdutos(), listarEtiquetasAtivas()]);
+  const [produtos, etiquetasAtivas, colecoes, configLoja] = await Promise.all([
+    listarProdutos(),
+    listarEtiquetasAtivas(),
+    listarColecoesAtivas(),
+    obterConfigLoja(),
+  ]);
 
   const maisVendidos = produtos.slice(0, 4);
 
@@ -32,7 +39,7 @@ export default async function Home() {
 
       <HairlineDivider />
 
-      <CategoriasDestaque produtos={produtos} />
+      <CategoriasDestaque produtos={produtos} colecoes={colecoes} />
 
       <HairlineDivider />
 
@@ -40,7 +47,7 @@ export default async function Home() {
 
       {etiquetaGlobal && <PromoBanner label={etiquetaGlobal.label} />}
 
-      <CategoriaCarousel />
+      <CategoriaCarousel colecoes={colecoes} />
 
       <HairlineDivider />
 
@@ -50,7 +57,7 @@ export default async function Home() {
 
       <HairlineDivider />
 
-      <FeatureIconsRow />
+      <FeatureIconsRow freteGratisMinimo={configLoja.freteGratisMinimo} />
     </div>
   );
 }

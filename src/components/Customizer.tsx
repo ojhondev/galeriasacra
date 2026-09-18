@@ -32,9 +32,15 @@ type CustomizerProps = {
   produto: Produto;
   onMolduraChange?: (cor: string | null) => void;
   comprarFixoNoMobile?: boolean;
+  freteGratisMinimo?: number;
 };
 
-export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = false }: CustomizerProps) {
+export function Customizer({
+  produto,
+  onMolduraChange,
+  comprarFixoNoMobile = false,
+  freteGratisMinimo = 400,
+}: CustomizerProps) {
   const router = useRouter();
   const { adicionar } = useCart();
 
@@ -253,7 +259,7 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
       <FreteCalculadora />
 
       <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
-        Frete grátis para compras acima de R$ 400
+        Frete grátis para compras acima de {formatarPreco(freteGratisMinimo)}
       </p>
 
       {estoqueBaixo && <UltimasUnidadesToast estoque={produto.estoque} />}

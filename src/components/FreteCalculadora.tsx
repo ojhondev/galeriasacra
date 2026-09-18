@@ -2,19 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { formatarPreco } from "@/lib/pricing";
-
-const FAIXAS_FRETE = [
-  { prefixo: "0", regiao: "Grande São Paulo", prazo: "2 a 4 dias úteis", valor: 24 },
-  { prefixo: "1", regiao: "Interior de São Paulo", prazo: "3 a 5 dias úteis", valor: 29 },
-  { prefixo: "2", regiao: "Rio de Janeiro / Espírito Santo", prazo: "3 a 6 dias úteis", valor: 32 },
-  { prefixo: "3", regiao: "Minas Gerais", prazo: "3 a 6 dias úteis", valor: 30 },
-  { prefixo: "4", regiao: "Bahia / Sergipe", prazo: "4 a 8 dias úteis", valor: 38 },
-  { prefixo: "5", regiao: "Nordeste", prazo: "5 a 9 dias úteis", valor: 42 },
-  { prefixo: "6", regiao: "Norte", prazo: "6 a 12 dias úteis", valor: 55 },
-  { prefixo: "7", regiao: "Centro-Oeste / Distrito Federal", prazo: "4 a 7 dias úteis", valor: 36 },
-  { prefixo: "8", regiao: "Paraná / Santa Catarina", prazo: "3 a 6 dias úteis", valor: 32 },
-  { prefixo: "9", regiao: "Rio Grande do Sul", prazo: "4 a 7 dias úteis", valor: 35 },
-];
+import { calcularFreteAction } from "@/lib/frete-actions";
 
 function formatarCep(valor: string): string {
   const digitos = valor.replace(/\D/g, "").slice(0, 8);
@@ -26,18 +14,16 @@ export function FreteCalculadora() {
   const [calculando, setCalculando] = useState(false);
   const [resultado, setResultado] = useState<{ regiao: string; prazo: string; valor: number } | null>(null);
 
-  function calcular(e: FormEvent) {
+  async function calcular(e: FormEvent) {
     e.preventDefault();
     const digitos = cep.replace(/\D/g, "");
     if (digitos.length !== 8) return;
 
     setCalculando(true);
     setResultado(null);
-    setTimeout(() => {
-      const faixa = FAIXAS_FRETE.find((f) => f.prefixo === digitos[0]) ?? FAIXAS_FRETE[0];
-      setResultado(faixa);
-      setCalculando(false);
-    }, 600);
+    const faixa = await calcularFreteAction(cep);
+    setResultado(faixa);
+    setCalculando(false);
   }
 
   return (

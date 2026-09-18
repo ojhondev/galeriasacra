@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { ProdutoDetalhe } from "@/components/ProdutoDetalhe";
 import { getProdutoBySlug, listarProdutos } from "@/lib/products";
 import { listarAvaliacoesPorProduto } from "@/lib/avaliacoes";
+import { obterConfigLoja } from "@/lib/frete";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -22,9 +23,10 @@ export default async function ProdutoPage({ params }: Props) {
   const produto = await getProdutoBySlug(slug);
   if (!produto) notFound();
 
-  const [produtos, avaliacoes] = await Promise.all([
+  const [produtos, avaliacoes, configLoja] = await Promise.all([
     listarProdutos(),
     listarAvaliacoesPorProduto(produto.id),
+    obterConfigLoja(),
   ]);
   const alternativas = produtos.filter((p) => p.id !== produto.id).slice(0, 4);
   const combinaCom = produtos
@@ -40,6 +42,7 @@ export default async function ProdutoPage({ params }: Props) {
       alternativas={alternativas}
       combinaCom={combinaComFinal}
       avaliacoes={avaliacoes}
+      freteGratisMinimo={configLoja.freteGratisMinimo}
     />
   );
 }

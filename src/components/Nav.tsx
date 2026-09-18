@@ -8,8 +8,8 @@ import { useCart } from "@/lib/cart";
 import { sair } from "@/lib/auth-actions";
 import { IconSearch, IconUser, IconBag, IconClose, IconChevronRight } from "@/components/icons";
 import { CircularCategories } from "@/components/CircularCategories";
-import { CATEGORIAS } from "@/lib/category-images";
 import type { SessionPayload } from "@/lib/session";
+import type { Colecao } from "@/lib/colecoes";
 
 const LINKS = [
   { href: "/quadros", label: "Quadros" },
@@ -18,7 +18,7 @@ const LINKS = [
   { href: "/contato", label: "Contato" },
 ];
 
-export function Nav({ sessao }: { sessao: SessionPayload | null }) {
+export function Nav({ sessao, colecoes }: { sessao: SessionPayload | null; colecoes: Colecao[] }) {
   const router = useRouter();
   const { quantidadeTotal, abrirDrawer } = useCart();
   const [open, setOpen] = useState(false);
@@ -61,9 +61,9 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
               className="appearance-none bg-transparent pl-5 pr-8 py-3 text-[14px] text-black/70 outline-none cursor-pointer max-w-[180px]"
             >
               <option value="">Todas Categorias</option>
-              {CATEGORIAS.map((categoria) => (
-                <option key={categoria} value={categoria}>
-                  {categoria}
+              {colecoes.map((colecao) => (
+                <option key={colecao.id} value={colecao.nome}>
+                  {colecao.nome}
                 </option>
               ))}
             </select>
@@ -201,7 +201,7 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
       )}
 
       <div className="md:hidden">
-        <CircularCategories />
+        <CircularCategories colecoes={colecoes} />
       </div>
     </header>
   );
