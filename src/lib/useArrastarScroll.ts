@@ -10,9 +10,7 @@ export function useArrastarScroll<T extends HTMLElement>() {
   function onPointerDown(e: PointerEvent) {
     const el = ref.current;
     if (!el) return;
-    el.setPointerCapture(e.pointerId);
     estadoRef.current = { arrastando: true, startX: e.clientX, scrollLeftInicial: el.scrollLeft, moveu: false };
-    setArrastando(true);
   }
 
   function onPointerMove(e: PointerEvent) {
@@ -20,8 +18,14 @@ export function useArrastarScroll<T extends HTMLElement>() {
     const el = ref.current;
     if (!estado.arrastando || !el) return;
     const dx = e.clientX - estado.startX;
-    if (Math.abs(dx) > 3) estado.moveu = true;
-    el.scrollLeft = estado.scrollLeftInicial - dx;
+    if (Math.abs(dx) > 3) {
+      if (!estado.moveu) {
+        estado.moveu = true;
+        el.setPointerCapture(e.pointerId);
+        setArrastando(true);
+      }
+      el.scrollLeft = estado.scrollLeftInicial - dx;
+    }
   }
 
   function onPointerUp(e: PointerEvent) {

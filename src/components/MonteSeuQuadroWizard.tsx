@@ -21,6 +21,7 @@ import {
   type TamanhoId,
 } from "@/lib/pricing";
 import type { Produto, Orientacao } from "@/lib/products";
+import type { Colecao } from "@/lib/colecoes";
 
 const ETAPAS = ["imagem", "tamanho", "material", "moldura", "revisao"] as const;
 type Etapa = (typeof ETAPAS)[number];
@@ -63,7 +64,35 @@ function OpcaoBotao({
   );
 }
 
-export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
+const ORIENTACOES: { id: Orientacao; label: string }[] = [
+  { id: "retrato", label: "Retrato" },
+  { id: "paisagem", label: "Paisagem" },
+  { id: "quadrado", label: "Quadrado" },
+];
+
+function ChipFiltro({
+  ativo,
+  onClick,
+  children,
+}: {
+  ativo: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`shrink-0 px-4 py-2 text-[13px] tracking-artu border transition-colors ${
+        ativo ? "border-black bg-black text-white" : "border-black/20 text-black/60 hover:border-black"
+      }`}
+    >
+      {children}
+    </button>
+  );
+}
+
+export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto[]; colecoes: Colecao[] }) {
   const router = useRouter();
   const { adicionar } = useCart();
   const {
@@ -74,9 +103,11 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
   } = useArrastarScroll<HTMLDivElement>();
 
   const [etapaIndex, setEtapaIndex] = useState(0);
-  const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | undefined>(produtos[0]);
+  const [produtoSelecionado, setProdutoSelecionado] = useState<Produto | undefined>(undefined);
   const [imagemPropria, setImagemPropria] = useState<string | null>(null);
   const [nomeArquivo, setNomeArquivo] = useState<string | null>(null);
+  const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
+  const [filtroOrientacao, setFiltroOrientacao] = useState<Orientacao | null>(null);
   const [tamanho, setTamanho] = useState<TamanhoId | null>(null);
   const [tamanhoCustom, setTamanhoCustom] = useState<TamanhoCustom | null>(null);
   const [larguraInput, setLarguraInput] = useState("");
@@ -86,6 +117,15 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
   const [quantidade, setQuantidade] = useState(1);
   const [finalizando, setFinalizando] = useState(false);
   const [testandoAmbiente, setTestandoAmbiente] = useState(false);
+
+  const categoriasDisponiveis = colecoes
+    .filter((c) => produtos.some((p) => p.categoria === c.nome))
+    .map((c) => c.nome);
+  const produtosFiltrados = produtos.filter(
+    (p) =>
+      (!filtroCategoria || p.categoria === filtroCategoria) &&
+      (!filtroOrientacao || p.orientacao === filtroOrientacao),
+  );
 
   const etapa: Etapa = ETAPAS[etapaIndex];
   const precoBase = produtoSelecionado?.precoBase ?? 349;
@@ -203,37 +243,75 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
         <div className={`w-full ${etapa === "imagem" ? "max-w-4xl" : etapa === "revisao" ? "max-w-4xl" : "max-w-2xl"}`}>
           {etapa === "imagem" && (
             <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[24px] text-center">
                 Escolha uma imagem do catálogo
               </h1>
 
-              <div
-                ref={carrosselRef}
-                {...carrosselHandlers}
-                className={`flex gap-4 overflow-x-auto pb-2 mb-[24px] select-none ${
-                  carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
-                }`}
-              >
-                {produtos.map((p) => (
-                  <button
-                    key={p.id}
-                    type="button"
-                    onClickCapture={bloquearCliqueSeArrastou}
-                    onClick={() => escolherProduto(p)}
-                    aria-label={p.nome}
-                    draggable={false}
-                    className="shrink-0 w-[220px] md:w-[260px] snap-start"
-                    style={{
-                      outline:
-                        produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid black" : "none",
-                      outlineOffset: "2px",
-                    }}
+              {categoriasDisponiveis.length > 0 && (
+                <div className="flex gap-2 overflow-x-auto pb-1 mb-3 -mx-1 px-1">
+                  <ChipFiltro ativo={filtroCategoria === null} onClick={() => setFiltroCategoria(null)}>
+                    Todas categorias
+                  </ChipFiltro>
+                  {categoriasDisponiveis.map((nome) => (
+                    <ChipFiltro
+                      key={nome}
+                      ativo={filtroCategoria === nome}
+                      onClick={() => setFiltroCategoria(filtroCategoria === nome ? null : nome)}
+                    >
+                      {nome}
+                    </ChipFiltro>
+                  ))}
+                </div>
+              )}
+
+              <div className="flex gap-2 overflow-x-auto pb-1 mb-[24px] -mx-1 px-1">
+                <ChipFiltro ativo={filtroOrientacao === null} onClick={() => setFiltroOrientacao(null)}>
+                  Todos formatos
+                </ChipFiltro>
+                {ORIENTACOES.map((o) => (
+                  <ChipFiltro
+                    key={o.id}
+                    ativo={filtroOrientacao === o.id}
+                    onClick={() => setFiltroOrientacao(filtroOrientacao === o.id ? null : o.id)}
                   >
-                    <ArtPlate hue={p.hue} orientacao={p.orientacao} />
-                    <p className="text-[14px] mt-2 text-left">{p.nome}</p>
-                  </button>
+                    {o.label}
+                  </ChipFiltro>
                 ))}
               </div>
+
+              {produtosFiltrados.length > 0 ? (
+                <div
+                  ref={carrosselRef}
+                  {...carrosselHandlers}
+                  className={`flex gap-4 overflow-x-auto pb-2 mb-[24px] select-none ${
+                    carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
+                  }`}
+                >
+                  {produtosFiltrados.map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      onClickCapture={bloquearCliqueSeArrastou}
+                      onClick={() => escolherProduto(p)}
+                      aria-label={p.nome}
+                      draggable={false}
+                      className="shrink-0 w-[220px] md:w-[260px] snap-start"
+                      style={{
+                        outline:
+                          produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid black" : "none",
+                        outlineOffset: "2px",
+                      }}
+                    >
+                      <ArtPlate hue={p.hue} orientacao={p.orientacao} />
+                      <p className="text-[14px] mt-2 text-left">{p.nome}</p>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-[15px] text-black/50 text-center mb-[24px]">
+                  Nenhuma imagem encontrada para esse filtro.
+                </p>
+              )}
 
               <div className="text-center">
                 <label className="text-[16px] tracking-artu underline cursor-pointer">
@@ -313,7 +391,7 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
 
           {etapa === "moldura" && (
             <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Qual moldura?</h1>
+              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Escolha sua Moldura</h1>
               <div className="flex flex-col gap-3">
                 {MOLDURAS.map((m) => (
                   <OpcaoBotao key={m.id} ativo={moldura === m.id} onClick={() => escolherMoldura(m.id)}>
