@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import type { Produto } from "@/lib/products";
 import type { Colecao } from "@/lib/colecoes";
+import { MOLDURAS } from "@/lib/pricing";
+import { ImagemUpload } from "@/components/admin/ImagemUpload";
 
 function gerarSlug(texto: string): string {
   return texto
@@ -11,6 +13,12 @@ function gerarSlug(texto: string): string {
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+}
+
+function gerarSkuAutomatico(): string {
+  const carimbo = Date.now().toString(36).toUpperCase().slice(-5);
+  const aleatorio = Math.random().toString(36).slice(2, 6).toUpperCase();
+  return `GS-${carimbo}${aleatorio}`;
 }
 
 function Cartao({ titulo, children }: { titulo?: string; children: React.ReactNode }) {
@@ -56,6 +64,8 @@ export function ProdutoForm({
   const [slug, setSlug] = useState(produto?.slug ?? "");
   const [slugEditadoManualmente, setSlugEditadoManualmente] = useState(Boolean(produto?.slug));
   const [hue, setHue] = useState(produto?.hue ?? 200);
+  const [sku, setSku] = useState(produto?.sku ?? gerarSkuAutomatico());
+  const [imagens, setImagens] = useState<Record<string, string>>(produto?.imagens ?? {});
 
   const corPreview = useMemo(() => `hsl(${hue} 55% 62%)`, [hue]);
 
@@ -79,8 +89,23 @@ export function ProdutoForm({
           </Campo>
 
           <div className="grid grid-cols-2 gap-4">
-            <Campo label="SKU">
-              <input name="sku" defaultValue={produto?.sku} required className={inputCls} />
+            <Campo label="SKU" hint="Gerado automaticamente — pode editar se preferir um código próprio.">
+              <div className="flex gap-2">
+                <input
+                  name="sku"
+                  value={sku}
+                  onChange={(e) => setSku(e.target.value)}
+                  required
+                  className={`${inputCls} flex-1`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setSku(gerarSkuAutomatico())}
+                  className="text-[13px] underline shrink-0"
+                >
+                  Gerar novo
+                </button>
+              </div>
             </Campo>
             <Campo label="Identificador da URL (slug)" hint={`/quadros/${slug || "..."}`}>
               <input
@@ -126,7 +151,7 @@ export function ProdutoForm({
               className="w-14 h-14 rounded-[6px] shrink-0 border border-black/10"
               style={{ background: corPreview }}
             />
-            <Campo label="Cor de identificação (0–360)" hint="Usada como placeholder até termos fotografia real da obra.">
+            <Campo label="Cor de identificação (0–360)" hint="Usada como placeholder enquanto uma moldura não tem foto real.">
               <input
                 type="range"
                 name="hue"
@@ -138,6 +163,25 @@ export function ProdutoForm({
               />
             </Campo>
           </div>
+        </Cartao>
+
+        <Cartao titulo="Imagens por moldura">
+          <p className="text-[13px] text-black/50 -mt-2">
+            Envie uma foto da obra já emoldurada para cada variante. As molduras sem foto continuam
+            usando o placeholder de cor acima até serem fotografadas.
+          </p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {MOLDURAS.map((m) => (
+              <ImagemUpload
+                key={m.id}
+                label={m.label}
+                value={imagens[m.id]}
+                corPreview={!imagens[m.id] ? corPreview : undefined}
+                onChange={(url) => setImagens((atual) => ({ ...atual, [m.id]: url }))}
+              />
+            ))}
+          </div>
+          <input type="hidden" name="imagens" value={JSON.stringify(imagens)} />
         </Cartao>
 
         <Cartao titulo="Preço">

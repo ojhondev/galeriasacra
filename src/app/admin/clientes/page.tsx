@@ -1,4 +1,5 @@
 import { listarClientes, listarLeads } from "@/lib/clientes";
+import { ClienteRow } from "@/components/admin/ClienteRow";
 
 export const dynamic = "force-dynamic";
 
@@ -14,29 +15,7 @@ export default async function AdminClientesPage() {
         {clientes.length === 0 ? (
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhum cliente cadastrado ainda.</p>
         ) : (
-          clientes.map((cliente) => (
-            <div
-              key={cliente.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div>
-                <p className="text-[15px]">
-                  {cliente.nome}{" "}
-                  {cliente.role === "admin" && (
-                    <span className="text-[11px] text-white bg-black px-2 py-0.5 rounded-[6px] ml-1">
-                      admin
-                    </span>
-                  )}
-                </p>
-                <p className="text-[13px] text-black/50">
-                  {cliente.email} {cliente.whatsapp && `· ${cliente.whatsapp}`}
-                </p>
-              </div>
-              <p className="text-[13px] text-black/40">
-                {new Date(cliente.createdAt).toLocaleDateString("pt-BR")}
-              </p>
-            </div>
-          ))
+          clientes.map((cliente) => <ClienteRow key={cliente.id} cliente={cliente} />)
         )}
       </div>
 

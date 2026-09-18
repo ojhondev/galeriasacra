@@ -57,6 +57,13 @@
       "when": 1789742117436,
       "tag": "0007_mushy_thor",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1789751365390,
+      "tag": "0008_demonic_nekra",
+      "breakpoints": true
     }
   ]
 }

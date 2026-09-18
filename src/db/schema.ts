@@ -73,6 +73,7 @@ export const produtos = pgTable("produtos", {
   precoBase: integer("preco_base").notNull(),
   orientacao: orientacaoEnum("orientacao").notNull().default("retrato"),
   hue: integer("hue").notNull().default(200),
+  imagens: jsonb("imagens").notNull().default({}).$type<Record<string, string>>(),
   ativo: boolean("ativo").notNull().default(true),
   ordem: integer("ordem").notNull().default(0),
   estoque: integer("estoque").notNull().default(10),

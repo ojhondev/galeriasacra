@@ -1,6 +1,7 @@
-import Image from "next/image";
 import { listarColecoes } from "@/lib/colecoes";
-import { criarColecaoAction, excluirColecaoAction } from "@/lib/colecoes-actions";
+import { criarColecaoAction } from "@/lib/colecoes-actions";
+import { ColecaoRow } from "@/components/admin/ColecaoRow";
+import { NovaColecaoImagem } from "@/components/admin/NovaColecaoImagem";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +20,8 @@ export default async function AdminColecoesPage() {
         action={criarColecaoAction}
         className="bg-white border border-black/10 rounded-[6px] p-5 flex flex-wrap items-end gap-4 mb-6"
       >
+        <NovaColecaoImagem />
+
         <label className="flex flex-col gap-1">
           <span className="text-[13px] text-black/50">Nome</span>
           <input
@@ -26,15 +29,6 @@ export default async function AdminColecoesPage() {
             required
             placeholder="Ex: Santos e Santas"
             className="border-b border-black/30 py-2 text-[15px] outline-none bg-transparent min-w-[220px]"
-          />
-        </label>
-
-        <label className="flex flex-col gap-1">
-          <span className="text-[13px] text-black/50">URL da imagem</span>
-          <input
-            name="imagemUrl"
-            placeholder="/categorias/teste-generico.jpg"
-            className="border-b border-black/30 py-2 text-[15px] outline-none bg-transparent min-w-[240px]"
           />
         </label>
 
@@ -62,34 +56,7 @@ export default async function AdminColecoesPage() {
         {colecoes.length === 0 ? (
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhuma coleção ainda.</p>
         ) : (
-          colecoes.map((colecao) => (
-            <div
-              key={colecao.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div className="flex items-center gap-3">
-                <Image
-                  src={colecao.imagemUrl}
-                  alt=""
-                  width={40}
-                  height={40}
-                  unoptimized
-                  className="w-10 h-10 rounded-[6px] object-cover shrink-0 bg-[#f2f2ef]"
-                />
-                <div>
-                  <p className="text-[15px]">
-                    {colecao.nome} {!colecao.ativo && <span className="text-black/40">(inativa)</span>}
-                  </p>
-                  <p className="text-[13px] text-black/50">Ordem {colecao.ordem}</p>
-                </div>
-              </div>
-              <form action={excluirColecaoAction.bind(null, colecao.id)}>
-                <button type="submit" className="underline text-[var(--color-brand)] text-[13px]">
-                  Excluir
-                </button>
-              </form>
-            </div>
-          ))
+          colecoes.map((colecao) => <ColecaoRow key={colecao.id} colecao={colecao} />)
         )}
       </div>
     </div>

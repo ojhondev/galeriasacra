@@ -30,7 +30,7 @@ function aspectRatioDoTamanho(tamanhoId: TamanhoId, orientacao: Orientacao): num
 
 type CustomizerProps = {
   produto: Produto;
-  onMolduraChange?: (cor: string | null) => void;
+  onMolduraChange?: (moldura: MolduraId) => void;
   comprarFixoNoMobile?: boolean;
   freteGratisMinimo?: number;
 };
@@ -63,13 +63,14 @@ export function Customizer({
   const parcela = preco / 12;
 
   useEffect(() => {
-    onMolduraChange?.(molduraAtual?.cor ?? null);
-  }, [molduraAtual, onMolduraChange]);
+    onMolduraChange?.(moldura);
+  }, [moldura, onMolduraChange]);
 
   function montarItem() {
     return {
       nome: produto.nome,
       hue: produto.hue,
+      imagemUrl: produto.imagens?.[moldura] ?? null,
       tamanho,
       tamanhoLabel: TAMANHOS.find((t) => t.id === tamanho)!.label,
       moldura,

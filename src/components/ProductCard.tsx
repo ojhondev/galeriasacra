@@ -35,6 +35,7 @@ export function ProductCard({
   const minComDesconto = etiqueta ? aplicarDesconto(min, etiqueta) : min;
   const minComCupom = Math.round(min * (1 - DESCONTO_CUPOM_SACRA10 / 100));
   const molduraCor = MOLDURAS.find((m) => m.id === moldura)?.cor ?? null;
+  const imagemUrl = produto.imagens?.[moldura] ?? null;
   const nota = notaAleatoria(produto.id);
 
   return (
@@ -72,6 +73,7 @@ export function ProductCard({
               hue={produto.hue}
               fill
               molduraColor={molduraCor}
+              imagemUrl={imagemUrl}
               className="w-full h-full transition-opacity duration-300 group-hover:opacity-0"
             />
             <div className="absolute inset-0">
@@ -80,6 +82,7 @@ export function ProductCard({
                 fill
                 inverso
                 molduraColor={molduraCor}
+                imagemUrl={imagemUrl}
                 className="w-full h-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               />
             </div>

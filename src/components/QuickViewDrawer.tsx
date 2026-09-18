@@ -53,6 +53,7 @@ function QuickViewConteudo({
           <ArtPlate
             hue={produto.hue}
             orientacao={produto.orientacao}
+            imagemUrl={produto.imagens?.["sem-moldura"]}
             className="mb-[24px] max-w-[220px] mx-auto rounded-none"
           />
         )}

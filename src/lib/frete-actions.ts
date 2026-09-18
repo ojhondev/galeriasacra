@@ -50,6 +50,20 @@ export async function criarFaixaFreteAction(formData: FormData) {
   redirect("/admin/frete");
 }
 
+export async function atualizarFaixaFreteAction(id: string, formData: FormData) {
+  await exigirAdmin();
+  await db
+    .update(faixasFrete)
+    .set({
+      regiao: String(formData.get("regiao") ?? "").trim(),
+      prazo: String(formData.get("prazo") ?? "").trim(),
+      valor: Math.max(0, Math.round(Number(formData.get("valor") ?? 0))),
+    })
+    .where(eq(faixasFrete.id, id));
+  revalidarFrete();
+  redirect("/admin/frete");
+}
+
 export async function excluirFaixaFreteAction(id: string) {
   await exigirAdmin();
   await db.delete(faixasFrete).where(eq(faixasFrete.id, id));

@@ -11,6 +11,7 @@ import { ObraTile } from "@/components/ObraTile";
 import { formatarPreco, precoRange } from "@/lib/pricing";
 import { calcularMedia, type Avaliacao } from "@/lib/avaliacoes-shared";
 import { registrarProdutoVisto } from "@/lib/produto-visto";
+import { MOLDURAS, type MolduraId } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
 type ProdutoDetalheProps = {
@@ -28,7 +29,9 @@ export function ProdutoDetalhe({
   avaliacoes,
   freteGratisMinimo,
 }: ProdutoDetalheProps) {
-  const [molduraColor, setMolduraColor] = useState<string | null>(null);
+  const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
+  const molduraColor = MOLDURAS.find((m) => m.id === moldura)?.cor ?? null;
+  const imagemUrl = produto.imagens?.[moldura] ?? null;
   const media = calcularMedia(avaliacoes);
 
   useEffect(() => {
@@ -61,7 +64,7 @@ export function ProdutoDetalhe({
 
           <Customizer
             produto={produto}
-            onMolduraChange={setMolduraColor}
+            onMolduraChange={setMoldura}
             comprarFixoNoMobile
             freteGratisMinimo={freteGratisMinimo}
           />
@@ -72,7 +75,13 @@ export function ProdutoDetalhe({
               <div className="grid grid-cols-2 gap-3">
                 {combinaCom.map((item) => (
                   <div key={item.id}>
-                    <ObraTile slug={item.slug} nome={item.nome} hue={item.hue} orientacao={item.orientacao} />
+                    <ObraTile
+                      slug={item.slug}
+                      nome={item.nome}
+                      hue={item.hue}
+                      orientacao={item.orientacao}
+                      imagemUrl={item.imagens?.["sem-moldura"]}
+                    />
                     <p className="text-[14px] mt-1">{item.nome}</p>
                     <p className="text-[13px] text-black/50">
                       {formatarPreco(precoRange(item.precoBase).min)}
@@ -129,7 +138,7 @@ export function ProdutoDetalhe({
         </div>
 
         <div className="order-1 lg:order-2">
-          <ProdutoGaleria produto={produto} molduraColor={molduraColor} />
+          <ProdutoGaleria produto={produto} molduraColor={molduraColor} imagemUrl={imagemUrl} />
         </div>
       </div>
 
@@ -139,7 +148,13 @@ export function ProdutoDetalhe({
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">
           {alternativas.map((alt) => (
             <div key={alt.id}>
-              <ObraTile slug={alt.slug} nome={alt.nome} hue={alt.hue} orientacao={alt.orientacao} />
+              <ObraTile
+                slug={alt.slug}
+                nome={alt.nome}
+                hue={alt.hue}
+                orientacao={alt.orientacao}
+                imagemUrl={alt.imagens?.["sem-moldura"]}
+              />
               <p className="text-[18px] mt-[11px]">{alt.nome}</p>
             </div>
           ))}

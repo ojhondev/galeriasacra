@@ -17,6 +17,7 @@ export type Produto = {
   precoBase: number;
   orientacao: Orientacao;
   hue: number;
+  imagens: Record<string, string>;
   ativo: boolean;
   ordem: number;
   estoque: number;
@@ -36,6 +37,7 @@ function paraProduto(row: typeof produtosTable.$inferSelect): Produto {
     precoBase: row.precoBase,
     orientacao: row.orientacao,
     hue: row.hue,
+    imagens: row.imagens,
     ativo: row.ativo,
     ordem: row.ordem,
     estoque: row.estoque,
@@ -97,6 +99,7 @@ export type ProdutoInput = {
   precoBase: number;
   orientacao: Orientacao;
   hue: number;
+  imagens: Record<string, string>;
   ativo: boolean;
   ordem: number;
   estoque: number;

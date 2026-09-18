@@ -18,6 +18,20 @@ export async function listarEtiquetasAtivas() {
   });
 }
 
+export async function listarEtiquetasDoProduto(produtoId: string) {
+  return db.query.etiquetasDesconto.findMany({
+    where: eq(etiquetasDesconto.produtoId, produtoId),
+    orderBy: [desc(etiquetasDesconto.createdAt)],
+  });
+}
+
+export async function listarEtiquetasInfoDoProduto(produtoId: string) {
+  return db.query.etiquetasInfo.findMany({
+    where: eq(etiquetasInfo.produtoId, produtoId),
+    orderBy: [desc(etiquetasInfo.createdAt)],
+  });
+}
+
 export async function listarEtiquetasInfo() {
   return db.query.etiquetasInfo.findMany({
     orderBy: [desc(etiquetasInfo.createdAt)],

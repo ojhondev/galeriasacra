@@ -7,9 +7,10 @@ import type { Produto } from "@/lib/products";
 type ProdutoGaleriaProps = {
   produto: Produto;
   molduraColor: string | null;
+  imagemUrl?: string | null;
 };
 
-export function ProdutoGaleria({ produto, molduraColor }: ProdutoGaleriaProps) {
+export function ProdutoGaleria({ produto, molduraColor, imagemUrl = null }: ProdutoGaleriaProps) {
   const [imagemIndex, setImagemIndex] = useState(0);
 
   return (
@@ -19,6 +20,7 @@ export function ProdutoGaleria({ produto, molduraColor }: ProdutoGaleriaProps) {
         orientacao={produto.orientacao}
         molduraColor={molduraColor}
         inverso={imagemIndex === 1}
+        imagemUrl={imagemUrl}
       />
 
       <button

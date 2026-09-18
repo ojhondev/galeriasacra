@@ -15,6 +15,7 @@ export type ItemCarrinho = {
   id: string;
   nome: string;
   hue: number;
+  imagemUrl?: string | null;
   tamanho: string;
   tamanhoLabel: string;
   moldura: MolduraId;

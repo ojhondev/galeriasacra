@@ -15,6 +15,8 @@ type ArtPlateProps = {
   fill?: boolean;
   /** Placeholder stand-in for a second product photo (different angle), until real photography exists. */
   inverso?: boolean;
+  /** Foto real da obra já emoldurada nessa variante — substitui o gradiente placeholder quando presente. */
+  imagemUrl?: string | null;
 };
 
 export function ArtPlate({
@@ -25,7 +27,23 @@ export function ArtPlate({
   hoverZoom = false,
   fill = false,
   inverso = false,
+  imagemUrl = null,
 }: ArtPlateProps) {
+  const overflowClass = hoverZoom ? "overflow-hidden" : "";
+
+  if (imagemUrl) {
+    return (
+      <div className={`${overflowClass} ${className}`} style={{ aspectRatio: fill ? undefined : ASPECT[orientacao] }}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={imagemUrl}
+          alt=""
+          className={`w-full h-full object-cover ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
+        />
+      </div>
+    );
+  }
+
   const plate = (
     <div
       className={`w-full h-full ${hoverZoom ? "transition-transform duration-500 ease-out group-hover:scale-110" : ""}`}
@@ -37,8 +55,6 @@ export function ArtPlate({
       }}
     />
   );
-
-  const overflowClass = hoverZoom ? "overflow-hidden" : "";
 
   if (!molduraColor) {
     return <div className={`${overflowClass} ${className}`}>{plate}</div>;

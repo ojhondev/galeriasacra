@@ -1,6 +1,7 @@
 import { listarTodasAvaliacoes } from "@/lib/avaliacoes";
 import { listarProdutosAdmin } from "@/lib/products";
-import { criarAvaliacaoAction, excluirAvaliacaoAction } from "@/lib/admin-actions";
+import { criarAvaliacaoAction } from "@/lib/admin-actions";
+import { AvaliacaoRow } from "@/components/admin/AvaliacaoRow";
 
 export const dynamic = "force-dynamic";
 
@@ -70,27 +71,7 @@ export default async function AdminAvaliacoesPage() {
         {avaliacoes.length === 0 ? (
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhuma avaliação ainda.</p>
         ) : (
-          avaliacoes.map((avaliacao) => (
-            <div
-              key={avaliacao.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div>
-                <p className="text-[15px]">
-                  {"★".repeat(avaliacao.nota)}
-                  {"☆".repeat(5 - avaliacao.nota)} — {avaliacao.nomeCliente}
-                </p>
-                <p className="text-[13px] text-black/50">
-                  {avaliacao.produto?.nome} · {avaliacao.comentario}
-                </p>
-              </div>
-              <form action={excluirAvaliacaoAction.bind(null, avaliacao.id)}>
-                <button type="submit" className="underline text-[var(--color-brand)] text-[13px]">
-                  Excluir
-                </button>
-              </form>
-            </div>
-          ))
+          avaliacoes.map((avaliacao) => <AvaliacaoRow key={avaliacao.id} avaliacao={avaliacao} />)
         )}
       </div>
     </div>

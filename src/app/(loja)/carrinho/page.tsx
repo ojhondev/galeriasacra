@@ -62,7 +62,7 @@ export default function CarrinhoPage() {
         {itens.map((item) => (
           <div key={item.id}>
             <div className="grid grid-cols-[120px_1fr] md:grid-cols-[160px_1fr] gap-6 items-start">
-              <ArtPlate hue={item.hue} orientacao="retrato" />
+              <ArtPlate hue={item.hue} orientacao="retrato" imagemUrl={item.imagemUrl} />
               <div className="flex flex-col gap-2 min-w-0">
                 <p className="text-[20px]">{item.nome}</p>
                 <p className="text-[16px] text-black/60">{item.tamanhoLabel}</p>

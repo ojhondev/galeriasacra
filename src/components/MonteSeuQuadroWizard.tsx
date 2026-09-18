@@ -200,6 +200,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     adicionar({
       nome: nomeItem,
       hue: produtoSelecionado?.hue ?? 200,
+      imagemUrl: imagemPropria ? null : (produtoSelecionado?.imagens?.[moldura!] ?? null),
       tamanho: tamanhoCustom ? `${tamanhoCustom.largura}x${tamanhoCustom.altura}` : tamanho!,
       tamanhoLabel: tamanhoLabelAtual,
       moldura: moldura!,
@@ -302,7 +303,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                         outlineOffset: "2px",
                       }}
                     >
-                      <ArtPlate hue={p.hue} orientacao={p.orientacao} />
+                      <ArtPlate hue={p.hue} orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
                       <p className="text-[14px] mt-2 text-left">{p.nome}</p>
                     </button>
                   ))}
@@ -428,6 +429,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                     hue={produtoSelecionado?.hue ?? 200}
                     orientacao={produtoSelecionado?.orientacao ?? "retrato"}
                     molduraColor={molduraAtual?.cor ?? null}
+                    imagemUrl={moldura ? produtoSelecionado?.imagens?.[moldura] : undefined}
                   />
                 )}
               </div>

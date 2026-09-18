@@ -1,5 +1,6 @@
 import { listarFaixasFrete, obterConfigLoja } from "@/lib/frete";
-import { criarFaixaFreteAction, excluirFaixaFreteAction, atualizarConfigFreteAction } from "@/lib/frete-actions";
+import { criarFaixaFreteAction, atualizarConfigFreteAction } from "@/lib/frete-actions";
+import { FaixaFreteRow } from "@/components/admin/FaixaFreteRow";
 import { formatarPreco } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
@@ -97,26 +98,7 @@ export default async function AdminFretePage() {
         {faixas.length === 0 ? (
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhuma faixa de frete cadastrada.</p>
         ) : (
-          faixas.map((faixa) => (
-            <div
-              key={faixa.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div>
-                <p className="text-[15px]">
-                  CEP {faixa.prefixoCep}xxx-xxx · {faixa.regiao}
-                </p>
-                <p className="text-[13px] text-black/50">
-                  {faixa.prazo} · {formatarPreco(faixa.valor)}
-                </p>
-              </div>
-              <form action={excluirFaixaFreteAction.bind(null, faixa.id)}>
-                <button type="submit" className="underline text-[var(--color-brand)] text-[13px]">
-                  Excluir
-                </button>
-              </form>
-            </div>
-          ))
+          faixas.map((faixa) => <FaixaFreteRow key={faixa.id} faixa={faixa} />)
         )}
       </div>
     </div>

@@ -1,11 +1,8 @@
 import { listarEtiquetas, listarEtiquetasInfo } from "@/lib/etiquetas";
 import { listarProdutosAdmin } from "@/lib/products";
-import {
-  criarEtiquetaAction,
-  excluirEtiquetaAction,
-  criarEtiquetaInfoAction,
-  excluirEtiquetaInfoAction,
-} from "@/lib/admin-actions";
+import { criarEtiquetaAction, criarEtiquetaInfoAction } from "@/lib/admin-actions";
+import { EtiquetaRow } from "@/components/admin/EtiquetaRow";
+import { EtiquetaInfoRow } from "@/components/admin/EtiquetaInfoRow";
 
 export const dynamic = "force-dynamic";
 
@@ -83,25 +80,7 @@ export default async function AdminEtiquetasPage() {
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhuma etiqueta de desconto.</p>
         ) : (
           etiquetas.map((etiqueta) => (
-            <div
-              key={etiqueta.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div>
-                <p className="text-[15px]">
-                  {etiqueta.label} {!etiqueta.ativo && <span className="text-black/40">(inativa)</span>}
-                </p>
-                <p className="text-[13px] text-black/50">
-                  {etiqueta.tipo === "percentual" ? `${etiqueta.valor}%` : `R$ ${etiqueta.valor}`} ·{" "}
-                  {etiqueta.produto?.nome ?? "Todos os produtos"}
-                </p>
-              </div>
-              <form action={excluirEtiquetaAction.bind(null, etiqueta.id)}>
-                <button type="submit" className="underline text-[var(--color-brand)] text-[13px]">
-                  Excluir
-                </button>
-              </form>
-            </div>
+            <EtiquetaRow key={etiqueta.id} etiqueta={etiqueta} produtos={produtos} />
           ))
         )}
       </div>
@@ -155,22 +134,7 @@ export default async function AdminEtiquetasPage() {
           <p className="px-5 py-6 text-[14px] text-black/50">Nenhuma etiqueta informativa.</p>
         ) : (
           etiquetasInfo.map((etiqueta) => (
-            <div
-              key={etiqueta.id}
-              className="flex flex-wrap items-center justify-between gap-4 border-b border-black/10 last:border-0 px-5 py-4"
-            >
-              <div>
-                <p className="text-[15px]">
-                  {etiqueta.label} {!etiqueta.ativo && <span className="text-black/40">(inativa)</span>}
-                </p>
-                <p className="text-[13px] text-black/50">{etiqueta.produto?.nome ?? "Todos os produtos"}</p>
-              </div>
-              <form action={excluirEtiquetaInfoAction.bind(null, etiqueta.id)}>
-                <button type="submit" className="underline text-[var(--color-brand)] text-[13px]">
-                  Excluir
-                </button>
-              </form>
-            </div>
+            <EtiquetaInfoRow key={etiqueta.id} etiqueta={etiqueta} produtos={produtos} />
           ))
         )}
       </div>
