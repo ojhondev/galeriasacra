@@ -12,6 +12,8 @@ import { listarColecoesAtivas } from "@/lib/colecoes";
 import { obterConfigLoja } from "@/lib/frete";
 import { formatarPreco } from "@/lib/pricing";
 
+export const dynamic = "force-dynamic";
+
 export default async function LojaLayout({ children }: { children: React.ReactNode }) {
   const [sessao, colecoes, configLoja] = await Promise.all([
     obterSessao(),
