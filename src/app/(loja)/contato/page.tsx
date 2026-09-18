@@ -17,7 +17,7 @@ export default function ContatoPage() {
             </a>
           </p>
           <p className="text-[20px]">
-            <a href="https://wa.me/5500000000000" target="_blank" rel="noopener noreferrer" className="underline">
+            <a href="https://wa.me/5514998570045" target="_blank" rel="noopener noreferrer" className="underline">
               WhatsApp
             </a>
           </p>

@@ -12,6 +12,13 @@ export const statusPedidoEnum = pgEnum("status_pedido", [
   "concluido",
   "cancelado",
 ]);
+export const statusRestauroEnum = pgEnum("status_restauro", [
+  "novo",
+  "em_analise",
+  "orcamento_enviado",
+  "aprovado",
+  "recusado",
+]);
 
 export const usuarios = pgTable("usuarios", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -67,6 +74,23 @@ export const pedidos = pgTable("pedidos", {
   >(),
   total: integer("total").notNull(),
   status: statusPedidoEnum("status").notNull().default("aguardando_pagamento"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const solicitacoesRestauro = pgTable("solicitacoes_restauro", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  numero: text("numero").notNull().unique(),
+  nome: text("nome").notNull(),
+  email: text("email").notNull(),
+  whatsapp: text("whatsapp").notNull(),
+  tipoObra: text("tipo_obra").notNull(),
+  largura: integer("largura"),
+  altura: integer("altura"),
+  tiposDano: text("tipos_dano").array().notNull(),
+  descricao: text("descricao").notNull().default(""),
+  urgencia: text("urgencia").notNull(),
+  quantidadeFotos: integer("quantidade_fotos").notNull().default(0),
+  status: statusRestauroEnum("status").notNull().default("novo"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 

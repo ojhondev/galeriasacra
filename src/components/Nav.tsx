@@ -84,6 +84,17 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
           </button>
         </form>
 
+        <Link
+          href="/restaure-seu-quadro"
+          className="hidden md:inline-flex relative shrink-0 items-center text-white px-4 py-2.5 rounded-[6px] text-[14px] font-medium whitespace-nowrap"
+          style={{ background: "var(--color-brand)" }}
+        >
+          Restaure Seu Quadro
+          <span className="absolute -top-2 -right-2 bg-black text-white text-[8px] tracking-artu uppercase px-1.5 py-0.5 rounded-full leading-none whitespace-nowrap">
+            Novo serviço
+          </span>
+        </Link>
+
         <div className="flex items-center gap-x-5 ml-auto">
           <button
             type="button"
@@ -175,6 +186,12 @@ export function Nav({ sessao }: { sessao: SessionPayload | null }) {
               {link.label}
             </Link>
           ))}
+          <Link href="/restaure-seu-quadro" onClick={() => setOpen(false)} className="inline-flex items-center gap-2">
+            Restaure Seu Quadro
+            <span className="bg-black text-white text-[9px] tracking-artu uppercase px-1.5 py-0.5 rounded-full leading-none">
+              Novo serviço
+            </span>
+          </Link>
           {sessao?.role === "admin" && (
             <Link href="/admin" onClick={() => setOpen(false)}>
               Admin

@@ -43,6 +43,13 @@
       "when": 1789738089025,
       "tag": "0005_tiny_talisman",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1789738715779,
+      "tag": "0006_stormy_bill_hollister",
+      "breakpoints": true
     }
   ]
 }
