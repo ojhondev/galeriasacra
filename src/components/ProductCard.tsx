@@ -43,84 +43,86 @@ export function ProductCard({
       className="block group relative z-0 hover:z-10 w-full max-w-[340px] mx-auto"
       aria-label={produto.nome}
     >
-      <div className="relative aspect-square bg-[#f2f2ef] p-[8%] overflow-hidden transition-transform duration-300 group-hover:scale-105">
-        <div className="absolute top-[6%] left-[8%] z-10 flex flex-col items-start gap-1">
-          <span className="bg-white text-black px-2 py-1 text-[10px] tracking-artu uppercase rounded-[6px]">
-            {produto.categoria}
-          </span>
-          {produto.etiquetasInfo.map((label) => (
-            <span
-              key={label}
-              className="bg-white/90 text-black/70 px-2 py-1 text-[10px] tracking-artu rounded-[6px]"
-            >
-              {label}
+      <div className="relative aspect-square bg-[#f2f2ef] p-[8%] overflow-hidden">
+        <div className="relative w-full h-full overflow-hidden">
+          <div className="relative w-full h-full transition-transform duration-300 group-hover:scale-105">
+            <ArtPlate
+              hue={produto.hue}
+              fill
+              molduraColor={molduraCor}
+              className="w-full h-full transition-opacity duration-300 group-hover:opacity-0"
+            />
+            <div className="absolute inset-0">
+              <ArtPlate
+                hue={produto.hue}
+                fill
+                inverso
+                molduraColor={molduraCor}
+                className="w-full h-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+              />
+            </div>
+          </div>
+
+          <div className="absolute top-2 left-2 z-10 flex flex-col items-start gap-1">
+            <span className="bg-white text-black px-2 py-1 text-[10px] tracking-artu uppercase rounded-[6px]">
+              {produto.categoria}
             </span>
-          ))}
-        </div>
+            {produto.etiquetasInfo.map((label) => (
+              <span
+                key={label}
+                className="bg-white/90 text-black/70 px-2 py-1 text-[10px] tracking-artu rounded-[6px]"
+              >
+                {label}
+              </span>
+            ))}
+          </div>
 
-        {etiqueta && (
-          <span className="absolute top-[6%] right-[8%] z-10 bg-black text-white px-2.5 py-1 text-[12px] rounded-[6px]">
-            {etiqueta.label}
-          </span>
-        )}
+          {etiqueta && (
+            <span className="absolute top-2 right-2 z-10 bg-black text-white px-2.5 py-1 text-[12px] rounded-[6px]">
+              {etiqueta.label}
+            </span>
+          )}
 
-        {onQuickView && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onQuickView(produto);
-            }}
-            aria-label={`Visualização rápida de ${produto.nome}`}
-            className="absolute bottom-[6%] right-[8%] z-10 w-9 h-9 bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[6px]"
-          >
-            <IconEye />
-          </button>
-        )}
-
-        <div className="absolute bottom-[6%] left-[8%] z-10 flex items-center gap-1.5">
-          {MOLDURAS.map((m) => (
+          {onQuickView && (
             <button
-              key={m.id}
               type="button"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setMoldura(m.id);
+                onQuickView(produto);
               }}
-              aria-label={m.label}
-              title={m.label}
-              className={`w-5 h-5 rounded-full shadow transition-transform ${
-                moldura === m.id ? "scale-110 ring-2 ring-white ring-offset-1 ring-offset-black/20" : ""
-              }`}
-              style={{ background: m.cor ?? "#ffffff", border: m.cor ? "none" : "1px solid #00000030" }}
-            />
-          ))}
-        </div>
+              aria-label={`Visualização rápida de ${produto.nome}`}
+              className="absolute bottom-2 right-2 z-10 w-9 h-9 bg-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-[6px]"
+            >
+              <IconEye />
+            </button>
+          )}
 
-        <div className="relative w-full h-full">
-          <ArtPlate
-            hue={produto.hue}
-            fill
-            molduraColor={molduraCor}
-            className="w-full h-full transition-opacity duration-300 group-hover:opacity-0"
-          />
-          <div className="absolute inset-0">
-            <ArtPlate
-              hue={produto.hue}
-              fill
-              inverso
-              molduraColor={molduraCor}
-              className="w-full h-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-            />
+          <div className="absolute bottom-2 left-2 z-10 flex items-center gap-1.5">
+            {MOLDURAS.map((m) => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setMoldura(m.id);
+                }}
+                aria-label={m.label}
+                title={m.label}
+                className={`w-5 h-5 rounded-full shadow transition-transform ${
+                  moldura === m.id ? "scale-110 ring-2 ring-white ring-offset-1 ring-offset-black/20" : ""
+                }`}
+                style={{ background: m.cor ?? "#ffffff", border: m.cor ? "none" : "1px solid #00000030" }}
+              />
+            ))}
           </div>
-        </div>
 
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <span className="bg-white text-black px-6 py-3 text-[14px] tracking-artu rounded-[6px]">
-            Ver Detalhes
-          </span>
+          <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <span className="bg-white text-black px-6 py-3 text-[14px] tracking-artu rounded-[6px]">
+              Ver Detalhes
+            </span>
+          </div>
         </div>
       </div>
 
