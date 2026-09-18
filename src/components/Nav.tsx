@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 import { useCart } from "@/lib/cart";
-import { sair } from "@/lib/auth-actions";
 import { IconSearch, IconUser, IconBag, IconClose, IconChevronRight } from "@/components/icons";
 import { CircularCategories } from "@/components/CircularCategories";
 import type { SessionPayload } from "@/lib/session";
@@ -112,7 +111,7 @@ export function Nav({ sessao, colecoes }: { sessao: SessionPayload | null; colec
           )}
 
           {sessao ? (
-            <form action={sair}>
+            <form action="/api/auth/logout" method="POST">
               <button type="submit" aria-label="Sair" title="Sair">
                 <IconUser />
               </button>

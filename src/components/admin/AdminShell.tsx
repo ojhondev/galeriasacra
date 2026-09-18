@@ -14,7 +14,6 @@ import {
   IconUser,
   IconTruck,
 } from "@/components/icons";
-import { sair } from "@/lib/auth-actions";
 import type { SessionPayload } from "@/lib/session";
 
 const LINKS = [
@@ -73,7 +72,7 @@ export function AdminShell({
           >
             ← Voltar para a loja
           </Link>
-          <form action={sair}>
+          <form action="/api/auth/logout" method="POST">
             <button
               type="submit"
               className="w-full flex items-center gap-3 px-3 py-2.5 text-[14px] rounded-[6px] text-black/70 hover:bg-black/5"

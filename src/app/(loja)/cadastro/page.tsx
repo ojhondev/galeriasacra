@@ -1,11 +1,13 @@
 "use client";
 
-import { Suspense, useActionState } from "react";
+import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { cadastrar, type AuthState } from "@/lib/auth-actions";
 
-const ESTADO_INICIAL: AuthState = {};
+const MENSAGENS_ERRO: Record<string, string> = {
+  invalido: "Preencha nome, e-mail e uma senha com pelo menos 6 caracteres.",
+  duplicado: "Já existe uma conta com esse e-mail.",
+};
 
 export default function CadastroPage() {
   return (
@@ -18,13 +20,14 @@ export default function CadastroPage() {
 function CadastroForm() {
   const searchParams = useSearchParams();
   const redirectPara = searchParams.get("redirect") ?? "/";
-  const [estado, formAction, pendente] = useActionState(cadastrar, ESTADO_INICIAL);
+  const codigoErro = searchParams.get("erro");
+  const mensagemErro = codigoErro ? MENSAGENS_ERRO[codigoErro] : null;
 
   return (
     <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-md">
       <h1 className="text-[32px] mb-[32px]">Criar Conta</h1>
 
-      <form action={formAction} className="flex flex-col gap-[17px]">
+      <form action="/api/auth/cadastro" method="POST" className="flex flex-col gap-[17px]">
         <input type="hidden" name="redirect" value={redirectPara} />
 
         <label className="flex flex-col gap-1">
@@ -68,14 +71,13 @@ function CadastroForm() {
           />
         </label>
 
-        {estado.erro && <p className="text-[16px] text-[var(--color-brand)]">{estado.erro}</p>}
+        {mensagemErro && <p className="text-[16px] text-[var(--color-brand)]">{mensagemErro}</p>}
 
         <button
           type="submit"
-          disabled={pendente}
-          className="bg-black text-white px-8 py-4 text-[16px] rounded-[6px] mt-4 disabled:opacity-50"
+          className="bg-black text-white px-8 py-4 text-[16px] rounded-[6px] mt-4"
         >
-          {pendente ? "Criando conta..." : "Criar Conta"}
+          Criar Conta
         </button>
       </form>
 
