@@ -8,6 +8,7 @@ import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
 import { IconCheck, IconLock, IconRefresh, IconWhatsApp } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { registrarProdutoVisto } from "@/lib/produto-visto";
+import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
 import {
   MATERIAIS,
   MOLDURAS,
@@ -217,13 +218,15 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
           {esgotado ? "Esgotado" : "Comprar Agora"}
         </button>
 
-        <button
-          type="button"
-          onClick={() => setTestandoAmbiente(true)}
-          className="w-full border border-black px-6 py-4 text-[16px] rounded-[6px]"
-        >
-          Testar no Meu Ambiente
-        </button>
+        {TESTAR_AMBIENTE_HABILITADO && (
+          <button
+            type="button"
+            onClick={() => setTestandoAmbiente(true)}
+            className="w-full border border-black px-6 py-4 text-[16px] rounded-[6px]"
+          >
+            Testar no Meu Ambiente
+          </button>
+        )}
       </div>
 
       {adicionado && (

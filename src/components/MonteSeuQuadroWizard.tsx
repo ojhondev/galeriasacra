@@ -7,6 +7,7 @@ import { ARPreview } from "@/components/ARPreview";
 import { FinalizandoCompra } from "@/components/FinalizandoCompra";
 import { useCart } from "@/lib/cart";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
+import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
 import {
   MATERIAIS,
   MOLDURAS,
@@ -394,13 +395,15 @@ export function MonteSeuQuadroWizard({ produtos }: { produtos: Produto[] }) {
                   Finalizar Compra
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => setTestandoAmbiente(true)}
-                  className="text-[16px] tracking-artu underline"
-                >
-                  Testar no Meu Ambiente
-                </button>
+                {TESTAR_AMBIENTE_HABILITADO && (
+                  <button
+                    type="button"
+                    onClick={() => setTestandoAmbiente(true)}
+                    className="text-[16px] tracking-artu underline"
+                  >
+                    Testar no Meu Ambiente
+                  </button>
+                )}
               </div>
             </div>
           )}

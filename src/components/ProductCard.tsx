@@ -100,7 +100,7 @@ export function ProductCard({
             </button>
           )}
 
-          <div className="absolute inset-0 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="absolute inset-0 z-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
             <span className="bg-white text-black px-6 py-3 text-[14px] tracking-artu rounded-[6px]">
               Ver Detalhes
             </span>
