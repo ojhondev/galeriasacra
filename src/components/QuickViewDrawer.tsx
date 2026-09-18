@@ -41,7 +41,7 @@ function QuickViewConteudo({
   return (
     <div>
       <div
-        className={`py-3 text-center text-[13px] tracking-artu uppercase font-semibold text-white ${
+        className={`rounded-none py-3 text-center text-[13px] tracking-artu uppercase font-semibold text-white ${
           emEstoque ? "bg-[var(--color-brand)]" : "bg-black/60"
         }`}
       >
