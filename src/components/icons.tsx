@@ -229,3 +229,18 @@ export function IconBox({ className = "" }: { className?: string }) {
     </svg>
   );
 }
+
+export function IconTruck({ className = "" }: { className?: string }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <path
+        d="M2 6h11v10H2V6zM13 10h4l4 3v3h-8v-6z"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinejoin="round"
+      />
+      <circle cx="6.5" cy="18" r="1.8" stroke="currentColor" strokeWidth="1.3" />
+      <circle cx="17" cy="18" r="1.8" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  );
+}

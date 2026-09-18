@@ -37,6 +37,7 @@ function lerProdutoForm(formData: FormData): ProdutoInput {
     hue: Math.round(Number(formData.get("hue") ?? 200)),
     ativo: formData.get("ativo") === "on",
     estoque: Math.max(0, Math.round(Number(formData.get("estoque") ?? 0))),
+    prazoEntregaDias: Math.max(1, Math.round(Number(formData.get("prazoEntregaDias") ?? 4))),
   };
 }
 

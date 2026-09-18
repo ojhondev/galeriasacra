@@ -36,6 +36,13 @@
       "when": 1789684843411,
       "tag": "0004_overconfident_sleeper",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1789738089025,
+      "tag": "0005_tiny_talisman",
+      "breakpoints": true
     }
   ]
 }

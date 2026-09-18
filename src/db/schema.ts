@@ -36,6 +36,7 @@ export const produtos = pgTable("produtos", {
   ativo: boolean("ativo").notNull().default(true),
   ordem: integer("ordem").notNull().default(0),
   estoque: integer("estoque").notNull().default(10),
+  prazoEntregaDias: integer("prazo_entrega_dias").notNull().default(4),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });

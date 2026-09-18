@@ -103,6 +103,21 @@ export function ProdutoForm({
       </label>
 
       <label className="flex flex-col gap-1">
+        <span className="text-[16px] tracking-artu">PRAZO DE ENTREGA ESTIMADO (dias úteis)</span>
+        <input
+          type="number"
+          name="prazoEntregaDias"
+          defaultValue={produto?.prazoEntregaDias ?? 4}
+          required
+          min={1}
+          className="border-b border-black py-2 text-[18px] outline-none bg-transparent"
+        />
+        <span className="text-[13px] text-black/50">
+          Usado na Visualização Rápida (quickview) para mostrar a estimativa de entrega ao cliente.
+        </span>
+      </label>
+
+      <label className="flex flex-col gap-1">
         <span className="text-[16px] tracking-artu">ORIENTAÇÃO</span>
         <select
           name="orientacao"

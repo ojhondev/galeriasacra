@@ -1,0 +1,1 @@
+ALTER TABLE "produtos" ADD COLUMN "prazo_entrega_dias" integer DEFAULT 4 NOT NULL;

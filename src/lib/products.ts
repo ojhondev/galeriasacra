@@ -19,6 +19,7 @@ export type Produto = {
   hue: number;
   ativo: boolean;
   estoque: number;
+  prazoEntregaDias: number;
   etiquetasInfo: string[];
 };
 
@@ -36,6 +37,7 @@ function paraProduto(row: typeof produtosTable.$inferSelect): Produto {
     hue: row.hue,
     ativo: row.ativo,
     estoque: row.estoque,
+    prazoEntregaDias: row.prazoEntregaDias,
     etiquetasInfo: [],
   };
 }
@@ -95,6 +97,7 @@ export type ProdutoInput = {
   hue: number;
   ativo: boolean;
   estoque: number;
+  prazoEntregaDias: number;
 };
 
 export async function criarProduto(dados: ProdutoInput) {
