@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useCart } from "@/lib/cart";
 import { IconSearch, IconUser, IconBag, IconClose, IconChevronRight } from "@/components/icons";
 import { CircularCategories } from "@/components/CircularCategories";
@@ -24,6 +24,16 @@ export function Nav({ sessao, colecoes }: { sessao: SessionPayload | null; colec
   const [buscaAberta, setBuscaAberta] = useState(false);
   const [termoBusca, setTermoBusca] = useState("");
   const [categoriaBusca, setCategoriaBusca] = useState("");
+  const [rolado, setRolado] = useState(false);
+
+  useEffect(() => {
+    function aoRolar() {
+      setRolado(window.scrollY > 12);
+    }
+    aoRolar();
+    window.addEventListener("scroll", aoRolar, { passive: true });
+    return () => window.removeEventListener("scroll", aoRolar);
+  }, []);
 
   function handleBuscar(e: FormEvent) {
     e.preventDefault();
@@ -45,7 +55,15 @@ export function Nav({ sessao, colecoes }: { sessao: SessionPayload | null; colec
             width={765}
             height={406}
             priority
-            className="h-[46px] w-auto"
+            className="hidden md:block h-[46px] w-auto"
+          />
+          <Image
+            src={rolado ? "/logo-galeriasacra-icone.png" : "/logo-galeriasacra-vinho.png"}
+            alt="Galeria Sacra"
+            width={rolado ? 377 : 765}
+            height={rolado ? 641 : 406}
+            priority
+            className="md:hidden h-[46px] w-auto"
           />
         </Link>
 
