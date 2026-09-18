@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { IconWhatsApp } from "@/components/icons";
 
@@ -12,7 +13,13 @@ export function Footer() {
       <div className="px-4 md:px-8 pt-[64px] pb-[42px]">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-x-6 gap-y-[42px]">
           <div className="col-span-2 md:col-span-1">
-            <p className="text-[20px] font-bold tracking-wide mb-3">GALERIA SACRA</p>
+            <Image
+              src="/logo-galeriasacra-branca.png"
+              alt="Galeria Sacra"
+              width={765}
+              height={406}
+              className="h-[36px] w-auto mb-3"
+            />
             <p className="text-[14px] text-white/60 leading-[1.4] max-w-[220px]">
               Arte sacra contemporânea, produzida sob medida para lares, capelas e espaços de
               oração.
@@ -94,10 +101,20 @@ export function Footer() {
 
       <div className="border-t border-white/10 px-4 md:px-8 py-[24px] flex flex-wrap items-center justify-between gap-4 text-[13px] text-white/50">
         <p>© {new Date().getFullYear()} Galeria Sacra. Todos os direitos reservados.</p>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           <span className="border border-white/20 px-2 py-1 text-[12px]">Pix</span>
-          <span className="border border-white/20 px-2 py-1 text-[12px]">Visa</span>
-          <span className="border border-white/20 px-2 py-1 text-[12px]">Mastercard</span>
+          <span className="bg-white rounded-[3px] px-2 py-1 flex items-center">
+            <Image src="/cartoes/visa.png" alt="Visa" width={585} height={363} className="h-[14px] w-auto" />
+          </span>
+          <span className="bg-white rounded-[3px] px-2 py-1 flex items-center">
+            <Image
+              src="/cartoes/mastercard.png"
+              alt="Mastercard"
+              width={592}
+              height={368}
+              className="h-[18px] w-auto"
+            />
+          </span>
           <Link href="/admin" className="hover:text-white">
             Painel
           </Link>
