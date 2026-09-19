@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { AuthShell } from "@/components/AuthShell";
 
 const MENSAGENS_ERRO: Record<string, string> = {
   invalido: "Preencha nome, e-mail e uma senha com pelo menos 6 caracteres.",
@@ -24,7 +25,7 @@ function CadastroForm() {
   const mensagemErro = codigoErro ? MENSAGENS_ERRO[codigoErro] : null;
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-md">
+    <AuthShell>
       <h1 className="text-[32px] mb-[32px]">Criar Conta</h1>
 
       <form action="/api/auth/cadastro" method="POST" className="flex flex-col gap-[17px]">
@@ -87,6 +88,6 @@ function CadastroForm() {
           Entrar
         </Link>
       </p>
-    </div>
+    </AuthShell>
   );
 }

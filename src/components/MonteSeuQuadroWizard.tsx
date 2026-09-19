@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArtPlate } from "@/components/ArtPlate";
 import { ARPreview } from "@/components/ARPreview";
 import { FinalizandoCompra } from "@/components/FinalizandoCompra";
+import { IconChevronRight } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
@@ -83,7 +84,7 @@ function ChipFiltro({
     <button
       type="button"
       onClick={onClick}
-      className={`shrink-0 px-4 py-2 text-[13px] tracking-artu border transition-colors ${
+      className={`shrink-0 px-4 py-2 text-[13px] tracking-artu border rounded-full transition-colors ${
         ativo ? "border-black bg-black text-white" : "border-black/20 text-black/60 hover:border-black"
       }`}
     >
@@ -100,6 +101,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     arrastando: carrosselArrastando,
     handlers: carrosselHandlers,
     bloquearCliqueSeArrastou,
+    rolar,
   } = useArrastarScroll<HTMLDivElement>();
 
   const [etapaIndex, setEtapaIndex] = useState(0);
@@ -249,7 +251,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
               </h1>
 
               {categoriasDisponiveis.length > 0 && (
-                <div className="flex gap-2 overflow-x-auto pb-1 mb-3 -mx-1 px-1">
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-3 -mx-1 px-1">
                   <ChipFiltro ativo={filtroCategoria === null} onClick={() => setFiltroCategoria(null)}>
                     Todas categorias
                   </ChipFiltro>
@@ -265,7 +267,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                 </div>
               )}
 
-              <div className="flex gap-2 overflow-x-auto pb-1 mb-[24px] -mx-1 px-1">
+              <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-[24px] -mx-1 px-1">
                 <ChipFiltro ativo={filtroOrientacao === null} onClick={() => setFiltroOrientacao(null)}>
                   Todos formatos
                 </ChipFiltro>
@@ -281,32 +283,43 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
               </div>
 
               {produtosFiltrados.length > 0 ? (
-                <div
-                  ref={carrosselRef}
-                  {...carrosselHandlers}
-                  className={`flex gap-4 overflow-x-auto pb-2 mb-[24px] select-none ${
-                    carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
-                  }`}
-                >
-                  {produtosFiltrados.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClickCapture={bloquearCliqueSeArrastou}
-                      onClick={() => escolherProduto(p)}
-                      aria-label={p.nome}
-                      draggable={false}
-                      className="shrink-0 w-[220px] md:w-[260px] snap-start"
-                      style={{
-                        outline:
-                          produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid black" : "none",
-                        outlineOffset: "2px",
-                      }}
-                    >
-                      <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
-                      <p className="text-[14px] mt-2 text-left">{p.nome}</p>
-                    </button>
-                  ))}
+                <div className="relative mb-[24px]">
+                  <div
+                    ref={carrosselRef}
+                    {...carrosselHandlers}
+                    className={`flex gap-4 overflow-x-auto scrollbar-hide pb-2 select-none ${
+                      carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
+                    }`}
+                  >
+                    {produtosFiltrados.map((p) => (
+                      <button
+                        key={p.id}
+                        type="button"
+                        onClickCapture={bloquearCliqueSeArrastou}
+                        onClick={() => escolherProduto(p)}
+                        aria-label={p.nome}
+                        draggable={false}
+                        className="shrink-0 w-[220px] md:w-[260px] snap-start"
+                        style={{
+                          outline:
+                            produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid black" : "none",
+                          outlineOffset: "2px",
+                        }}
+                      >
+                        <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
+                        <p className="text-[14px] mt-2 text-left">{p.nome}</p>
+                      </button>
+                    ))}
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => rolar(300)}
+                    aria-label="Ver próximas imagens"
+                    className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg items-center justify-center"
+                  >
+                    <IconChevronRight />
+                  </button>
                 </div>
               ) : (
                 <p className="text-[15px] text-black/50 text-center mb-[24px]">

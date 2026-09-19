@@ -10,8 +10,9 @@ export function CircularCategories({ colecoes }: { colecoes: Colecao[] }) {
   const { ref, handlers, bloquearCliqueSeArrastou } = useArrastarScroll<HTMLDivElement>();
   const pathname = usePathname();
   const naPaginaDeProduto = /^\/quadros\/.+/.test(pathname);
+  const naPaginaOculta = ["/carrinho", "/monte-seu-quadro", "/login", "/cadastro"].includes(pathname);
 
-  if (naPaginaDeProduto) return null;
+  if (naPaginaDeProduto || naPaginaOculta) return null;
 
   return (
     <div

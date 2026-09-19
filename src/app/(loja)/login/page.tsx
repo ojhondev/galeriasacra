@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { AuthShell } from "@/components/AuthShell";
 
 export default function LoginPage() {
   return (
@@ -18,7 +19,7 @@ function LoginForm() {
   const temErro = searchParams.get("erro") === "1";
 
   return (
-    <div className="px-4 md:px-8 pt-[42px] pb-[80px] max-w-md">
+    <AuthShell>
       <h1 className="text-[32px] mb-[32px]">Entrar</h1>
 
       <form action="/api/auth/login" method="POST" className="flex flex-col gap-[17px]">
@@ -60,6 +61,6 @@ function LoginForm() {
           Cadastre-se
         </Link>
       </p>
-    </div>
+    </AuthShell>
   );
 }

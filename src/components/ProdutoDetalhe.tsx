@@ -136,7 +136,7 @@ export function ProdutoDetalhe({
           )}
         </div>
 
-        <div className="order-1 lg:order-2">
+        <div className="order-1 lg:order-2 lg:max-w-[440px] lg:mx-auto lg:w-full">
           <ProdutoGaleria produto={produto} molduraColor={molduraColor} imagemUrl={imagemUrl} />
         </div>
       </div>

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ARPreview } from "@/components/ARPreview";
 import { FreteCalculadora } from "@/components/FreteCalculadora";
-import { UltimasUnidadesToast } from "@/components/UltimasUnidadesToast";
 import { IconCheck, IconLock, IconRefresh, IconWhatsApp } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { registrarProdutoVisto } from "@/lib/produto-visto";
@@ -262,8 +261,6 @@ export function Customizer({
       <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
         Frete grátis para compras acima de {formatarPreco(freteGratisMinimo)}
       </p>
-
-      {estoqueBaixo && <UltimasUnidadesToast estoque={produto.estoque} />}
 
       {testandoAmbiente && (
         <ARPreview
