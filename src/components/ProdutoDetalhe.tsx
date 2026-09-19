@@ -11,7 +11,7 @@ import { ObraTile } from "@/components/ObraTile";
 import { formatarPreco, precoRange } from "@/lib/pricing";
 import { calcularMedia, type Avaliacao } from "@/lib/avaliacoes-shared";
 import { registrarProdutoVisto } from "@/lib/produto-visto";
-import { MOLDURAS, type MolduraId } from "@/lib/pricing";
+import { MOLDURAS, MOLDURA_PADRAO, type MolduraId } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
 type ProdutoDetalheProps = {
@@ -29,7 +29,7 @@ export function ProdutoDetalhe({
   avaliacoes,
   freteGratisMinimo,
 }: ProdutoDetalheProps) {
-  const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
+  const [moldura, setMoldura] = useState<MolduraId>(MOLDURA_PADRAO);
   const molduraColor = MOLDURAS.find((m) => m.id === moldura)?.cor ?? null;
   const imagemUrl = produto.imagens?.[moldura] ?? null;
   const media = calcularMedia(avaliacoes);
@@ -79,7 +79,7 @@ export function ProdutoDetalhe({
                       slug={item.slug}
                       nome={item.nome}
                       orientacao={item.orientacao}
-                      imagemUrl={item.imagens?.["sem-moldura"]}
+                      imagemUrl={item.imagens?.[MOLDURA_PADRAO]}
                     />
                     <p className="text-[14px] mt-1">{item.nome}</p>
                     <p className="text-[13px] text-black/50">
@@ -100,8 +100,8 @@ export function ProdutoDetalhe({
           </Accordion>
           <Accordion titulo="Materiais">
             <p>
-              Impressão de alta definição sobre tela canvas, papel fine art ou acrílico, com
-              fidelidade de cor testada para longa duração.
+              Impressão de alta definição sobre tela canvas 100% algodão, com fidelidade de cor
+              testada para longa duração.
             </p>
           </Accordion>
           <Accordion titulo="Envio">
@@ -151,7 +151,7 @@ export function ProdutoDetalhe({
                 slug={alt.slug}
                 nome={alt.nome}
                 orientacao={alt.orientacao}
-                imagemUrl={alt.imagens?.["sem-moldura"]}
+                imagemUrl={alt.imagens?.[MOLDURA_PADRAO]}
               />
               <p className="text-[18px] mt-[11px]">{alt.nome}</p>
             </div>

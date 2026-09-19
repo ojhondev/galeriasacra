@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArtPlate } from "@/components/ArtPlate";
 import { IconClose, IconChevronRight, IconCheck, IconTruck, IconBox } from "@/components/icons";
+import { MOLDURA_PADRAO } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
 function QuickViewConteudo({
@@ -52,7 +53,7 @@ function QuickViewConteudo({
         {mostrarImagem && (
           <ArtPlate
             orientacao={produto.orientacao}
-            imagemUrl={produto.imagens?.["sem-moldura"]}
+            imagemUrl={produto.imagens?.[MOLDURA_PADRAO]}
             className="mb-[24px] max-w-[220px] mx-auto rounded-none"
           />
         )}

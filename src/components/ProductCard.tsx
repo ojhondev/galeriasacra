@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArtPlate } from "@/components/ArtPlate";
 import { IconEye } from "@/components/icons";
-import { precoRange, formatarPreco, aplicarDesconto, MOLDURAS, type MolduraId } from "@/lib/pricing";
+import { precoRange, formatarPreco, aplicarDesconto, MOLDURAS, MOLDURA_PADRAO, type MolduraId } from "@/lib/pricing";
 import type { Produto } from "@/lib/products";
 
 type EtiquetaResumo = { label: string; tipo: "percentual" | "fixo"; valor: number };
@@ -30,7 +30,7 @@ export function ProductCard({
   onQuickView?: (produto: Produto) => void;
   etiqueta?: EtiquetaResumo;
 }) {
-  const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
+  const [moldura, setMoldura] = useState<MolduraId>(MOLDURA_PADRAO);
   const { min } = precoRange(produto.precoBase);
   const minComDesconto = etiqueta ? aplicarDesconto(min, etiqueta) : min;
   const minComCupom = Math.round(min * (1 - DESCONTO_CUPOM_SACRA10 / 100));

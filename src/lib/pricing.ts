@@ -7,17 +7,21 @@ export const TAMANHOS = [
 ] as const;
 
 export const MOLDURAS = [
-  { id: "sem-moldura", label: "Sem Moldura", adicional: 0, cor: null },
-  { id: "preta", label: "Moldura Preta", adicional: 89, cor: "#000000" },
-  { id: "madeira", label: "Moldura Madeira Natural", adicional: 129, cor: "#8a5a35" },
-  { id: "dourada", label: "Moldura Dourada", adicional: 169, cor: "#b8902f" },
+  { id: "provencal", label: "Moldura Provençal", adicional: 119, cor: "#ede6d6" },
+  { id: "dourada-lisa", label: "Moldura Dourada Lisa", adicional: 99, cor: "#c9a227" },
+  { id: "madeira-lisa", label: "Moldura Madeira Lisa", adicional: 99, cor: "#8a5a35" },
+  { id: "dourada-floral", label: "Moldura Dourada Floral", adicional: 189, cor: "#b8860b" },
+  { id: "madeira-classica", label: "Moldura Madeira Clássica", adicional: 149, cor: "#6b4226" },
+  { id: "dourada-classica", label: "Moldura Dourada Clássica", adicional: 149, cor: "#a8791f" },
 ] as const;
 
-export const MATERIAIS = [
-  { id: "tela-canvas", label: "Tela Canvas", multiplicador: 1 },
-  { id: "papel-fine-art", label: "Papel Fine Art", multiplicador: 0.85 },
-  { id: "acrilico", label: "Acrílico", multiplicador: 1.35 },
-] as const;
+/** Toda tela sai emoldurada — usada como escolha padrão em seletores e como chave da foto principal do produto. */
+export const MOLDURA_PADRAO = MOLDURAS[0].id;
+
+export const MATERIAIS = [{ id: "tela-canvas", label: "Tela Canvas — 100% Algodão", multiplicador: 1 }] as const;
+
+/** Único material vendido hoje — mantido como função para se materiais voltarem a ser escolhíveis. */
+export const MATERIAL_PADRAO = MATERIAIS[0].id;
 
 export type TamanhoId = (typeof TAMANHOS)[number]["id"];
 export type MolduraId = (typeof MOLDURAS)[number]["id"];

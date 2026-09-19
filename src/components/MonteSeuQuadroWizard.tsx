@@ -11,20 +11,21 @@ import { useArrastarScroll } from "@/lib/useArrastarScroll";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
 import {
   MATERIAIS,
+  MATERIAL_PADRAO,
   MOLDURAS,
+  MOLDURA_PADRAO,
   TAMANHOS,
   calcularPreco,
   calcularPrecoComMultiplicador,
   multiplicadorTamanhoPersonalizado,
   formatarPreco,
-  type MaterialId,
   type MolduraId,
   type TamanhoId,
 } from "@/lib/pricing";
 import type { Produto, Orientacao } from "@/lib/products";
 import type { Colecao } from "@/lib/colecoes";
 
-const ETAPAS = ["imagem", "tamanho", "material", "moldura", "revisao"] as const;
+const ETAPAS = ["imagem", "tamanho", "moldura", "revisao"] as const;
 type Etapa = (typeof ETAPAS)[number];
 
 type TamanhoCustom = { largura: number; altura: number };
@@ -114,7 +115,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
   const [tamanhoCustom, setTamanhoCustom] = useState<TamanhoCustom | null>(null);
   const [larguraInput, setLarguraInput] = useState("");
   const [alturaInput, setAlturaInput] = useState("");
-  const [material, setMaterial] = useState<MaterialId | null>(null);
   const [moldura, setMoldura] = useState<MolduraId | null>(null);
   const [quantidade, setQuantidade] = useState(1);
   const [finalizando, setFinalizando] = useState(false);
@@ -134,15 +134,15 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
   const aspectRatio = aspectRatioDoTamanho(tamanho, tamanhoCustom, produtoSelecionado?.orientacao ?? "retrato");
   const temTamanho = tamanho !== null || tamanhoCustom !== null;
   const preco =
-    temTamanho && material && moldura
+    temTamanho && moldura
       ? tamanhoCustom
         ? calcularPrecoComMultiplicador(
             precoBase,
             multiplicadorTamanhoPersonalizado(tamanhoCustom.largura, tamanhoCustom.altura),
             moldura,
-            material,
+            MATERIAL_PADRAO,
           )
-        : calcularPreco(precoBase, tamanho!, moldura, material)
+        : calcularPreco(precoBase, tamanho!, moldura, MATERIAL_PADRAO)
       : null;
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
   const nomeItem = imagemPropria
@@ -189,10 +189,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     setTimeout(avancar, ATRASO_AVANCO_MS);
   }
 
-  function escolherMaterial(id: MaterialId) {
-    setMaterial(id);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
-  }
   function escolherMoldura(id: MolduraId) {
     setMoldura(id);
     setTimeout(avancar, ATRASO_AVANCO_MS);
@@ -207,8 +203,8 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
       tamanhoLabel: tamanhoLabelAtual,
       moldura: moldura!,
       molduraLabel: MOLDURAS.find((m) => m.id === moldura)!.label,
-      material: material!,
-      materialLabel: MATERIAIS.find((m) => m.id === material)!.label,
+      material: MATERIAL_PADRAO,
+      materialLabel: MATERIAIS[0].label,
       personalizado: true,
       precoUnitario: preco!,
       quantidade,
@@ -306,7 +302,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                           outlineOffset: "2px",
                         }}
                       >
-                        <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.["sem-moldura"]} />
+                        <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.[MOLDURA_PADRAO]} />
                         <p className="text-[14px] mt-2 text-left">{p.nome}</p>
                       </button>
                     ))}
@@ -390,19 +386,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
             </div>
           )}
 
-          {etapa === "material" && (
-            <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Qual material?</h1>
-              <div className="flex flex-col gap-3">
-                {MATERIAIS.map((m) => (
-                  <OpcaoBotao key={m.id} ativo={material === m.id} onClick={() => escolherMaterial(m.id)}>
-                    {m.label}
-                  </OpcaoBotao>
-                ))}
-              </div>
-            </div>
-          )}
-
           {etapa === "moldura" && (
             <div>
               <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Escolha sua Moldura</h1>
@@ -451,7 +434,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                 <p className="text-[20px] mb-[11px]">{nomeItem}</p>
                 <ul className="text-[16px] text-black/70 mb-[24px] flex flex-col gap-1">
                   <li>Tamanho: {tamanhoLabelAtual}</li>
-                  <li>Material: {MATERIAIS.find((m) => m.id === material)?.label}</li>
+                  <li>Material: {MATERIAIS[0].label}</li>
                   <li>Moldura: {MOLDURAS.find((m) => m.id === moldura)?.label}</li>
                 </ul>
 

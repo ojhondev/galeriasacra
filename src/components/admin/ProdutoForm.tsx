@@ -170,7 +170,7 @@ export function ProdutoForm({
             Envie uma foto da obra já emoldurada para cada variante. As molduras sem foto continuam
             usando o placeholder de cor acima até serem fotografadas.
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
             {MOLDURAS.map((m) => (
               <ImagemUpload
                 key={m.id}

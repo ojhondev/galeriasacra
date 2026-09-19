@@ -10,11 +10,12 @@ import { registrarProdutoVisto } from "@/lib/produto-visto";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
 import {
   MATERIAIS,
+  MATERIAL_PADRAO,
   MOLDURAS,
+  MOLDURA_PADRAO,
   TAMANHOS,
   calcularPreco,
   formatarPreco,
-  type MaterialId,
   type MolduraId,
   type TamanhoId,
 } from "@/lib/pricing";
@@ -44,15 +45,14 @@ export function Customizer({
   const { adicionar } = useCart();
 
   const [tamanho, setTamanho] = useState<TamanhoId>("40x60");
-  const [moldura, setMoldura] = useState<MolduraId>("sem-moldura");
-  const [material, setMaterial] = useState<MaterialId>("tela-canvas");
+  const [moldura, setMoldura] = useState<MolduraId>(MOLDURA_PADRAO);
   const [quantidade, setQuantidade] = useState(1);
   const [adicionado, setAdicionado] = useState(false);
   const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
   const preco = useMemo(
-    () => calcularPreco(produto.precoBase, tamanho, moldura, material),
-    [produto.precoBase, tamanho, moldura, material],
+    () => calcularPreco(produto.precoBase, tamanho, moldura, MATERIAL_PADRAO),
+    [produto.precoBase, tamanho, moldura],
   );
 
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
@@ -74,9 +74,9 @@ export function Customizer({
       tamanhoLabel: TAMANHOS.find((t) => t.id === tamanho)!.label,
       moldura,
       molduraLabel: MOLDURAS.find((m) => m.id === moldura)!.label,
-      material,
-      materialLabel: MATERIAIS.find((m) => m.id === material)!.label,
-      personalizado: moldura !== "sem-moldura" || material !== "tela-canvas",
+      material: MATERIAL_PADRAO,
+      materialLabel: MATERIAIS[0].label,
+      personalizado: true,
       precoUnitario: preco,
       quantidade,
     };
@@ -127,7 +127,7 @@ export function Customizer({
         )
       )}
 
-      <div className="grid grid-cols-2 gap-4 py-[17px] border-t border-black">
+      <div className="py-[17px] border-t border-black">
         <label className="flex flex-col gap-1">
           <span className="text-[13px] text-black/60">Tamanho</span>
           <select
@@ -142,21 +142,7 @@ export function Customizer({
             ))}
           </select>
         </label>
-
-        <label className="flex flex-col gap-1">
-          <span className="text-[13px] text-black/60">Material</span>
-          <select
-            value={material}
-            onChange={(e) => setMaterial(e.target.value as MaterialId)}
-            className="border border-black/30 px-3 py-2 text-[16px] bg-transparent"
-          >
-            {MATERIAIS.map((m) => (
-              <option key={m.id} value={m.id}>
-                {m.label}
-              </option>
-            ))}
-          </select>
-        </label>
+        <p className="text-[13px] text-black/50 mt-2">{MATERIAIS[0].label}</p>
       </div>
 
       <label className="flex flex-col gap-1 py-[17px] border-t border-black">
