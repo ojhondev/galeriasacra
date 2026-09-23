@@ -16,8 +16,6 @@ import {
   MOLDURA_PADRAO,
   TAMANHOS,
   calcularPreco,
-  calcularPrecoComMultiplicador,
-  multiplicadorTamanhoPersonalizado,
   formatarPreco,
   type MolduraId,
   type TamanhoId,
@@ -28,14 +26,7 @@ import type { Colecao } from "@/lib/colecoes";
 const ETAPAS = ["imagem", "tamanho", "moldura", "revisao"] as const;
 type Etapa = (typeof ETAPAS)[number];
 
-type TamanhoCustom = { largura: number; altura: number };
-
-function aspectRatioDoTamanho(
-  tamanhoId: TamanhoId | null,
-  custom: TamanhoCustom | null,
-  orientacao: Orientacao,
-): number {
-  if (custom) return custom.largura / custom.altura;
+function aspectRatioDoTamanho(tamanhoId: TamanhoId | null, orientacao: Orientacao): number {
   if (orientacao === "quadrado") return 1;
   const [a, b] = (tamanhoId ?? "40x60").split("x").map(Number);
   const [largura, altura] = orientacao === "paisagem" ? [Math.max(a, b), Math.min(a, b)] : [Math.min(a, b), Math.max(a, b)];
@@ -112,9 +103,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
   const [filtroCategoria, setFiltroCategoria] = useState<string | null>(null);
   const [filtroOrientacao, setFiltroOrientacao] = useState<Orientacao | null>(null);
   const [tamanho, setTamanho] = useState<TamanhoId | null>(null);
-  const [tamanhoCustom, setTamanhoCustom] = useState<TamanhoCustom | null>(null);
-  const [larguraInput, setLarguraInput] = useState("");
-  const [alturaInput, setAlturaInput] = useState("");
   const [moldura, setMoldura] = useState<MolduraId | null>(null);
   const [quantidade, setQuantidade] = useState(1);
   const [finalizando, setFinalizando] = useState(false);
@@ -131,26 +119,14 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
 
   const etapa: Etapa = ETAPAS[etapaIndex];
   const precoBase = produtoSelecionado?.precoBase ?? 349;
-  const aspectRatio = aspectRatioDoTamanho(tamanho, tamanhoCustom, produtoSelecionado?.orientacao ?? "retrato");
-  const temTamanho = tamanho !== null || tamanhoCustom !== null;
+  const aspectRatio = aspectRatioDoTamanho(tamanho, produtoSelecionado?.orientacao ?? "retrato");
   const preco =
-    temTamanho && moldura
-      ? tamanhoCustom
-        ? calcularPrecoComMultiplicador(
-            precoBase,
-            multiplicadorTamanhoPersonalizado(tamanhoCustom.largura, tamanhoCustom.altura),
-            moldura,
-            MATERIAL_PADRAO,
-          )
-        : calcularPreco(precoBase, tamanho!, moldura, MATERIAL_PADRAO)
-      : null;
+    tamanho && moldura ? calcularPreco(precoBase, tamanho, moldura, MATERIAL_PADRAO) : null;
   const molduraAtual = MOLDURAS.find((m) => m.id === moldura);
   const nomeItem = imagemPropria
     ? "Quadro personalizado (imagem própria)"
     : produtoSelecionado?.nome ?? "Monte Seu Quadro";
-  const tamanhoLabelAtual = tamanhoCustom
-    ? `${tamanhoCustom.largura} × ${tamanhoCustom.altura} cm (personalizado)`
-    : (TAMANHOS.find((t) => t.id === tamanho)?.label ?? "");
+  const tamanhoLabelAtual = TAMANHOS.find((t) => t.id === tamanho)?.label ?? "";
 
   function avancar() {
     setEtapaIndex((i) => Math.min(i + 1, ETAPAS.length - 1));
@@ -176,16 +152,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
 
   function escolherTamanho(id: TamanhoId) {
     setTamanho(id);
-    setTamanhoCustom(null);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
-  }
-
-  function confirmarTamanhoPersonalizado() {
-    const largura = Number(larguraInput);
-    const altura = Number(alturaInput);
-    if (!largura || !altura || largura <= 0 || altura <= 0) return;
-    setTamanhoCustom({ largura, altura });
-    setTamanho(null);
     setTimeout(avancar, ATRASO_AVANCO_MS);
   }
 
@@ -199,7 +165,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
       nome: nomeItem,
       hue: produtoSelecionado?.hue ?? 200,
       imagemUrl: imagemPropria ? null : (produtoSelecionado?.imagens?.[moldura!] ?? null),
-      tamanho: tamanhoCustom ? `${tamanhoCustom.largura}x${tamanhoCustom.altura}` : tamanho!,
+      tamanho: tamanho!,
       tamanhoLabel: tamanhoLabelAtual,
       moldura: moldura!,
       molduraLabel: MOLDURAS.find((m) => m.id === moldura)!.label,
@@ -340,48 +306,10 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
               </h1>
               <div className="flex flex-col gap-3">
                 {TAMANHOS.map((t) => (
-                  <OpcaoBotao
-                    key={t.id}
-                    ativo={tamanho === t.id && !tamanhoCustom}
-                    onClick={() => escolherTamanho(t.id)}
-                  >
+                  <OpcaoBotao key={t.id} ativo={tamanho === t.id} onClick={() => escolherTamanho(t.id)}>
                     {t.label}
                   </OpcaoBotao>
                 ))}
-
-                <div className={`border px-6 py-4 ${tamanhoCustom ? "border-black" : "border-black/20"}`}>
-                  <p className="text-[16px] mb-3">Tamanho personalizado</p>
-                  <div className="flex flex-wrap items-end gap-3">
-                    <label className="flex flex-col gap-1">
-                      <span className="text-[13px] text-black/60">Largura (cm)</span>
-                      <input
-                        type="number"
-                        min={1}
-                        value={larguraInput}
-                        onChange={(e) => setLarguraInput(e.target.value)}
-                        className="border border-black/30 px-3 py-2 text-[16px] bg-transparent w-[110px]"
-                      />
-                    </label>
-                    <label className="flex flex-col gap-1">
-                      <span className="text-[13px] text-black/60">Altura (cm)</span>
-                      <input
-                        type="number"
-                        min={1}
-                        value={alturaInput}
-                        onChange={(e) => setAlturaInput(e.target.value)}
-                        className="border border-black/30 px-3 py-2 text-[16px] bg-transparent w-[110px]"
-                      />
-                    </label>
-                    <button
-                      type="button"
-                      onClick={confirmarTamanhoPersonalizado}
-                      disabled={!larguraInput || !alturaInput}
-                      className="bg-black text-white px-6 py-3 text-[15px] disabled:opacity-40"
-                    >
-                      Usar este tamanho
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
           )}

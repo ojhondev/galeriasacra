@@ -1,9 +1,11 @@
+// Multiplicadores proporcionais à área (m²) de cada tamanho em relação ao 40×60 (base),
+// para acompanhar o custo por m² cobrado pelo fornecedor com a mesma margem em qualquer tamanho.
 export const TAMANHOS = [
-  { id: "30x40", label: "30 × 40 cm", multiplicador: 0.75 },
+  { id: "30x40", label: "30 × 40 cm", multiplicador: 0.5 },
   { id: "40x60", label: "40 × 60 cm", multiplicador: 1 },
-  { id: "50x70", label: "50 × 70 cm", multiplicador: 1.4 },
-  { id: "60x90", label: "60 × 90 cm", multiplicador: 2.1 },
-  { id: "80x120", label: "80 × 120 cm", multiplicador: 3.4 },
+  { id: "50x70", label: "50 × 70 cm", multiplicador: 1.4583 },
+  { id: "60x90", label: "60 × 90 cm", multiplicador: 2.25 },
+  { id: "80x120", label: "80 × 120 cm", multiplicador: 4 },
 ] as const;
 
 export const MOLDURAS = [
@@ -48,12 +50,6 @@ export function calcularPreco(
 ): number {
   const tamanho = TAMANHOS.find((t) => t.id === tamanhoId) ?? TAMANHOS[1];
   return calcularPrecoComMultiplicador(precoBase, tamanho.multiplicador, molduraId, materialId);
-}
-
-const AREA_BASE_CM2 = 40 * 60;
-
-export function multiplicadorTamanhoPersonalizado(larguraCm: number, alturaCm: number): number {
-  return (larguraCm * alturaCm) / AREA_BASE_CM2;
 }
 
 export function precoRange(precoBase: number): { min: number; max: number } {
