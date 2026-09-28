@@ -106,7 +106,7 @@ export default function CarrinhoPage() {
           <p className="text-[22px]">Total</p>
           <p className="text-[22px]">{formatarPreco(total)}</p>
         </div>
-        <p className="text-[14px] text-black/50 mt-1">
+        <p className="text-[15px] font-bold text-[var(--color-brand)] mt-1">
           ou em até 12x de {formatarPreco(total / 12)} sem juros
         </p>
       </div>

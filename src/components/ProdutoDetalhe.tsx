@@ -63,26 +63,6 @@ export function ProdutoDetalhe({ produto, alternativas, combinaCom, avaliacoes }
         </div>
       </div>
 
-      {combinaCom.length > 0 && (
-        <div className="px-4 md:px-8 py-[42px] bg-[#faf9f7]">
-          <p className="text-[24px] md:text-[28px] font-medium mb-[24px]">Costuma Combinar Com</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px] md:gap-[32px]">
-            {combinaCom.map((item) => (
-              <div key={item.id}>
-                <ObraTile
-                  slug={item.slug}
-                  nome={item.nome}
-                  orientacao={item.orientacao}
-                  imagemUrl={item.imagens?.[MOLDURA_PADRAO]}
-                />
-                <p className="text-[16px] md:text-[18px] mt-[11px]">{item.nome}</p>
-                <p className="text-[14px] text-black/50">{formatarPreco(precoRange(item.precoBase).min)}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="px-4 md:px-8 py-[42px] max-w-2xl">
         <Accordion titulo="Sobre">
           {produto.descricaoLonga.map((paragrafo, i) => (
@@ -128,6 +108,26 @@ export function ProdutoDetalhe({ produto, alternativas, combinaCom, avaliacoes }
           </Accordion>
         )}
       </div>
+
+      {combinaCom.length > 0 && (
+        <div className="px-4 md:px-8 py-[42px] bg-[#faf9f7]">
+          <p className="text-[24px] md:text-[28px] font-medium mb-[24px]">Costuma Combinar Com</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px] md:gap-[32px]">
+            {combinaCom.map((item) => (
+              <div key={item.id}>
+                <ObraTile
+                  slug={item.slug}
+                  nome={item.nome}
+                  orientacao={item.orientacao}
+                  imagemUrl={item.imagens?.[MOLDURA_PADRAO]}
+                />
+                <p className="text-[16px] md:text-[18px] mt-[11px]">{item.nome}</p>
+                <p className="text-[14px] text-black/50">{formatarPreco(precoRange(item.precoBase).min)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="px-4 md:px-8 pt-[80px] pb-[160px] lg:pb-[80px]">
         <HairlineDivider className="mb-[42px]" />

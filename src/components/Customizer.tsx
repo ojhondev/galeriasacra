@@ -122,20 +122,23 @@ export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = fal
   return (
     <div>
       {preco !== null ? (
-        <>
-          <p className="text-[28px] md:text-[32px] leading-tight mb-1">{formatarPreco(preco)}</p>
-          <p className="text-[14px] text-black/60 mb-1">ou em até 12x de {formatarPreco(preco / 12)} sem juros</p>
-        </>
+        <p className="text-[28px] md:text-[32px] leading-tight mb-2">{formatarPreco(preco)}</p>
       ) : (
-        <>
-          <p className="text-[28px] md:text-[32px] leading-tight mb-1">
-            A partir de {formatarPreco(faixaPreco.min)}
-          </p>
-          <p className="text-[14px] text-black/60 mb-1">
-            ou em até 12x de {formatarPreco(faixaPreco.min / 12)} sem juros
-          </p>
-        </>
+        <p className="text-[28px] md:text-[32px] leading-tight mb-2">A partir de {formatarPreco(faixaPreco.min)}</p>
       )}
+
+      <div
+        className="inline-flex items-center gap-2 rounded-[6px] px-3 py-2 mb-[17px]"
+        style={{ background: "var(--color-brand)" }}
+      >
+        <span className="text-[10px] tracking-artu uppercase font-bold bg-white text-[var(--color-brand)] px-2 py-0.5 rounded-[4px] shrink-0">
+          Parcelamento
+        </span>
+        <span className="text-[15px] font-bold text-white">
+          em até 12x de {formatarPreco((preco ?? faixaPreco.min) / 12)} sem juros
+        </span>
+      </div>
+
       <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
 
       <div className="flex flex-wrap gap-2 mb-[24px]">

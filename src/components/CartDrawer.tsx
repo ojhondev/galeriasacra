@@ -78,7 +78,7 @@ export function CartDrawer() {
               <p className="text-[18px]">Total</p>
               <p className="text-[18px]">{formatarPreco(total)}</p>
             </div>
-            <p className="text-[13px] text-black/50 mb-[17px]">
+            <p className="text-[14px] font-bold text-[var(--color-brand)] mb-[17px]">
               ou em até 12x de {formatarPreco(total / 12)} sem juros
             </p>
             <Link
