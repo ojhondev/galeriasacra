@@ -19,7 +19,7 @@ export function CartDrawer() {
   }, [drawerAberto]);
 
   return (
-    <div className={`fixed inset-0 z-50 ${drawerAberto ? "" : "pointer-events-none"}`} aria-hidden={!drawerAberto}>
+    <div className={`fixed inset-0 z-[70] ${drawerAberto ? "" : "pointer-events-none"}`} aria-hidden={!drawerAberto}>
       <div
         onClick={fecharDrawer}
         className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${

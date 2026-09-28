@@ -1,15 +1,14 @@
 "use client";
 
 import { useMemo, useState, type ChangeEvent } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { ArtPlate } from "@/components/ArtPlate";
 import { ARPreview } from "@/components/ARPreview";
-import { FinalizandoCompra } from "@/components/FinalizandoCompra";
 import { IconClose, IconChevronRight } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
+import { registrarProdutoVisto } from "@/lib/produto-visto";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
 import {
   MATERIAIS,
@@ -87,8 +86,7 @@ function ChipFiltro({
 }
 
 export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto[]; colecoes: Colecao[] }) {
-  const router = useRouter();
-  const { adicionar } = useCart();
+  const { adicionar, abrirDrawer } = useCart();
   const {
     ref: carrosselRef,
     arrastando: carrosselArrastando,
@@ -106,7 +104,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
   const [tamanho, setTamanho] = useState<TamanhoId | null>(null);
   const [moldura, setMoldura] = useState<MolduraId | null>(null);
   const [quantidade, setQuantidade] = useState(1);
-  const [finalizando, setFinalizando] = useState(false);
   const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
   const categoriasDisponiveis = colecoes
@@ -163,7 +160,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     setProdutoSelecionado(undefined);
   }
 
-  function handleConcluirCompra() {
+  function handleComprarAgora() {
     adicionar({
       nome: nomeItem,
       hue: produtoSelecionado?.hue ?? 200,
@@ -178,11 +175,10 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
       precoUnitario: preco!,
       quantidade,
     });
-    router.push("/carrinho");
-  }
-
-  if (finalizando) {
-    return <FinalizandoCompra onConcluir={handleConcluirCompra} />;
+    if (produtoSelecionado) {
+      registrarProdutoVisto({ nome: produtoSelecionado.nome, slug: produtoSelecionado.slug });
+    }
+    abrirDrawer();
   }
 
   const progresso = Math.round(((etapaIndex + 1) / ETAPAS.length) * 100);
@@ -231,7 +227,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
         <div className="flex-1 overflow-y-auto flex items-center justify-center px-4 md:px-8 py-[24px]">
           <div
             key={etapaIndex}
-            className={`animate-step-in w-full ${etapa === "imagem" || etapa === "revisao" ? "max-w-4xl" : "max-w-[560px]"}`}
+            className={`animate-step-in w-full ${etapa === "imagem" ? "max-w-4xl" : etapa === "revisao" ? "max-w-[480px]" : "max-w-[560px]"}`}
           >
             {etapa === "imagem" && (
               <div>
@@ -360,8 +356,8 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
             )}
 
             {etapa === "revisao" && (
-              <div className="flex flex-col md:flex-row gap-[42px] items-center md:items-start">
-                <div className="w-full md:w-[400px] shrink-0 bg-[#f2f2ef] p-[8%]">
+              <div>
+                <div className="bg-[#f2f2ef] p-[8%] mb-[24px]">
                   {imagemPropria ? (
                     <div style={molduraAtual?.cor ? { background: molduraAtual.cor, padding: "3.2%" } : undefined}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -380,65 +376,48 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
                   )}
                 </div>
 
-                <div className="flex-1 w-full">
-                  <p className="text-[13px] tracking-artu uppercase text-[var(--color-brand)] mb-3">Quase lá</p>
-                  <h1 className="text-[28px] mb-[17px]">Revise seu projeto</h1>
-                  <p className="text-[20px] mb-[11px]">{nomeItem}</p>
-                  <ul className="text-[16px] text-black/70 mb-[24px] flex flex-col gap-1">
-                    <li>Tamanho: {tamanhoLabelAtual}</li>
-                    <li>Material: {MATERIAIS[0].label}</li>
-                    <li>Moldura: {MOLDURAS.find((m) => m.id === moldura)?.label}</li>
-                  </ul>
+                <p className="text-[13px] tracking-artu uppercase text-[var(--color-brand)] mb-3">Quase lá</p>
+                <h1 className="text-[24px] mb-[11px]">{nomeItem}</h1>
 
-                  <div className="flex items-center border border-black w-fit mb-[24px]">
-                    <button
-                      type="button"
-                      onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
-                      className="px-4 py-2 text-[18px]"
-                      aria-label="Diminuir quantidade"
-                    >
-                      −
-                    </button>
-                    <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
-                    <button
-                      type="button"
-                      onClick={() => setQuantidade((q) => q + 1)}
-                      className="px-4 py-2 text-[18px]"
-                      aria-label="Aumentar quantidade"
-                    >
-                      +
-                    </button>
-                  </div>
+                <p className="text-[28px] leading-tight mb-2">
+                  {preco !== null ? formatarPreco(preco) : "—"}
+                </p>
 
-                  <p className="text-[32px] mb-[24px]">
-                    {preco !== null ? formatarPreco(preco * quantidade) : "—"}
-                  </p>
+                <div
+                  className="inline-flex items-center gap-2 rounded-[6px] px-3 py-2 mb-[17px]"
+                  style={{ background: "var(--color-brand)" }}
+                >
+                  <span className="text-[10px] tracking-artu uppercase font-bold bg-white text-[var(--color-brand)] px-2 py-0.5 rounded-[4px] shrink-0">
+                    Parcelamento
+                  </span>
+                  <span className="text-[15px] font-bold text-white">
+                    em até 12x de {formatarPreco((preco ?? 0) / 12)} sem juros
+                  </span>
+                </div>
 
+                <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
+
+                <ul className="text-[16px] text-black/70 mb-[17px] flex flex-col gap-1">
+                  <li>Tamanho: {tamanhoLabelAtual}</li>
+                  <li>Material: {MATERIAIS[0].label}</li>
+                  <li>Moldura: {MOLDURAS.find((m) => m.id === moldura)?.label}</li>
+                </ul>
+
+                {TESTAR_AMBIENTE_HABILITADO && (
                   <button
                     type="button"
-                    onClick={() => setFinalizando(true)}
-                    className="w-full inline-flex items-center justify-center gap-2 text-white px-8 py-4 text-[16px] rounded-[6px] mb-[17px]"
-                    style={{ background: "var(--color-brand)" }}
+                    onClick={() => setTestandoAmbiente(true)}
+                    className="text-[16px] tracking-artu underline"
                   >
-                    Finalizar Compra
+                    Testar no Meu Ambiente
                   </button>
-
-                  {TESTAR_AMBIENTE_HABILITADO && (
-                    <button
-                      type="button"
-                      onClick={() => setTestandoAmbiente(true)}
-                      className="text-[16px] tracking-artu underline"
-                    >
-                      Testar no Meu Ambiente
-                    </button>
-                  )}
-                </div>
+                )}
               </div>
             )}
           </div>
         </div>
 
-        {etapaIndex < ETAPAS.length - 1 && (
+        {etapaIndex < ETAPAS.length - 1 ? (
           <div className="flex items-center justify-between px-4 md:px-8 py-[17px] border-t border-black/10 shrink-0">
             {etapaIndex > 0 ? (
               <button type="button" onClick={voltar} className="text-[14px] text-black/60 hover:text-black">
@@ -456,6 +435,42 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
             >
               Continuar <IconChevronRight />
             </button>
+          </div>
+        ) : (
+          <div className="flex items-center justify-between gap-3 px-4 md:px-8 py-[17px] border-t border-black/10 shrink-0">
+            <button type="button" onClick={voltar} className="text-[14px] text-black/60 hover:text-black shrink-0">
+              Voltar
+            </button>
+            <div className="flex items-stretch gap-3">
+              <div className="flex items-center border border-black shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
+                  className="px-4 py-2 text-[18px]"
+                  aria-label="Diminuir quantidade"
+                >
+                  −
+                </button>
+                <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
+                <button
+                  type="button"
+                  onClick={() => setQuantidade((q) => q + 1)}
+                  className="px-4 py-2 text-[18px]"
+                  aria-label="Aumentar quantidade"
+                >
+                  +
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={handleComprarAgora}
+                className="inline-flex items-center justify-center text-white px-6 py-3 text-[15px] rounded-[6px]"
+                style={{ background: "var(--color-brand)" }}
+              >
+                Comprar Agora
+              </button>
+            </div>
           </div>
         )}
       </div>
