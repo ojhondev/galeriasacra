@@ -14,9 +14,9 @@ export function SplitHero() {
         />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 text-white">
-          <p className="text-[13px] tracking-artu mb-3">Nova Coleção</p>
+          <p className="text-[13px] tracking-artu mb-3">Especialistas em Arte Sacra Institucional</p>
           <h1 className="text-[clamp(28px,4.5vw,48px)] leading-[1.05] font-medium mb-6 max-w-md">
-            Arte sacra que transforma o espaço
+            Arte sacra sob medida para Igrejas e Instituições
           </h1>
           <Link
             href="/quadros"
@@ -38,9 +38,9 @@ export function SplitHero() {
         />
         <div className="absolute inset-0 bg-black/25" />
         <div className="absolute inset-0 flex flex-col justify-end p-6 md:p-10 text-white">
-          <p className="text-[13px] tracking-artu mb-3">Personalize</p>
+          <p className="text-[13px] tracking-artu mb-3">Projetos Sob Medida</p>
           <h1 className="text-[clamp(28px,4.5vw,48px)] leading-[1.05] font-medium mb-6 max-w-md">
-            Monte o seu quadro do seu jeito
+            Projetos exclusivos para o seu templo
           </h1>
           <Link
             href="/monte-seu-quadro"

@@ -21,8 +21,7 @@ export function Footer() {
               className="h-[36px] w-auto mb-3"
             />
             <p className="text-[14px] text-white/60 leading-[1.4] max-w-[220px]">
-              Arte sacra contemporânea, produzida sob medida para lares, capelas e espaços de
-              oração.
+              Especialistas em arte sacra sob medida para igrejas e instituições religiosas.
             </p>
           </div>
 

@@ -1,11 +1,13 @@
 "use client";
 
-import { useState, type ChangeEvent } from "react";
+import { useMemo, useState, type ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { ArtPlate } from "@/components/ArtPlate";
 import { ARPreview } from "@/components/ARPreview";
 import { FinalizandoCompra } from "@/components/FinalizandoCompra";
-import { IconChevronRight } from "@/components/icons";
+import { IconClose, IconChevronRight } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { useArrastarScroll } from "@/lib/useArrastarScroll";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
@@ -33,9 +35,7 @@ function aspectRatioDoTamanho(tamanhoId: TamanhoId | null, orientacao: Orientaca
   return largura / altura;
 }
 
-const ATRASO_AVANCO_MS = 250;
-
-function OpcaoBotao({
+function ChipButton({
   ativo,
   onClick,
   children,
@@ -48,9 +48,10 @@ function OpcaoBotao({
     <button
       type="button"
       onClick={onClick}
-      className={`border px-6 py-4 text-[20px] text-left transition-colors ${
-        ativo ? "border-black bg-black text-white" : "border-black/20 hover:border-black"
+      className={`text-left px-5 py-4 rounded-[6px] border text-[16px] transition-colors ${
+        ativo ? "text-white border-transparent" : "border-black/15 hover:border-black/40"
       }`}
+      style={ativo ? { background: "var(--color-brand)" } : undefined}
     >
       {children}
     </button>
@@ -128,7 +129,21 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     : produtoSelecionado?.nome ?? "Monte Seu Quadro";
   const tamanhoLabelAtual = TAMANHOS.find((t) => t.id === tamanho)?.label ?? "";
 
+  const podeAvancar = useMemo(() => {
+    switch (etapa) {
+      case "imagem":
+        return produtoSelecionado !== undefined || imagemPropria !== null;
+      case "tamanho":
+        return tamanho !== null;
+      case "moldura":
+        return moldura !== null;
+      default:
+        return true;
+    }
+  }, [etapa, produtoSelecionado, imagemPropria, tamanho, moldura]);
+
   function avancar() {
+    if (!podeAvancar) return;
     setEtapaIndex((i) => Math.min(i + 1, ETAPAS.length - 1));
   }
   function voltar() {
@@ -138,7 +153,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
   function escolherProduto(p: Produto) {
     setProdutoSelecionado(p);
     setImagemPropria(null);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
   }
 
   function handleUpload(e: ChangeEvent<HTMLInputElement>) {
@@ -147,17 +161,6 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     setImagemPropria(URL.createObjectURL(arquivo));
     setNomeArquivo(arquivo.name);
     setProdutoSelecionado(undefined);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
-  }
-
-  function escolherTamanho(id: TamanhoId) {
-    setTamanho(id);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
-  }
-
-  function escolherMoldura(id: MolduraId) {
-    setMoldura(id);
-    setTimeout(avancar, ATRASO_AVANCO_MS);
   }
 
   function handleConcluirCompra() {
@@ -182,235 +185,279 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
     return <FinalizandoCompra onConcluir={handleConcluirCompra} />;
   }
 
+  const progresso = Math.round(((etapaIndex + 1) / ETAPAS.length) * 100);
+
   return (
-    <div className="flex flex-col">
-      <div className="w-full h-1 bg-black/10">
-        <div
-          className="h-1 bg-[var(--color-brand)] transition-all duration-300"
-          style={{ width: `${((etapaIndex + 1) / ETAPAS.length) * 100}%` }}
+    <div className="fixed inset-0 z-[60] bg-white flex">
+      <div className="hidden md:block relative w-1/2 h-full shrink-0 overflow-hidden">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          src="/videos/monte-seu-quadro.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
         />
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute inset-0 flex flex-col justify-end p-10 text-white">
+          <p className="text-[13px] tracking-artu uppercase mb-3">Monte Seu Quadro</p>
+          <h2 className="text-[clamp(24px,3vw,34px)] leading-tight max-w-sm">
+            Configure um projeto sob medida para o seu espaço sagrado
+          </h2>
+        </div>
       </div>
 
-      <div className="flex items-center justify-between px-4 md:px-8 py-[17px]">
-        {etapaIndex > 0 ? (
-          <button type="button" onClick={voltar} className="text-[16px] tracking-artu underline">
-            ← Voltar
-          </button>
-        ) : (
-          <span />
-        )}
-        <p className="text-[14px] tracking-artu text-black/50">
-          {etapaIndex + 1} de {ETAPAS.length}
-        </p>
-      </div>
+      <div className="flex-1 min-w-0 flex flex-col">
+        <div className="h-1 bg-black/10 shrink-0">
+          <div
+            className="h-full transition-all duration-300"
+            style={{ width: `${progresso}%`, background: "var(--color-brand)" }}
+          />
+        </div>
 
-      <div className="flex-1 flex items-center justify-center px-4 md:px-8 py-[32px] min-h-[60vh]">
-        <div className={`w-full ${etapa === "imagem" ? "max-w-4xl" : etapa === "revisao" ? "max-w-4xl" : "max-w-2xl"}`}>
-          {etapa === "imagem" && (
-            <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[24px] text-center">
-                Escolha uma imagem do catálogo
-              </h1>
+        <div className="flex items-center justify-between px-4 md:px-8 py-[17px] shrink-0">
+          <Image
+            src="/logo-galeriasacra-vinho.png"
+            alt="Galeria Sacra"
+            width={765}
+            height={406}
+            className="h-[32px] w-auto"
+          />
+          <Link href="/" aria-label="Fechar" className="text-black/60 hover:text-black">
+            <IconClose />
+          </Link>
+        </div>
 
-              {categoriasDisponiveis.length > 0 && (
-                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-3 -mx-1 px-1">
-                  <ChipFiltro ativo={filtroCategoria === null} onClick={() => setFiltroCategoria(null)}>
-                    Todas categorias
+        <div className="flex-1 overflow-y-auto flex items-center justify-center px-4 md:px-8 py-[24px]">
+          <div
+            key={etapaIndex}
+            className={`animate-step-in w-full ${etapa === "imagem" || etapa === "revisao" ? "max-w-4xl" : "max-w-[560px]"}`}
+          >
+            {etapa === "imagem" && (
+              <div>
+                <p className="text-[22px] mb-[24px]">Escolha uma imagem do catálogo</p>
+
+                {categoriasDisponiveis.length > 0 && (
+                  <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-3 -mx-1 px-1">
+                    <ChipFiltro ativo={filtroCategoria === null} onClick={() => setFiltroCategoria(null)}>
+                      Todas categorias
+                    </ChipFiltro>
+                    {categoriasDisponiveis.map((nome) => (
+                      <ChipFiltro
+                        key={nome}
+                        ativo={filtroCategoria === nome}
+                        onClick={() => setFiltroCategoria(filtroCategoria === nome ? null : nome)}
+                      >
+                        {nome}
+                      </ChipFiltro>
+                    ))}
+                  </div>
+                )}
+
+                <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-[24px] -mx-1 px-1">
+                  <ChipFiltro ativo={filtroOrientacao === null} onClick={() => setFiltroOrientacao(null)}>
+                    Todos formatos
                   </ChipFiltro>
-                  {categoriasDisponiveis.map((nome) => (
+                  {ORIENTACOES.map((o) => (
                     <ChipFiltro
-                      key={nome}
-                      ativo={filtroCategoria === nome}
-                      onClick={() => setFiltroCategoria(filtroCategoria === nome ? null : nome)}
+                      key={o.id}
+                      ativo={filtroOrientacao === o.id}
+                      onClick={() => setFiltroOrientacao(filtroOrientacao === o.id ? null : o.id)}
                     >
-                      {nome}
+                      {o.label}
                     </ChipFiltro>
                   ))}
                 </div>
-              )}
 
-              <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-1 mb-[24px] -mx-1 px-1">
-                <ChipFiltro ativo={filtroOrientacao === null} onClick={() => setFiltroOrientacao(null)}>
-                  Todos formatos
-                </ChipFiltro>
-                {ORIENTACOES.map((o) => (
-                  <ChipFiltro
-                    key={o.id}
-                    ativo={filtroOrientacao === o.id}
-                    onClick={() => setFiltroOrientacao(filtroOrientacao === o.id ? null : o.id)}
-                  >
-                    {o.label}
-                  </ChipFiltro>
-                ))}
-              </div>
+                {produtosFiltrados.length > 0 ? (
+                  <div className="relative mb-[24px]">
+                    <div
+                      ref={carrosselRef}
+                      {...carrosselHandlers}
+                      className={`flex gap-4 overflow-x-auto scrollbar-hide pb-2 select-none ${
+                        carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
+                      }`}
+                    >
+                      {produtosFiltrados.map((p) => (
+                        <button
+                          key={p.id}
+                          type="button"
+                          onClickCapture={bloquearCliqueSeArrastou}
+                          onClick={() => escolherProduto(p)}
+                          aria-label={p.nome}
+                          draggable={false}
+                          className="shrink-0 w-[220px] md:w-[260px] snap-start"
+                          style={{
+                            outline:
+                              produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid var(--color-brand)" : "none",
+                            outlineOffset: "2px",
+                          }}
+                        >
+                          <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.[MOLDURA_PADRAO]} />
+                          <p className="text-[14px] mt-2 text-left">{p.nome}</p>
+                        </button>
+                      ))}
+                    </div>
 
-              {produtosFiltrados.length > 0 ? (
-                <div className="relative mb-[24px]">
-                  <div
-                    ref={carrosselRef}
-                    {...carrosselHandlers}
-                    className={`flex gap-4 overflow-x-auto scrollbar-hide pb-2 select-none ${
-                      carrosselArrastando ? "cursor-grabbing" : "cursor-grab scroll-smooth snap-x snap-mandatory"
-                    }`}
-                  >
-                    {produtosFiltrados.map((p) => (
-                      <button
-                        key={p.id}
-                        type="button"
-                        onClickCapture={bloquearCliqueSeArrastou}
-                        onClick={() => escolherProduto(p)}
-                        aria-label={p.nome}
-                        draggable={false}
-                        className="shrink-0 w-[220px] md:w-[260px] snap-start"
-                        style={{
-                          outline:
-                            produtoSelecionado?.id === p.id && !imagemPropria ? "2px solid black" : "none",
-                          outlineOffset: "2px",
-                        }}
-                      >
-                        <ArtPlate orientacao={p.orientacao} imagemUrl={p.imagens?.[MOLDURA_PADRAO]} />
-                        <p className="text-[14px] mt-2 text-left">{p.nome}</p>
-                      </button>
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => rolar(300)}
-                    aria-label="Ver próximas imagens"
-                    className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg items-center justify-center"
-                  >
-                    <IconChevronRight />
-                  </button>
-                </div>
-              ) : (
-                <p className="text-[15px] text-black/50 text-center mb-[24px]">
-                  Nenhuma imagem encontrada para esse filtro.
-                </p>
-              )}
-
-              <div className="text-center">
-                <label className="text-[16px] tracking-artu underline cursor-pointer">
-                  Ou envie sua própria imagem
-                  <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
-                </label>
-                {nomeArquivo && <p className="text-[14px] mt-2 text-black/60">{nomeArquivo}</p>}
-              </div>
-            </div>
-          )}
-
-          {etapa === "tamanho" && (
-            <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">
-                Qual tamanho você prefere?
-              </h1>
-              <div className="flex flex-col gap-3">
-                {TAMANHOS.map((t) => (
-                  <OpcaoBotao key={t.id} ativo={tamanho === t.id} onClick={() => escolherTamanho(t.id)}>
-                    {t.label}
-                  </OpcaoBotao>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {etapa === "moldura" && (
-            <div>
-              <h1 className="text-[clamp(22px,5vw,36px)] mb-[32px] text-center">Escolha sua Moldura</h1>
-              <div className="flex flex-col gap-3">
-                {MOLDURAS.map((m) => (
-                  <OpcaoBotao key={m.id} ativo={moldura === m.id} onClick={() => escolherMoldura(m.id)}>
-                    <span className="flex items-center gap-3">
-                      {m.cor && (
-                        <span
-                          className="w-5 h-5 inline-block shrink-0"
-                          style={{ background: m.cor }}
-                          aria-hidden="true"
-                        />
-                      )}
-                      {m.label}
-                    </span>
-                  </OpcaoBotao>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {etapa === "revisao" && (
-            <div className="flex flex-col md:flex-row gap-[42px] items-center md:items-start">
-              <div className="w-full md:w-[400px] shrink-0 bg-[#f2f2ef] p-[8%]">
-                {imagemPropria ? (
-                  <div style={molduraAtual?.cor ? { background: molduraAtual.cor, padding: "3.2%" } : undefined}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={imagemPropria}
-                      alt={nomeArquivo ?? "Imagem enviada pelo cliente"}
-                      className="w-full h-auto block"
-                    />
+                    <button
+                      type="button"
+                      onClick={() => rolar(300)}
+                      aria-label="Ver próximas imagens"
+                      className="hidden md:flex absolute -right-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white shadow-lg items-center justify-center"
+                    >
+                      <IconChevronRight />
+                    </button>
                   </div>
                 ) : (
-                  <ArtPlate
-                    orientacao={produtoSelecionado?.orientacao ?? "retrato"}
-                    molduraColor={molduraAtual?.cor ?? null}
-                    imagemUrl={moldura ? produtoSelecionado?.imagens?.[moldura] : undefined}
-                  />
+                  <p className="text-[15px] text-black/50 text-center mb-[24px]">
+                    Nenhuma imagem encontrada para esse filtro.
+                  </p>
                 )}
+
+                <div className="text-center">
+                  <label className="text-[16px] tracking-artu underline cursor-pointer">
+                    Ou envie sua própria imagem
+                    <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
+                  </label>
+                  {nomeArquivo && <p className="text-[14px] mt-2 text-black/60">{nomeArquivo}</p>}
+                </div>
               </div>
+            )}
 
-              <div className="flex-1 w-full">
-                <h1 className="text-[28px] mb-[17px]">Revise seu quadro</h1>
-                <p className="text-[20px] mb-[11px]">{nomeItem}</p>
-                <ul className="text-[16px] text-black/70 mb-[24px] flex flex-col gap-1">
-                  <li>Tamanho: {tamanhoLabelAtual}</li>
-                  <li>Material: {MATERIAIS[0].label}</li>
-                  <li>Moldura: {MOLDURAS.find((m) => m.id === moldura)?.label}</li>
-                </ul>
+            {etapa === "tamanho" && (
+              <div>
+                <p className="text-[22px] mb-[24px]">Qual tamanho você prefere?</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {TAMANHOS.map((t) => (
+                    <ChipButton key={t.id} ativo={tamanho === t.id} onClick={() => setTamanho(t.id)}>
+                      {t.label}
+                    </ChipButton>
+                  ))}
+                </div>
+              </div>
+            )}
 
-                <div className="flex items-center border border-black w-fit mb-[24px]">
-                  <button
-                    type="button"
-                    onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
-                    className="px-4 py-2 text-[18px]"
-                    aria-label="Diminuir quantidade"
-                  >
-                    −
-                  </button>
-                  <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
-                  <button
-                    type="button"
-                    onClick={() => setQuantidade((q) => q + 1)}
-                    className="px-4 py-2 text-[18px]"
-                    aria-label="Aumentar quantidade"
-                  >
-                    +
-                  </button>
+            {etapa === "moldura" && (
+              <div>
+                <p className="text-[22px] mb-[24px]">Escolha sua moldura</p>
+                <div className="grid grid-cols-2 gap-3">
+                  {MOLDURAS.map((m) => (
+                    <ChipButton key={m.id} ativo={moldura === m.id} onClick={() => setMoldura(m.id)}>
+                      <span className="flex items-center gap-3">
+                        {m.cor && (
+                          <span
+                            className="w-5 h-5 inline-block shrink-0 rounded-full"
+                            style={{ background: m.cor }}
+                            aria-hidden="true"
+                          />
+                        )}
+                        {m.label.replace(/^Moldura /, "")}
+                      </span>
+                    </ChipButton>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {etapa === "revisao" && (
+              <div className="flex flex-col md:flex-row gap-[42px] items-center md:items-start">
+                <div className="w-full md:w-[400px] shrink-0 bg-[#f2f2ef] p-[8%]">
+                  {imagemPropria ? (
+                    <div style={molduraAtual?.cor ? { background: molduraAtual.cor, padding: "3.2%" } : undefined}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={imagemPropria}
+                        alt={nomeArquivo ?? "Imagem enviada pelo cliente"}
+                        className="w-full h-auto block"
+                      />
+                    </div>
+                  ) : (
+                    <ArtPlate
+                      orientacao={produtoSelecionado?.orientacao ?? "retrato"}
+                      molduraColor={molduraAtual?.cor ?? null}
+                      imagemUrl={moldura ? produtoSelecionado?.imagens?.[moldura] : undefined}
+                    />
+                  )}
                 </div>
 
-                <p className="text-[32px] mb-[24px]">
-                  {preco !== null ? formatarPreco(preco * quantidade) : "—"}
-                </p>
+                <div className="flex-1 w-full">
+                  <p className="text-[13px] tracking-artu uppercase text-[var(--color-brand)] mb-3">Quase lá</p>
+                  <h1 className="text-[28px] mb-[17px]">Revise seu projeto</h1>
+                  <p className="text-[20px] mb-[11px]">{nomeItem}</p>
+                  <ul className="text-[16px] text-black/70 mb-[24px] flex flex-col gap-1">
+                    <li>Tamanho: {tamanhoLabelAtual}</li>
+                    <li>Material: {MATERIAIS[0].label}</li>
+                    <li>Moldura: {MOLDURAS.find((m) => m.id === moldura)?.label}</li>
+                  </ul>
 
-                <button
-                  type="button"
-                  onClick={() => setFinalizando(true)}
-                  className="w-full bg-black text-white px-6 py-4 text-[16px] tracking-artu mb-[17px]"
-                >
-                  Finalizar Compra
-                </button>
+                  <div className="flex items-center border border-black w-fit mb-[24px]">
+                    <button
+                      type="button"
+                      onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
+                      className="px-4 py-2 text-[18px]"
+                      aria-label="Diminuir quantidade"
+                    >
+                      −
+                    </button>
+                    <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
+                    <button
+                      type="button"
+                      onClick={() => setQuantidade((q) => q + 1)}
+                      className="px-4 py-2 text-[18px]"
+                      aria-label="Aumentar quantidade"
+                    >
+                      +
+                    </button>
+                  </div>
 
-                {TESTAR_AMBIENTE_HABILITADO && (
+                  <p className="text-[32px] mb-[24px]">
+                    {preco !== null ? formatarPreco(preco * quantidade) : "—"}
+                  </p>
+
                   <button
                     type="button"
-                    onClick={() => setTestandoAmbiente(true)}
-                    className="text-[16px] tracking-artu underline"
+                    onClick={() => setFinalizando(true)}
+                    className="w-full inline-flex items-center justify-center gap-2 text-white px-8 py-4 text-[16px] rounded-[6px] mb-[17px]"
+                    style={{ background: "var(--color-brand)" }}
                   >
-                    Testar no Meu Ambiente
+                    Finalizar Compra
                   </button>
-                )}
+
+                  {TESTAR_AMBIENTE_HABILITADO && (
+                    <button
+                      type="button"
+                      onClick={() => setTestandoAmbiente(true)}
+                      className="text-[16px] tracking-artu underline"
+                    >
+                      Testar no Meu Ambiente
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
+
+        {etapaIndex < ETAPAS.length - 1 && (
+          <div className="flex items-center justify-between px-4 md:px-8 py-[17px] border-t border-black/10 shrink-0">
+            {etapaIndex > 0 ? (
+              <button type="button" onClick={voltar} className="text-[14px] text-black/60 hover:text-black">
+                Voltar
+              </button>
+            ) : (
+              <span />
+            )}
+            <button
+              type="button"
+              onClick={avancar}
+              disabled={!podeAvancar}
+              className="inline-flex items-center gap-2 text-white px-6 py-3 text-[15px] rounded-[6px] disabled:opacity-30"
+              style={{ background: "var(--color-brand)" }}
+            >
+              Continuar <IconChevronRight />
+            </button>
+          </div>
+        )}
       </div>
 
       {testandoAmbiente && (

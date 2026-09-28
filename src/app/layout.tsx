@@ -12,7 +12,7 @@ const redHatDisplay = Red_Hat_Display({
 export const metadata: Metadata = {
   title: "Galeria Sacra",
   description:
-    "Galeria Sacra — arte sacra contemporânea. Quadros religiosos prontos ou totalmente personalizados, do seu jeito.",
+    "Galeria Sacra — especialista em arte sacra para igrejas e instituições religiosas. Projetos sob medida, personalizados e com acabamento profissional.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

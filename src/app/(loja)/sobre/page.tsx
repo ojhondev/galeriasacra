@@ -12,18 +12,20 @@ export default function SobrePage() {
 
       <div className="max-w-2xl flex flex-col gap-8">
         <p className="text-[24px] leading-[1.15]">
-          A Galeria Sacra nasceu para aproximar a arte sacra do dia a dia — em casas,
-          capelas e espaços de oração.
+          A Galeria Sacra é especializada em arte sacra para igrejas, paróquias e
+          instituições religiosas — unindo tradição, personalização e acabamento
+          profissional em cada projeto.
         </p>
         <p className="text-[20px] leading-[1.2]">
-          Trabalhamos com um catálogo próprio de quadros religiosos, ícones e santos, e
-          acreditamos que cada peça deve caber no espaço e na fé de quem a recebe. Por
-          isso, todo quadro do nosso catálogo pode ser totalmente personalizado — tamanho,
-          moldura e material — na seção Monte Seu Quadro.
+          Não trabalhamos com o quadro de santo genérico para casa: nosso foco são
+          projetos institucionais, desenvolvidos sob medida para o espaço, a identidade e
+          a devoção de cada templo. Tamanho, moldura e material são definidos junto com a
+          instituição na seção Monte Seu Quadro.
         </p>
         <p className="text-[20px] leading-[1.2]">
-          O foco inicial da galeria são os quadros, mas estamos construindo aos poucos um
-          catálogo mais amplo de produtos sacros.
+          Atendemos igrejas, capelas, paróquias, seminários e congregações que buscam
+          elevar seus espaços de fé com peças exclusivas — e estamos construindo aos
+          poucos um catálogo mais amplo de produtos sacros para instituições.
         </p>
       </div>
 
@@ -33,7 +35,8 @@ export default function SobrePage() {
         <p className="text-[16px] tracking-artu text-black/50">Produção</p>
         <p className="text-[20px] leading-[1.2]">
           Impressão em alta definição, com fidelidade de cor testada para grandes formatos
-          e acabamento sob medida em cada pedido.
+          e acabamento profissional sob medida — pensado para projetos institucionais de
+          qualquer escala.
         </p>
       </div>
     </div>

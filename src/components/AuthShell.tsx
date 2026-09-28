@@ -20,7 +20,7 @@ export function AuthShell({ children }: { children: React.ReactNode }) {
         <div className="absolute inset-0 flex flex-col justify-end p-10 text-white">
           <p className="text-[13px] tracking-artu uppercase mb-3">Galeria Sacra</p>
           <h2 className="text-[clamp(24px,3vw,34px)] leading-tight max-w-sm">
-            Arte sacra que transforma o espaço
+            Arte sacra sob medida para Igrejas e Instituições
           </h2>
         </div>
       </div>
