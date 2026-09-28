@@ -80,7 +80,12 @@ export default function CarrinhoPage() {
                     onChange={(e) => atualizarQuantidade(item.id, Number(e.target.value))}
                     className="w-16 border-b border-black bg-transparent text-[16px] outline-none"
                   />
-                  <p className="text-[18px]">{formatarPreco(item.precoUnitario * item.quantidade)}</p>
+                  <div>
+                    <p className="text-[18px]">{formatarPreco(item.precoUnitario * item.quantidade)}</p>
+                    <p className="text-[13px] text-black/50">
+                      ou em até 12x de {formatarPreco((item.precoUnitario * item.quantidade) / 12)} sem juros
+                    </p>
+                  </div>
                   <button
                     type="button"
                     onClick={() => remover(item.id)}
@@ -96,9 +101,14 @@ export default function CarrinhoPage() {
         ))}
       </div>
 
-      <div className="flex items-center justify-between mt-[42px] max-w-lg ml-auto">
-        <p className="text-[22px]">Total</p>
-        <p className="text-[22px]">{formatarPreco(total)}</p>
+      <div className="flex flex-col items-end mt-[42px] max-w-lg ml-auto">
+        <div className="flex items-center justify-between w-full">
+          <p className="text-[22px]">Total</p>
+          <p className="text-[22px]">{formatarPreco(total)}</p>
+        </div>
+        <p className="text-[14px] text-black/50 mt-1">
+          ou em até 12x de {formatarPreco(total / 12)} sem juros
+        </p>
       </div>
 
       <div className="flex flex-wrap items-center gap-4 mt-[32px] justify-end">

@@ -19,16 +19,9 @@ type ProdutoDetalheProps = {
   alternativas: Produto[];
   combinaCom: Produto[];
   avaliacoes: Avaliacao[];
-  freteGratisMinimo: number;
 };
 
-export function ProdutoDetalhe({
-  produto,
-  alternativas,
-  combinaCom,
-  avaliacoes,
-  freteGratisMinimo,
-}: ProdutoDetalheProps) {
+export function ProdutoDetalhe({ produto, alternativas, combinaCom, avaliacoes }: ProdutoDetalheProps) {
   const [moldura, setMoldura] = useState<MolduraId>(MOLDURA_PADRAO);
   const molduraColor = MOLDURAS.find((m) => m.id === moldura)?.cor ?? null;
   const imagemUrl = produto.imagens?.[moldura] ?? null;
@@ -45,7 +38,7 @@ export function ProdutoDetalhe({
         <span>{produto.categoria}</span> / <span className="text-black">{produto.nome}</span>
       </div>
 
-      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[42px] px-4 md:px-8 py-[24px] pb-[100px] lg:pb-[24px]">
+      <div className="flex flex-col lg:grid lg:grid-cols-2 gap-[42px] px-4 md:px-8 py-[24px] pb-[24px]">
         <div className="order-2 lg:order-1">
           <p className="text-[13px] tracking-artu text-black/60 mb-2">
             {produto.categoria.toUpperCase()}
@@ -62,78 +55,7 @@ export function ProdutoDetalhe({
             </div>
           )}
 
-          <Customizer
-            produto={produto}
-            onMolduraChange={setMoldura}
-            comprarFixoNoMobile
-            freteGratisMinimo={freteGratisMinimo}
-          />
-
-          {combinaCom.length > 0 && (
-            <div className="border-t border-black py-[17px]">
-              <p className="text-[16px] mb-[11px]">Costuma Combinar Com</p>
-              <div className="grid grid-cols-2 gap-3">
-                {combinaCom.map((item) => (
-                  <div key={item.id}>
-                    <ObraTile
-                      slug={item.slug}
-                      nome={item.nome}
-                      orientacao={item.orientacao}
-                      imagemUrl={item.imagens?.[MOLDURA_PADRAO]}
-                    />
-                    <p className="text-[14px] mt-1">{item.nome}</p>
-                    <p className="text-[13px] text-black/50">
-                      {formatarPreco(precoRange(item.precoBase).min)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <Accordion titulo="Sobre">
-            {produto.descricaoLonga.map((paragrafo, i) => (
-              <p key={i} className="mb-3 last:mb-0">
-                {paragrafo}
-              </p>
-            ))}
-          </Accordion>
-          <Accordion titulo="Materiais">
-            <p>
-              Impressão de alta definição sobre tela canvas 100% algodão, com fidelidade de cor
-              testada para longa duração.
-            </p>
-          </Accordion>
-          <Accordion titulo="Envio">
-            <p>
-              Cada peça é produzida sob encomenda. Prazo de produção e envio informado no
-              carrinho antes da finalização da compra.
-            </p>
-          </Accordion>
-          <Accordion titulo="Trocas e Devoluções">
-            <p>
-              Consulte nossa{" "}
-              <Link href="/trocas-e-devolucoes" className="underline">
-                política de trocas e devoluções
-              </Link>
-              .
-            </p>
-          </Accordion>
-          {avaliacoes.length > 0 && (
-            <Accordion titulo={`Avaliações (${avaliacoes.length})`}>
-              <div className="flex flex-col gap-[17px]">
-                {avaliacoes.map((avaliacao) => (
-                  <div key={avaliacao.id}>
-                    <div className="flex items-center gap-2 mb-1">
-                      <Estrelas nota={avaliacao.nota} tamanho={14} />
-                      <span className="text-[14px] font-medium">{avaliacao.nomeCliente}</span>
-                    </div>
-                    <p className="text-[15px] text-black/70">{avaliacao.comentario}</p>
-                  </div>
-                ))}
-              </div>
-            </Accordion>
-          )}
+          <Customizer produto={produto} onMolduraChange={setMoldura} comprarFixoNoMobile />
         </div>
 
         <div className="order-1 lg:order-2 lg:max-w-[440px] lg:mx-auto lg:w-full">
@@ -141,7 +63,73 @@ export function ProdutoDetalhe({
         </div>
       </div>
 
-      <div className="px-4 md:px-8 py-[80px]">
+      {combinaCom.length > 0 && (
+        <div className="px-4 md:px-8 py-[42px] bg-[#faf9f7]">
+          <p className="text-[24px] md:text-[28px] font-medium mb-[24px]">Costuma Combinar Com</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-[24px] md:gap-[32px]">
+            {combinaCom.map((item) => (
+              <div key={item.id}>
+                <ObraTile
+                  slug={item.slug}
+                  nome={item.nome}
+                  orientacao={item.orientacao}
+                  imagemUrl={item.imagens?.[MOLDURA_PADRAO]}
+                />
+                <p className="text-[16px] md:text-[18px] mt-[11px]">{item.nome}</p>
+                <p className="text-[14px] text-black/50">{formatarPreco(precoRange(item.precoBase).min)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <div className="px-4 md:px-8 py-[42px] max-w-2xl">
+        <Accordion titulo="Sobre">
+          {produto.descricaoLonga.map((paragrafo, i) => (
+            <p key={i} className="mb-3 last:mb-0">
+              {paragrafo}
+            </p>
+          ))}
+        </Accordion>
+        <Accordion titulo="Materiais">
+          <p>
+            Impressão de alta definição sobre tela canvas 100% algodão, com fidelidade de cor
+            testada para longa duração.
+          </p>
+        </Accordion>
+        <Accordion titulo="Envio">
+          <p>
+            Cada peça é produzida sob encomenda. Prazo de produção e envio informado no
+            carrinho antes da finalização da compra.
+          </p>
+        </Accordion>
+        <Accordion titulo="Trocas e Devoluções">
+          <p>
+            Consulte nossa{" "}
+            <Link href="/trocas-e-devolucoes" className="underline">
+              política de trocas e devoluções
+            </Link>
+            .
+          </p>
+        </Accordion>
+        {avaliacoes.length > 0 && (
+          <Accordion titulo={`Avaliações (${avaliacoes.length})`}>
+            <div className="flex flex-col gap-[17px]">
+              {avaliacoes.map((avaliacao) => (
+                <div key={avaliacao.id}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Estrelas nota={avaliacao.nota} tamanho={14} />
+                    <span className="text-[14px] font-medium">{avaliacao.nomeCliente}</span>
+                  </div>
+                  <p className="text-[15px] text-black/70">{avaliacao.comentario}</p>
+                </div>
+              ))}
+            </div>
+          </Accordion>
+        )}
+      </div>
+
+      <div className="px-4 md:px-8 pt-[80px] pb-[160px] lg:pb-[80px]">
         <HairlineDivider className="mb-[42px]" />
         <p className="text-[18px] mb-[29px]">Outras Obras</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-[32px]">

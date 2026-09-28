@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import { ARPreview } from "@/components/ARPreview";
 import { FreteCalculadora } from "@/components/FreteCalculadora";
-import { IconCheck, IconLock, IconRefresh, IconWhatsApp } from "@/components/icons";
+import { IconCheck, IconLock, IconRefresh } from "@/components/icons";
 import { useCart } from "@/lib/cart";
 import { registrarProdutoVisto } from "@/lib/produto-visto";
 import { TESTAR_AMBIENTE_HABILITADO } from "@/lib/feature-flags";
@@ -71,22 +70,14 @@ type CustomizerProps = {
   produto: Produto;
   onMolduraChange?: (moldura: MolduraId) => void;
   comprarFixoNoMobile?: boolean;
-  freteGratisMinimo?: number;
 };
 
-export function Customizer({
-  produto,
-  onMolduraChange,
-  comprarFixoNoMobile = false,
-  freteGratisMinimo = 400,
-}: CustomizerProps) {
-  const router = useRouter();
-  const { adicionar } = useCart();
+export function Customizer({ produto, onMolduraChange, comprarFixoNoMobile = false }: CustomizerProps) {
+  const { adicionar, abrirDrawer } = useCart();
 
   const [tamanho, setTamanho] = useState<TamanhoId | null>(null);
   const [moldura, setMoldura] = useState<MolduraId | null>(null);
   const [quantidade, setQuantidade] = useState(1);
-  const [adicionado, setAdicionado] = useState(false);
   const [testandoAmbiente, setTestandoAmbiente] = useState(false);
 
   const preco = useMemo(
@@ -122,17 +113,10 @@ export function Customizer({
     };
   }
 
-  function handleAdicionar() {
-    adicionar(montarItem());
-    registrarProdutoVisto({ nome: produto.nome, slug: produto.slug });
-    setAdicionado(true);
-    setTimeout(() => setAdicionado(false), 2500);
-  }
-
   function handleComprarAgora() {
     adicionar(montarItem());
     registrarProdutoVisto({ nome: produto.nome, slug: produto.slug });
-    router.push("/carrinho");
+    abrirDrawer();
   }
 
   return (
@@ -140,14 +124,16 @@ export function Customizer({
       {preco !== null ? (
         <>
           <p className="text-[28px] md:text-[32px] leading-tight mb-1">{formatarPreco(preco)}</p>
-          <p className="text-[14px] text-black/60 mb-1">ou 12x de {formatarPreco(preco / 12)} sem juros</p>
+          <p className="text-[14px] text-black/60 mb-1">ou em até 12x de {formatarPreco(preco / 12)} sem juros</p>
         </>
       ) : (
         <>
           <p className="text-[28px] md:text-[32px] leading-tight mb-1">
             A partir de {formatarPreco(faixaPreco.min)}
           </p>
-          <p className="text-[14px] text-black/60 mb-1">Escolha a medida e a moldura para ver o preço final.</p>
+          <p className="text-[14px] text-black/60 mb-1">
+            ou em até 12x de {formatarPreco(faixaPreco.min / 12)} sem juros
+          </p>
         </>
       )}
       <p className="text-[14px] text-black/50 mb-[17px]">Frete calculado no carrinho.</p>
@@ -219,55 +205,46 @@ export function Customizer({
         </div>
       </div>
 
-      <div className="flex items-stretch gap-4 py-[17px] border-t border-black">
-        <div className="flex items-center border border-black">
-          <button
-            type="button"
-            onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
-            disabled={esgotado}
-            className="px-4 py-2 text-[18px] disabled:opacity-30"
-            aria-label="Diminuir quantidade"
-          >
-            −
-          </button>
-          <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
-          <button
-            type="button"
-            onClick={() => setQuantidade((q) => Math.min(produto.estoque, q + 1))}
-            disabled={esgotado || quantidade >= produto.estoque}
-            className="px-4 py-2 text-[18px] disabled:opacity-30"
-            aria-label="Aumentar quantidade"
-          >
-            +
-          </button>
-        </div>
-
-        <button
-          type="button"
-          onClick={handleAdicionar}
-          disabled={!podeComprar}
-          className="flex-1 border border-black px-6 py-3 text-[16px] rounded-[6px] disabled:opacity-40"
-        >
-          {esgotado ? "Esgotado" : "Adicionar ao Carrinho"}
-        </button>
-      </div>
-
       <div
         className={
           comprarFixoNoMobile
-            ? "fixed bottom-16 inset-x-0 z-40 bg-white border-t border-black px-4 py-3 flex flex-col gap-2 lg:static lg:bg-transparent lg:border-0 lg:p-0 lg:gap-3 lg:mb-[17px]"
-            : "flex flex-col gap-3 mb-[17px]"
+            ? "fixed bottom-16 inset-x-0 z-40 bg-white border-t border-black px-4 py-3 flex flex-col gap-2 lg:static lg:bg-transparent lg:border-t lg:border-black lg:p-0 lg:gap-3 lg:pt-[17px] lg:mb-[17px]"
+            : "flex flex-col gap-3 py-[17px] border-t border-black mb-[17px]"
         }
       >
-        <button
-          type="button"
-          onClick={handleComprarAgora}
-          disabled={!podeComprar}
-          className="w-full text-white px-6 py-4 text-[16px] rounded-[6px] disabled:opacity-40"
-          style={{ background: "var(--color-brand)" }}
-        >
-          {esgotado ? "Esgotado" : "Comprar Agora"}
-        </button>
+        <div className="flex items-stretch gap-3">
+          <div className="flex items-center border border-black shrink-0">
+            <button
+              type="button"
+              onClick={() => setQuantidade((q) => Math.max(1, q - 1))}
+              disabled={esgotado}
+              className="px-4 py-2 text-[18px] disabled:opacity-30"
+              aria-label="Diminuir quantidade"
+            >
+              −
+            </button>
+            <span className="px-4 text-[16px] min-w-[32px] text-center">{quantidade}</span>
+            <button
+              type="button"
+              onClick={() => setQuantidade((q) => Math.min(produto.estoque, q + 1))}
+              disabled={esgotado || quantidade >= produto.estoque}
+              className="px-4 py-2 text-[18px] disabled:opacity-30"
+              aria-label="Aumentar quantidade"
+            >
+              +
+            </button>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleComprarAgora}
+            disabled={!podeComprar}
+            className="flex-1 text-white px-6 py-4 text-[16px] rounded-[6px] disabled:opacity-40"
+            style={{ background: "var(--color-brand)" }}
+          >
+            {esgotado ? "Esgotado" : "Comprar Agora"}
+          </button>
+        </div>
 
         {TESTAR_AMBIENTE_HABILITADO && (
           <button
@@ -280,32 +257,7 @@ export function Customizer({
         )}
       </div>
 
-      {adicionado && (
-        <div className="mb-[17px]">
-          <button
-            type="button"
-            onClick={() => router.push("/carrinho")}
-            className="text-[16px] text-[var(--color-brand)] underline"
-          >
-            Ver Carrinho
-          </button>
-        </div>
-      )}
-
-      <a
-        href={`https://wa.me/5514998570045?text=${encodeURIComponent(`Olá! Tenho uma dúvida sobre o quadro "${produto.nome}".`)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 text-[14px] underline mb-[17px] text-[#25D366]"
-      >
-        <IconWhatsApp /> Dúvidas? Fale conosco no WhatsApp
-      </a>
-
       <FreteCalculadora />
-
-      <p className="text-[14px] text-black/60 border-t border-black pt-[17px]">
-        Frete grátis para compras acima de {formatarPreco(freteGratisMinimo)}
-      </p>
 
       {testandoAmbiente && (
         <ARPreview

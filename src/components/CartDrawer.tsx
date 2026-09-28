@@ -52,7 +52,7 @@ export function CartDrawer() {
                   <div>
                     <p className="text-[15px]">{item.nome}</p>
                     <p className="text-[13px] text-black/50">
-                      {item.tamanhoLabel} · {item.molduraLabel}
+                      {item.tamanhoLabel} · {item.molduraLabel} · {item.materialLabel}
                     </p>
                     <div className="flex items-center justify-between mt-1">
                       <p className="text-[14px] text-black/60">Qtd. {item.quantidade}</p>
@@ -74,10 +74,13 @@ export function CartDrawer() {
 
         {itens.length > 0 && (
           <div className="border-t border-black px-4 md:px-8 py-[17px] shrink-0">
-            <div className="flex items-center justify-between mb-[17px]">
+            <div className="flex items-center justify-between mb-1">
               <p className="text-[18px]">Total</p>
               <p className="text-[18px]">{formatarPreco(total)}</p>
             </div>
+            <p className="text-[13px] text-black/50 mb-[17px]">
+              ou em até 12x de {formatarPreco(total / 12)} sem juros
+            </p>
             <Link
               href="/carrinho"
               onClick={fecharDrawer}
