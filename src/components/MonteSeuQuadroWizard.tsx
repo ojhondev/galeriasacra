@@ -357,7 +357,7 @@ export function MonteSeuQuadroWizard({ produtos, colecoes }: { produtos: Produto
 
             {etapa === "revisao" && (
               <div>
-                <div className="bg-[#f2f2ef] p-[8%] mb-[24px]">
+                <div className="bg-[#f2f2ef] p-[8%] mb-[24px] max-w-[220px] mx-auto lg:max-w-[280px] lg:mx-0">
                   {imagemPropria ? (
                     <div style={molduraAtual?.cor ? { background: molduraAtual.cor, padding: "3.2%" } : undefined}>
                       {/* eslint-disable-next-line @next/next/no-img-element */}
