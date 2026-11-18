@@ -1,8 +1,1 @@
-{
-  "crons": [
-    {
-      "path": "/api/cron/lembretes-push",
-      "schedule": "0 13 * * *"
-    }
-  ]
-}
+{}
